@@ -25,28 +25,31 @@
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .info-card { background: var(--bg-card-dark); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(0, 210, 255, 0.2); }
         
+        /* ক্যাটাগরি হেডিং স্টাইল */
+        .category-title { border-left: 4px solid var(--primary-glow); padding-left: 10px; margin: 35px 0 15px 0; color: #fff; font-size: 22px; }
+
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
         .product-card { background: var(--bg-card-dark); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s; position: relative; }
         .product-card:hover { border-color: var(--primary-glow); transform: translateY(-3px); }
-        .product-img { width: 100%; height: 220px; background: #18253c; display: flex; align-items: center; justify-content: center; color: var(--primary-glow); overflow: hidden; }
-        .product-img img { width: 100%; height: 100%; object-fit: cover; }
+        .product-img { width: 100%; height: 200px; background: #18253c; display: flex; align-items: center; justify-content: center; color: var(--primary-glow); overflow: hidden; }
+        .product-img i { font-size: 45px; }
         
         .product-info { padding: 15px; text-align: center; }
-        .product-info h3 { margin: 5px 0; font-size: 18px; color: #fff; }
+        .product-info h3 { margin: 5px 0; font-size: 17px; color: #fff; }
         
         .price-box { margin: 10px 0; }
-        .original-price { text-decoration: line-through; color: #ff4d4d; font-size: 14px; margin-right: 8px; }
-        .current-price { color: var(--accent-gold); font-size: 20px; font-weight: 700; }
+        .original-price { text-decoration: line-through; color: #ff4d4d; font-size: 13px; margin-right: 8px; }
+        .current-price { color: var(--accent-gold); font-size: 19px; font-weight: 700; }
         
-        .coupon-btn { background: rgba(37, 211, 102, 0.1); color: var(--discount-green); border: 1px dashed var(--discount-green); padding: 6px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-bottom: 12px; display: inline-block; transition: 0.2s; }
+        .coupon-btn { background: rgba(37, 211, 102, 0.1); color: var(--discount-green); border: 1px dashed var(--discount-green); padding: 5px 10px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-bottom: 12px; display: inline-block; transition: 0.2s; }
         .coupon-btn:hover { background: var(--discount-green); color: #000; }
         .coupon-applied { background: var(--discount-green) !important; color: #000 !important; font-weight: bold; border-style: solid; }
 
         .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; box-sizing: border-box; border: none; }
-        .btn-wp { background: #25D366; }
+        .btn-wp { background: #25D366; cursor: pointer; }
         .btn-call { background: #0f75bc; margin-bottom: 8px; }
         
-        .badge { position: absolute; top: 10px; left: 10px; background: var(--primary-glow); color: #000; padding: 3px 8px; font-size: 12px; font-weight: 700; border-radius: 4px; z-index: 10; }
+        .badge { position: absolute; top: 10px; left: 10px; background: var(--primary-glow); color: #000; padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 4px; z-index: 10; }
         footer { background: #04080f; color: var(--text-muted); text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; border-top: 2px solid var(--primary-glow); }
     </style>
 </head>
@@ -75,55 +78,88 @@
             </div>
         </div>
 
-        <h2 style="border-left: 4px solid var(--primary-glow); padding-left: 10px; margin-bottom: 25px;">বিশেষ অফার ও প্রোডাক্ট গ্যালারি</h2>
-        
+        <!-- 🔮 ক্যাটাগরি ১: কাঁচের জিনিস -->
+        <h2 class="category-title"><i class="fas fa-wine-glass"></i> চমৎকার কাঁচের কালেকশন</h2>
         <div class="product-grid">
-
-            <!-- 🛍️ প্রোডাক্ট ১ -->
-            <div class="product-card" id="p1">
-                <span class="badge" id="badge-p1">১০% ক্যাশব্যাক অফার</span>
-                <div class="product-img">
-                    <img src="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <i class="fas fa-gift" style="font-size: 40px; display: none;"></i>
-                </div>
+            <div class="product-card" id="glass1">
+                <span class="badge" id="badge-glass1">১০% ছাড়</span>
+                <div class="product-img"><i class="fas fa-glass-martini-alt"></i></div>
                 <div class="product-info">
-                    <h3>লাক্সারি গিফট বক্স</h3>
-                    <div class="price-box">
-                        <span class="original-price">₹৩০০</span>
-                        <span class="current-price" id="price-p1" data-price="300" data-discount="10">₹৩০০</span>
-                    </div>
-                    <button class="coupon-btn" onclick="applyDiscount('p1')"><i class="fas fa-tag"></i> উপহার কোড অ্যাপ্লাই করুন</button>
-                    <a href="#" id="link-p1" onclick="orderProduct('লাক্সারি গিফট বক্স', 300, false, 0)" class="btn btn-wp"><i class="fab fa-whatsapp"></i> অর্ডার করুন</a>
+                    <h3>প্রিমিয়াম ডাইনিং কাঁচের সেট</h3>
+                    <div class="price-box"><span class="original-price">₹৪5০</span><span class="current-price" id="price-glass1" data-price="450" data-discount="10">₹৪৫০</span></div>
+                    <button class="coupon-btn" onclick="applyDiscount('glass1')"><i class="fas fa-tag"></i> কোড অ্যাপ্লাই করুন</button>
+                    <button onclick="orderProduct('প্রিমিয়াম ডাইনিং কাঁচের সেট', 450, false, 0)" class="btn btn-wp"><i class="fas fa-shopping-cart"></i> অর্ডার করুন</button>
                 </div>
             </div>
-
-            <!-- 🛍️ প্রোডাক্ট ২ -->
-            <div class="product-card" id="p2">
-                <span class="badge" id="badge-p2">২০% ধামাকা ছাড়</span>
-                <div class="product-img">
-                    <img src="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <i class="fas fa-shopping-bag" style="font-size: 40px; display: none;"></i>
-                </div>
-                <div class="product-info">
-                    <h3>প্রিমিয়াম ওয়ালেট ও বেল্ট সেট</h3>
-                    <div class="price-box">
-                        <span class="original-price">₹৫০০</span>
-                        <span class="current-price" id="price-p2" data-price="500" data-discount="20">₹৫০০</span>
-                    </div>
-                    <button class="coupon-btn" onclick="applyDiscount('p2')"><i class="fas fa-tag"></i> উপহার কোড অ্যাপ্লাই করুন</button>
-                    <a href="#" id="link-p2" onclick="orderProduct('প্রিমিয়াম ওয়ালেট সেট', 500, false, 0)" class="btn btn-wp"><i class="fab fa-whatsapp"></i> অর্ডার করুন</a>
-                </div>
-            </div>
-
         </div>
 
-        <!-- 📋 অর্ডার বুকিং ফর্ম ও পেমেন্ট সেকশন -->
-        <div id="booking-section" style="background: #121b2d; padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(0, 210, 255, 0.3); display: none;">
+        <!-- 🔮 ক্যাটাগরি ২: স্টিলের জিনিস -->
+        <h2 class="category-title"><i class="fas fa-utensils"></i> টেকসই স্টিলের জিনিসপত্র</h2>
+        <div class="product-grid">
+            <div class="product-card" id="steel1">
+                <span class="badge" id="badge-steel1">৫% ছাড়</span>
+                <div class="product-img"><i class="fas fa-box"></i></div>
+                <div class="product-info">
+                    <h3>স্টেইনলেস স্টিল লাঞ্চ বক্স</h3>
+                    <div class="price-box"><span class="original-price">₹৩৫০</span><span class="current-price" id="price-steel1" data-price="350" data-discount="5">₹৩৫০</span></div>
+                    <button class="coupon-btn" onclick="applyDiscount('steel1')"><i class="fas fa-tag"></i> কোড অ্যাপ্লাই করুন</button>
+                    <button onclick="orderProduct('স্টেইনলেस স্টিল লাঞ্চ বক্স', 350, false, 0)" class="btn btn-wp"><i class="fas fa-shopping-cart"></i> অর্ডার করুন</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔮 ক্যাটাগরি ৩: খেলনা সামগ্রী -->
+        <h2 class="category-title"><i class="fas fa-gamepad"></i> মজাদার বাচ্চাদের খেলনা</h2>
+        <div class="product-grid">
+            <div class="product-card" id="toy1">
+                <span class="badge" id="badge-toy1">১৫% ধামাকা অফার</span>
+                <div class="product-img"><i class="fas fa-car"></i></div>
+                <div class="product-info">
+                    <h3>রিমোট কন্ট্রোল রেসিং কার</h3>
+                    <div class="price-box"><span class="original-price">₹৬০০</span><span class="current-price" id="price-toy1" data-price="600" data-discount="15">₹৬০০</span></div>
+                    <button class="coupon-btn" onclick="applyDiscount('toy1')"><i class="fas fa-tag"></i> কোড অ্যাপ্লাই করুন</button>
+                    <button onclick="orderProduct('রিমোট কন্ট্রোল রেসিং কার', 600, false, 0)" class="btn btn-wp"><i class="fas fa-shopping-cart"></i> অর্ডার করুন</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔮 ক্যাটাগরি ৪: বাচ্চাদের শোপিস -->
+        <h2 class="category-title"><i class="fas fa-icons"></i> সুন্দর বাচ্চাদের শোপিস</h2>
+        <div class="product-grid">
+            <div class="product-card" id="show1">
+                <span class="badge" id="badge-show1">১০% ছাড়</span>
+                <div class="product-img"><i class="fas fa-lightbulb"></i></div>
+                <div class="product-info">
+                    <h3>কিউট টেডি লাইটিং শোপিস</h3>
+                    <div class="price-box"><span class="original-price">₹২৫০</span><span class="current-price" id="price-show1" data-price="250" data-discount="10">₹২৫০</span></div>
+                    <button class="coupon-btn" onclick="applyDiscount('show1')"><i class="fas fa-tag"></i> কোড অ্যাপ্লাই করুন</button>
+                    <button onclick="orderProduct('কিউট টেডি লাইটিং শোপিস', 250, false, 0)" class="btn btn-wp"><i class="fas fa-shopping-cart"></i> অর্ডার করুন</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔮 ক্যাটাগরি ৫: লেখাপড়া ও স্টেশনারি -->
+        <h2 class="category-title"><i class="fas fa-book-reader"></i> লেখাপড়া ও স্টেশনারি কিট</h2>
+        <div class="product-grid">
+            <div class="product-card" id="study1">
+                <span class="badge" id="badge-study1">২০% স্পেশাল ছাড়</span>
+                <div class="product-img"><i class="fas fa-pencil-ruler"></i></div>
+                <div class="product-info">
+                    <h3>অল-ইন-ওয়ান স্টাডি কম্বো কিট</h3>
+                    <div class="price-box"><span class="original-price">₹২০০</span><span class="current-price" id="price-study1" data-price="200" data-discount="20">₹২০০</span></div>
+                    <button class="coupon-btn" onclick="applyDiscount('study1')"><i class="fas fa-tag"></i> কোড অ্যাপ্লাই করুন</button>
+                    <button onclick="orderProduct('অল-ইন-ওয়ান স্টাডি কম্বো কিট', 200, false, 0)" class="btn btn-wp"><i class="fas fa-shopping-cart"></i> অর্ডার করুন</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 📋 অর্ডার বুকিং ফর্ম (ইমেজ 28169a81-8a15-4eb8-a48b-6411c5d48529 এর হুবহু ডিজাইন) -->
+        <div id="booking-section" style="background: #121b2d; padding: 25px; border-radius: 12px; margin-top: 40px; border: 1px solid rgba(0, 210, 255, 0.3); display: none;">
             <h3 style="color: #00d2ff; margin-top: 0; text-align: center;"><i class="fas fa-shopping-cart"></i> আপনার ডেলিভারি অ্যাড্রেস ও বুকিং ফর্ম</h3>
             
-            <!-- 🛒 নতুন ভিজ্যুয়াল আইটেম বক্স (যা দেখে কাস্টমার বুঝবে সে কি অর্ডার করছে) -->
             <div style="margin-bottom: 15px; background: #18253c; padding: 12px; border-radius: 6px; border: 1px dashed var(--accent-gold);">
-                <span style="color: var(--text-muted); font-size: 14px; display: block;">নির্বাচিত প্রোডাক্ট:</span>
+                <span style="color: var(--text-muted); font-size: 14px; display: block;">নির্ধারিত প্রোডাক্ট:</span>
                 <span id="selected-item-display" style="color: var(--accent-gold); font-size: 18px; font-weight: bold;">কোনো আইটেম সিলেক্ট করা হয়নি</span>
             </div>
 
@@ -149,24 +185,40 @@
 
     </div>
 
-    <!-- 🎉 বুকিং সফল হওয়ার পপ-আপ বক্স -->
+    <!-- 🎉 বুকিং সফল ও কিউআর কোড পপ-আপ বক্স -->
     <div id="success-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;">
-        <div style="background: #121b2d; padding: 30px; border-radius: 12px; max-width: 450px; width: 100%; text-align: center; border: 2px solid #25d366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);">
-            <i class="fas fa-check-circle" style="font-size: 55px; color: #25d366; margin-bottom: 15px;"></i>
-            <h2 style="color: #fff; margin: 0 0 10px 0;">বুকিং কমপ্লিট!</h2>
-            <p style="color: #a0b2a6; margin-bottom: 20px;">আপনার অর্ডারটি সফলভাবে বুক করা হয়েছে। নিচে দেওয়া বাটনে ক্লিক করে পেমেন্ট সম্পূর্ণ করুন।</p>
+        <div style="background: #121b2d; padding: 30px; border-radius: 12px; max-width: 450px; width: 100%; text-align: center; border: 2px solid #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);">
+            <i class="fas fa-shopping-bag" style="font-size: 50px; color: #25d366; margin-bottom: 10px;"></i>
+            <h2 style="color: #fff; margin: 0 0 5px 0;">বুকিং কনফার্ম!</h2>
             
-            <a href="https://upilinks.in/payment-link" target="_blank" style="display: inline-block; background: #f5a623; color: #000; padding: 12px 25px; border-radius: 6px; font-weight: bold; text-decoration: none; margin-bottom: 20px; width: 80%;">
-                <i class="fas fa-wallet"></i> অনলাইনে পেমেন্ট করুন
-            </a>
+            <!-- স্বয়ংক্রিয় নোটিফিকেশন ট্র্যাকিং নম্বর -->
+            <p style="background: rgba(0, 210, 255, 0.1); color: #00d2ff; padding: 8px; border-radius: 6px; font-weight: bold; display: inline-block; margin: 5px 0;">
+                অর্ডার নম্বর: <span id="order-id-display"></span>
+            </p>
+            
+            <p style="color: #a0b2a6; font-size: 14px; margin: 10px 0;">নিচের QR কোডটি স্ক্যান করে আপনার পেমেন্ট সম্পূর্ণ করুন। ডেলিভারি টিম শীঘ্রই আপনার সাথে যোগাযোগ করবে।</p>
+            
+            <!-- লাইভ ডাইনামিক কিউআর কোড জেনারেটর ইমেজ -->
+            <div style="background: white; padding: 10px; display: inline-block; border-radius: 8px; margin: 10px 0;">
+                <img id="upi-qr-image" src="" alt="Payment QR Code" style="width: 180px; height: 180px; display: block;">
+            </div>
+            
+            <p style="color: var(--accent-gold); font-weight: bold; margin: 5px 0 15px 0;">মোট পেয়েবল এমাউন্ট: ₹<span id="qr-price-display"></span></p>
             
             <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                <button onclick="closeModalAndSend()" style="background: transparent; color: #00d2ff; border: 1px solid #00d2ff; padding: 8px 20px; border-radius: 4px; cursor: pointer;">হোয়াটসঅ্যাপে অর্ডার ডিটেইলস পাঠান</button>
+                <button onclick="closeModalAndSend()" style="background: #25d366; color: #000; font-weight: bold; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%;">
+                    <i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার ডিটেইলস পাঠান
+                </button>
             </div>
         </div>
     </div>
 
     <script>
+        var currentOrderProduct = "";
+        var currentOrderPrice = 0;
+        var currentOrderDiscountInfo = "";
+        var generatedOrderId = "";
+
         function applyDiscount(productId) {
             var priceElement = document.getElementById('price-' + productId);
             var badgeElement = document.getElementById('badge-' + productId);
@@ -179,35 +231,30 @@
             var finalPrice = originalPrice - discountAmount;
             
             priceElement.innerText = "₹" + finalPrice;
-            badgeElement.innerText = "উপহার অ্যাপ্লাইড! " + discountPercent + "% সাশ্রয়";
+            badgeElement.innerText = "কোড অ্যাপ্লাইড! " + discountPercent + "% ছাড়";
             badgeElement.style.background = "#25d366";
             
-            btnElement.innerHTML = "<i class='fas fa-check-circle'></i> উপহার অ্যাক্টিভ!";
+            btnElement.innerHTML = "<i class='fas fa-check-circle'></i> অফার অ্যাক্টিভ!";
             btnElement.classList.add('coupon-applied');
             btnElement.disabled = true;
             
             var cardTitle = document.querySelector('#' + productId + ' h3').innerText;
-            var orderBtn = document.getElementById('link-' + productId);
+            var productCard = document.getElementById(productId);
+            var orderBtn = productCard.querySelector('.btn-wp');
             orderBtn.setAttribute('onclick', `orderProduct('${cardTitle}', ${finalPrice}, true, ${discountPercent})`);
             
-            // যদি ফর্ম ওপেন থাকে তবে তৎক্ষণাৎ নাম ও মূল্য আপডেট করে দেবে
             if(document.getElementById('booking-section').style.display === "block" && currentOrderProduct === cardTitle){
                 document.getElementById('selected-item-display').innerHTML = cardTitle + " (মূল্য: ₹" + finalPrice + ")";
                 currentOrderPrice = finalPrice;
-                currentOrderDiscountInfo = "কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার/ছাড় কোড ব্যবহার করেছেন।";
+                currentOrderDiscountInfo = "কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার কোড ব্যবহার করেছেন।";
             }
         }
-
-        var currentOrderProduct = "";
-        var currentOrderPrice = 0;
-        var currentOrderDiscountInfo = "";
 
         function orderProduct(productName, finalPrice, isDiscounted, discountPercent) {
             currentOrderProduct = productName;
             currentOrderPrice = finalPrice;
-            currentOrderDiscountInfo = isDiscounted ? "কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার/ছাড় কোড ব্যবহার করেছেন।" : "কোনো কুপন কোড ব্যবহার করা হয়নি।";
+            currentOrderDiscountInfo = isDiscounted ? "কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার কোড ব্যবহার করেছেন।" : "কোনো কুপন কোড ব্যবহার করা হয়নি।";
             
-            // ফর্মে আইটেমের নাম ও দাম কাস্টমারকে লাইভ দেখানোর জন্য
             document.getElementById('selected-item-display').innerHTML = productName + " (মূল্য: ₹" + finalPrice + ")";
             
             var bookingSection = document.getElementById('booking-section');
@@ -225,6 +272,17 @@
                 return;
             }
 
+            // ফ্লিপকার্টের মতো অটোমেটিক ইউনিক ট্র্যাকিং আইডি নম্বর জেনারেশন
+            var randomId = Math.floor(1000 + Math.random() * 9000);
+            generatedOrderId = "PGH-2026-" + randomId;
+            document.getElementById('order-id-display').innerText = generatedOrderId;
+            document.getElementById('qr-price-display').innerText = currentOrderPrice;
+
+            // পেমেন্ট নেওয়ার জন্য লাইভ কিউআর কোড লিঙ্ক তৈরি (UPI ID: 8100530600@upi)
+            var upiId = "8100530600@upi"; 
+            var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent("upi://pay?pa=" + upiId + "&pn=Panjagifthouse&am=" + currentOrderPrice + "&tn=" + generatedOrderId + "&cu=INR");
+            document.getElementById('upi-qr-image').src = qrUrl;
+
             document.getElementById('success-modal').style.display = "flex";
         }
 
@@ -236,14 +294,17 @@
             var address = document.getElementById('cust-address').value;
             var whatsappNumber = "918100530600"; 
 
-            var text = "*Panjagifthouse - নতুন বুকিং সম্পূর্ণ*\n\n" +
-                       "*📦 প্রোডাক্ট:* " + currentOrderProduct + "\n" +
-                       "*💰 ফাইনাল মূল্য:* ₹" + currentOrderPrice + "\n" +
-                       "*🏷️ অফার:* " + currentOrderDiscountInfo + "\n\n" +
+            var text = "*📦 Panjagifthouse - নতুন সফল অর্ডার বুকিং 📦*\n" +
+                       "--------------------------------------------\n" +
+                       "*🆔 অর্ডার নম্বর:* " + generatedOrderId + "\n" +
+                       "*🛍️ আইটেম:* " + currentOrderProduct + "\n" +
+                       "*💰 মোট মূল্য:* ₹" + currentOrderPrice + "\n" +
+                       "*🏷️ কুপন স্ট্যাটাস:* " + currentOrderDiscountInfo + "\n\n" +
                        "*👤 কাস্টমারের নাম:* " + name + "\n" +
-                       "*📞 ফোন নম্বর:* " + phone + "\n" +
-                       "*📍 ঠিকানা:* " + address + "\n\n" +
-                       "আমার বুকিং সফল হয়েছে, দয়া করে অর্ডারটি কনফার্ম করুন।";
+                       "*📞 মোবাইল নম্বর:* " + phone + "\n" +
+                       "*📍 ডেলিভারি ঠিকানা:* " + address + "\n" +
+                       "--------------------------------------------\n" +
+                       "পেমেন্ট কিউআর কোড স্ক্যান করে অর্ডার পাঠানো হচ্ছে, অনুগ্রহ করে ডেলিভারি কনফার্ম করুন।";
 
             window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(text), '_blank');
         }
