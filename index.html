@@ -59,7 +59,6 @@
 
     <div class="container">
         
-        <!-- ঠিকানা ও যোগাযোগ কার্ড -->
         <div class="info-grid">
             <div class="info-card">
                 <h3><i class="fas fa-map-marker-alt" style="color:var(--primary-glow);"></i> আমাদের ঠিকানা</h3>
@@ -71,7 +70,7 @@
                 <a href="tel:+918100530600" class="btn btn-call" style="background:#0c5485; margin-bottom:0;"><i class="fas fa-mobile-alt"></i> কল: +918100530600</a>
             </div>
             <div class="info-card" style="display: flex; flex-direction: column; justify-content: center;">
-                <a href="https://wa.me/91810053060" target="_blank" class="btn btn-wp"><i class="fab fa-whatsapp"></i> প্রধান হোয়াটসঅ্যাপ</a>
+                <a href="https://wa.me/918100530600" target="_blank" class="btn btn-wp"><i class="fab fa-whatsapp"></i> প্রধান হোয়াটসঅ্যাপ</a>
             </div>
         </div>
 
@@ -79,7 +78,6 @@
         
         <div class="product-grid">
 
-            <!-- 🛍️ প্রোডাক্ট ১ -->
             <div class="product-card" id="p1">
                 <span class="badge" id="badge-p1">১০% ক্যাশব্যাক অফার</span>
                 <div class="product-img">
@@ -97,24 +95,63 @@
                 </div>
             </div>
 
-            <!-- 🛍️ প্রোডাক্ট ২ -->
             <div class="product-card" id="p2">
-                <span class="badge" id="badge-p2">২০% ধামাকা ছাড়</span>
+                <span class="badge" id="badge-p2">২০% ধামাকা ছাড়</span>
                 <div class="product-img">
                     <img src="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <i class="fas fa-shopping-bag" style="font-size: 40px; display: none;"></i>
                 </div>
                 <div class="product-info">
-                    <h3>প্রিমিয়াম ওয়ালেট ও বেল্ট সেট</h3>
+                    <h3>প্রিমিয়াম ওয়ালেট ও বেল্ট সেট</h3>
                     <div class="price-box">
                         <span class="original-price">₹৫০০</span>
                         <span class="current-price" id="price-p2" data-price="500" data-discount="20">₹৫০০</span>
                     </div>
                     <button class="coupon-btn" onclick="applyDiscount('p2')"><i class="fas fa-tag"></i> উপহার কোড অ্যাপ্লাই করুন</button>
-                    <a href="#" id="link-p2" onclick="orderProduct('প্রিমিয়াম ওয়ালেট সেট', 500, false, 0)" class="btn btn-wp"><i class="fab fa-whatsapp"></i> অর্ডার করুন</a>
+                    <a href="#" id="link-p2" onclick="orderProduct('প্রিমিয়াম ওয়ালেট সেট', 500, false, 0)" class="btn btn-wp"><i class="fab fa-whatsapp"></i> অর্ডার করুন</a>
                 </div>
             </div>
 
+        </div>
+
+        <div id="booking-section" style="background: #121b2d; padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(0, 210, 255, 0.3); display: none;">
+            <h3 style="color: #00d2ff; margin-top: 0; text-align: center;"><i class="fas fa-shopping-cart"></i> আপনার ডেলিভারি অ্যাড্রেস ও বুকিং ফর্ম</h3>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #ebeeeb;">আপনার নাম:</label>
+                <input type="text" id="cust-name" placeholder="আপনার পুরো নাম লিখুন" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #18253c; background: #0b111e; color: #fff; box-sizing: border-box;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #ebeeeb;">মোবাইল নম্বর:</label>
+                <input type="tel" id="cust-phone" placeholder="১০ সংখ্যার মোবাইল নম্বর" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #18253c; background: #0b111e; color: #fff; box-sizing: border-box;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; color: #ebeeeb;">পুরো ঠিকানা (ডেলিভারির জন্য):</label>
+                <textarea id="cust-address" rows="3" placeholder="গ্রাম/রাস্তা, পোস্ট অফিস, জেলা, পিন কোড" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #18253c; background: #0b111e; color: #fff; box-sizing: border-box; resize: none;"></textarea>
+            </div>
+
+            <button onclick="submitBooking()" style="background: #25d366; color: white; width: 100%; padding: 14px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">
+                <i class="fas fa-check-circle"></i> বুকিং কমপ্লিট করুন ও পেমেন্ট করুন
+            </button>
+        </div>
+
+    </div>
+
+    <div id="success-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;">
+        <div style="background: #121b2d; padding: 30px; border-radius: 12px; max-width: 450px; width: 100%; text-align: center; border: 2px solid #25d366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);">
+            <i class="fas fa-check-circle" style="font-size: 55px; color: #25d366; margin-bottom: 15px;"></i>
+            <h2 style="color: #fff; margin: 0 0 10px 0;">বুকিং কমপ্লিট!</h2>
+            <p style="color: #a0b2a6; margin-bottom: 20px;">আপনার অর্ডারটি সফলভাবে বুক করা হয়েছে। নিচে দেওয়া বাটনে ক্লিক করে পেমেন্ট সম্পূর্ণ করুন।</p>
+            
+            <a href="https://upilinks.in/payment-link" target="_blank" style="display: inline-block; background: #f5a623; color: #000; padding: 12px 25px; border-radius: 6px; font-weight: bold; text-decoration: none; margin-bottom: 20px; width: 80%;">
+                <i class="fas fa-wallet"></i> অনলাইনে পেমেন্ট করুন
+            </a>
+            
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                <button onclick="closeModalAndSend()" style="background: transparent; color: #00d2ff; border: 1px solid #00d2ff; padding: 8px 20px; border-radius: 4px; cursor: pointer;">হোয়াটসঅ্যাপে অর্ডার ডিটেইলস পাঠান</button>
+            </div>
         </div>
     </div>
 
@@ -131,7 +168,7 @@
             var finalPrice = originalPrice - discountAmount;
             
             priceElement.innerText = "₹" + finalPrice;
-            badgeElement.innerText = "উপহার অ্যাপ্লাইড! " + discountPercent + "% সাশ্রয়";
+            badgeElement.innerText = "উপহার অ্যাপ্লাইড! " + discountPercent + "% সাশ্রয়";
             badgeElement.style.background = "#25d366";
             
             btnElement.innerHTML = "<i class='fas fa-check-circle'></i> উপহার অ্যাক্টিভ!";
@@ -143,121 +180,59 @@
             orderBtn.setAttribute('onclick', `orderProduct('${cardTitle}', ${finalPrice}, true, ${discountPercent})`);
         }
 
+        var currentOrderProduct = "";
+        var currentOrderPrice = 0;
+        var currentOrderDiscountInfo = "";
+
         function orderProduct(productName, finalPrice, isDiscounted, discountPercent) {
-            var whatsappNumber = "918100530600"; 
-            var text = "*Panjagifthouse - নতুন অর্ডার*\n\n" +
-                       "*প্রোডাক্ট:* " + productName + "\n" +
-                       "*ফাইনাল মূল্য:* ₹" + finalPrice + "\n";
-            if(isDiscounted) {
-                text += "*অফারের অবস্থা:* কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার/ছাড় কোড ব্যবহার করেছেন।\n";
-            } else {
-                text += "*অফারের অবস্থা:* কোনো কুপন কোড ব্যবহার করা হয়নি।\n";
+            currentOrderProduct = productName;
+            currentOrderPrice = finalPrice;
+            currentOrderDiscountInfo = isDiscounted ? "কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার/ছাড় কোড ব্যবহার করেছেন।" : "কোনো কুপন কোড ব্যবহার করা হয়নি।";
+            
+            var bookingSection = document.getElementById('booking-section');
+            bookingSection.style.display = "block";
+            bookingSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function submitBooking() {
+            var name = document.getElementById('cust-name').value.trim();
+            var phone = document.getElementById('cust-phone').value.trim();
+            var address = document.getElementById('cust-address').value.trim();
+
+            if (name === "" || phone === "" || address === "") {
+                alert("অনুগ্রহ করে আপনার নাম, মোবাইল নম্বর এবং পুরো ঠিকানা সঠিকভাবে লিখুন!");
+                return;
             }
-            text += "\nআমি এই প্রোডাক্টটি কিনতে চাই।";
+
+            document.getElementById('success-modal').style.display = "flex";
+        }
+
+        function closeModalAndSend() {
+            document.getElementById('success-modal').style.display = "none";
+            
+            var name = document.getElementById('cust-name').value;
+            var phone = document.getElementById('cust-phone').value;
+            var address = document.getElementById('cust-address').value;
+            
+            // এখানে আপনার নতুন হোয়াটসঅ্যাপ নাম্বার একদম পারফেক্টলি সেট করা হয়েছে
+            var whatsappNumber = "918100530600"; 
+
+            var text = "*Panjagifthouse - নতুন বুকিং সম্পূর্ণ*\n\n" +
+                       "*📦 প্রোডাক্ট:* " + currentOrderProduct + "\n" +
+                       "*💰 ফাইনাল মূল্য:* ₹" + currentOrderPrice + "\n" +
+                       "*🏷️ অফার:* " + currentOrderDiscountInfo + "\n\n" +
+                       "*👤 কাস্টমারের নাম:* " + name + "\n" +
+                       "*📞 ফোন নম্বর:* " + phone + "\n" +
+                       "*📍 ঠিকানা:* " + address + "\n\n" +
+                       "আমার বুকিং সফল হয়েছে, দয়া করে অর্ডারটি কনফার্ম করুন।";
+
             window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(text), '_blank');
         }
     </script>
+
     <footer>
-        <p>&copy; 2026 Panjagifthouse. জুজর্শা, হাওড়া। সর্বস্বত্ব সংরক্ষিত।</p>
+        <p>&copy; 2026 Panjagifthouse. জুজর্শা, হাওড়া। সর্বস্বত্ব সংরক্ষিত।</p>
     </footer>
-    <!-- 📋 ১. অর্ডার বুকিং ফর্ম ও পেমেন্ট সেকশন (HTML) -->
-<div id="booking-section" style="background: #121b2d; padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(0, 210, 255, 0.3); display: none;">
-    <h3 style="color: #00d2ff; margin-top: 0; text-align: center;"><i class="fas fa-shopping-cart"></i> আপনার ডেলিভারি অ্যাড্রেস ও বুকিং ফর্ম</h3>
-    
-    <!-- কাস্টমার এই তথ্যগুলো পূরণ করবে -->
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px; color: #ebeeeb;">আপনার নাম:</label>
-        <input type="text" id="cust-name" placeholder="আপনার পুরো নাম লিখুন" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #18253c; background: #0b111e; color: #fff; box-sizing: border-box;">
-    </div>
-    
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px; color: #ebeeeb;">মোবাইল নম্বর:</label>
-        <input type="tel" id="cust-phone" placeholder="১০ সংখ্যার মোবাইল নম্বর" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #18253c; background: #0b111e; color: #fff; box-sizing: border-box;">
-    </div>
-    
-    <div style="margin-bottom: 20px;">
-        <label style="display: block; margin-bottom: 5px; color: #ebeeeb;">পুরো ঠিকানা (ডেলিভারির জন্য):</label>
-        <textarea id="cust-address" rows="3" placeholder="গ্রাম/রাস্তা, পোস্ট অফিস, জেলা, পিন কোড" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #18253c; background: #0b111e; color: #fff; box-sizing: border-box; resize: none;"></textarea>
-    </div>
 
-    <!-- বুকিং বাটন -->
-    <button onclick="submitBooking()" style="background: #25d366; color: white; width: 100%; padding: 14px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">
-        <i class="fas fa-check-circle"></i> বুকিং কমপ্লিট করুন ও পেমেন্ট করুন
-    </button>
-</div>
-
-<!-- 🎉 ২. বুকিং সফল হওয়ার পপ-আপ বক্স (পেমেন্ট লিঙ্ক ও QR কোড সহ) -->
-<div id="success-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;">
-    <div style="background: #121b2d; padding: 30px; border-radius: 12px; max-width: 450px; width: 100%; text-align: center; border: 2px solid #25d366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);">
-        <i class="fas fa-check-circle" style="font-size: 55px; color: #25d366; margin-bottom: 15px;"></i>
-        <h2 style="color: #fff; margin: 0 0 10px 0;">বুকিং কমপ্লিট!</h2>
-        <p style="color: #a0b2a6; margin-bottom: 20px;">আপনার অর্ডারটি সফলভাবে বুক করা হয়েছে। নিচে দেওয়া বাটনে ক্লিক করে পেমেন্ট সম্পূর্ণ করুন।</p>
-        
-        <!-- 💳 পেমেন্ট অপশন (এখানে আপনার UPI আইডি বা লিঙ্ক বসাতে পারেন) -->
-        <a href="https://upilinks.in/payment-link" target="_blank" style="display: inline-block; background: #f5a623; color: #000; padding: 12px 25px; border-radius: 6px; font-weight: bold; text-decoration: none; margin-bottom: 20px; width: 80%;">
-            <i class="fas fa-wallet"></i> অনলাইনে পেমেন্ট করুন
-        </a>
-        
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-            <button onclick="closeModalAndSend()" style="background: transparent; color: #00d2ff; border: 1px solid #00d2ff; padding: 8px 20px; border-radius: 4px; cursor: pointer;">হোয়াটসঅ্যাপে অর্ডার ডিটেইলস পাঠান</button>
-        </div>
-    </div>
-</div>
-
-<!-- ⚙️ ৩. ব্যাকএন্ড লজিক স্ক্রিপ্ট (JavaScript) -->
-<script>
-    // এই ভেরিয়েবলগুলোতে অর্ডারের টেম্পোরারি তথ্য জমা থাকবে
-    var currentOrderProduct = "";
-    var currentOrderPrice = 0;
-    var currentOrderDiscountInfo = "";
-
-    // আগের অর্ডার বাটনে ক্লিক করলে এখন এই ফর্মটা স্ক্রিনে ওপেন হবে
-    function orderProduct(productName, finalPrice, isDiscounted, discountPercent) {
-        currentOrderProduct = productName;
-        currentOrderPrice = finalPrice;
-        currentOrderDiscountInfo = isDiscounted ? "কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার/ছাড় কোড ব্যবহার করেছেন।" : "কোনো কুপন কোড ব্যবহার করা হয়নি।";
-        
-        // ফর্ম সেকশনটি স্ক্রিনে দেখাবে এবং স্ক্রোল করে সেখানে নিয়ে যাবে
-        var bookingSection = document.getElementById('booking-section');
-        bookingSection.style.display = "block";
-        bookingSection.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // কাস্টমার যখন ফর্ম পূরণ করে সাবমিট করবে
-    function submitBooking() {
-        var name = document.getElementById('cust-name').value.trim();
-        var phone = document.getElementById('cust-phone').value.trim();
-        var address = document.getElementById('cust-address').value.trim();
-
-        if (name === "" || phone === "" || address === "") {
-            alert("অনুগ্রহ করে আপনার নাম, মোবাইল নম্বর এবং পুরো ঠিকানা সঠিকভাবে লিখুন!");
-            return;
-        }
-
-        // বুকিং সাকসেস পপ-আপ (Modal) স্ক্রিনে দেখাবে
-        document.getElementById('success-modal').style.display = "flex";
-    }
-
-    // পপ-আপ বন্ধ করে তথ্য হোয়াটসঅ্যাপে পাঠানোর ফাংশন
-    function closeModalAndSend() {
-        document.getElementById('success-modal').style.display = "none";
-        
-        var name = document.getElementById('cust-name').value;
-        var phone = document.getElementById('cust-phone').value;
-        var address = document.getElementById('cust-address').value;
-        var whatsappNumber = "917980471077"; 
-
-        var text = "*Panjagifthouse - নতুন বুকিং সম্পূর্ণ*\n\n" +
-                   "*📦 প্রোডাক্ট:* " + currentOrderProduct + "\n" +
-                   "*💰 ফাইনাল মূল্য:* ₹" + currentOrderPrice + "\n" +
-                   "*🏷️ অফার:* " + currentOrderDiscountInfo + "\n\n" +
-                   "*👤 কাস্টমারের নাম:* " + name + "\n" +
-                   "*📞 ফোন নম্বর:* " + phone + "\n" +
-                   "*📍 ঠিকানা:* " + address + "\n\n" +
-                   "আমার বুকিং সফল হয়েছে, দয়া করে অর্ডারটি কনফার্ম করুন।";
-
-        window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(text), '_blank');
-    }
-</script>
 </body>
 </html>
