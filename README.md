@@ -1,1 +1,164 @@
-# panjagifthouse
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panjagifthouse | পাঁচলা গিফট হাউস</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --bg-dark-main: #0b111e; 
+            --bg-card-dark: #121b2d; 
+            --primary-glow: #00d2ff; 
+            --accent-gold: #f5a623; 
+            --text-light: #ebeeeb; 
+            --text-muted: #a0b2a6; 
+            --discount-green: #25d366;
+        }
+        body { font-family: 'Hind Siliguri', sans-serif; margin: 0; background-color: var(--bg-dark-main); color: var(--text-light); }
+        .header { background: linear-gradient(135deg, #050b14 0%, #0d1b33 100%); padding: 40px 20px; text-align: center; border-bottom: 3px solid var(--primary-glow); }
+        .main-title { font-size: 38px; font-weight: 700; color: #fff; margin: 0; text-shadow: 0 0 10px var(--primary-glow); }
+        .sub-title { color: var(--accent-gold); font-size: 18px; margin-top: 5px; }
+        .container { width: 90%; max-width: 1100px; margin: 30px auto; }
+        
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .info-card { background: var(--bg-card-dark); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(0, 210, 255, 0.2); }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+        .product-card { background: var(--bg-card-dark); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s; position: relative; }
+        .product-card:hover { border-color: var(--primary-glow); transform: translateY(-3px); }
+        .product-img { width: 100%; height: 220px; background: #18253c; display: flex; align-items: center; justify-content: center; color: var(--primary-glow); overflow: hidden; }
+        .product-img img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .product-info { padding: 15px; text-align: center; }
+        .product-info h3 { margin: 5px 0; font-size: 18px; color: #fff; }
+        
+        .price-box { margin: 10px 0; }
+        .original-price { text-decoration: line-through; color: #ff4d4d; font-size: 14px; margin-right: 8px; }
+        .current-price { color: var(--accent-gold); font-size: 20px; font-weight: 700; }
+        
+        .coupon-btn { background: rgba(37, 211, 102, 0.1); color: var(--discount-green); border: 1px dashed var(--discount-green); padding: 6px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-bottom: 12px; display: inline-block; transition: 0.2s; }
+        .coupon-btn:hover { background: var(--discount-green); color: #000; }
+        .coupon-applied { background: var(--discount-green) !important; color: #000 !important; font-weight: bold; border-style: solid; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; box-sizing: border-box; border: none; }
+        .btn-wp { background: #25D366; }
+        .btn-call { background: #0f75bc; margin-bottom: 8px; }
+        
+        .badge { position: absolute; top: 10px; left: 10px; background: var(--primary-glow); color: #000; padding: 3px 8px; font-size: 12px; font-weight: 700; border-radius: 4px; z-index: 10; }
+        footer { background: #04080f; color: var(--text-muted); text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; border-top: 2px solid var(--primary-glow); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1 class="main-title">Panjagifthouse</h1>
+        <div class="sub-title">অনলাইন শপিং ও ক্যাশব্যাক উপহার অফার</div>
+    </div>
+
+    <div class="container">
+        
+        <!-- ঠিকানা ও যোগাযোগ কার্ড -->
+        <div class="info-grid">
+            <div class="info-card">
+                <h3><i class="fas fa-map-marker-alt" style="color:var(--primary-glow);"></i> আমাদের ঠিকানা</h3>
+                <p style="margin: 5px 0; font-weight: 600;">Jujasha, Banggora</p>
+                <p style="margin: 5px 0; color:var(--text-muted);">Howrah, West Bengal - 711302</p>
+            </div>
+            <div class="info-card" style="display: flex; flex-direction: column; justify-content: center;">
+                <a href="tel:+919163386754" class="btn btn-call"><i class="fas fa-phone-alt"></i> কল: ৯১৬৩ ৩৮৬ ৭৫৪</a>
+                <a href="tel:+918777341778" class="btn btn-call" style="background:#0c5485; margin-bottom:0;"><i class="fas fa-mobile-alt"></i> কল: ৮৭৭৭ ৩৪১ ৭৭৮</a>
+            </div>
+            <div class="info-card" style="display: flex; flex-direction: column; justify-content: center;">
+                <a href="https://wa.me/917980471077" target="_blank" class="btn btn-wp"><i class="fab fa-whatsapp"></i> প্রধান হোয়াটসঅ্যাপ</a>
+            </div>
+        </div>
+
+        <h2 style="border-left: 4px solid var(--primary-glow); padding-left: 10px; margin-bottom: 25px;">বিশেষ অফার ও প্রোডাক্ট গ্যালারি</h2>
+        
+        <div class="product-grid">
+
+            <!-- 🛍️ প্রোডাক্ট ১ -->
+            <div class="product-card" id="p1">
+                <span class="badge" id="badge-p1">১০% ক্যাশব্যাক অফার</span>
+                <div class="product-img">
+                    <img src="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-gift" style="font-size: 40px; display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>লাক্সারি গিফট বক্স</h3>
+                    <div class="price-box">
+                        <span class="original-price">₹৩০০</span>
+                        <span class="current-price" id="price-p1" data-price="300" data-discount="10">₹৩০০</span>
+                    </div>
+                    <button class="coupon-btn" onclick="applyDiscount('p1')"><i class="fas fa-tag"></i> উপহার কোড অ্যাপ্লাই করুন</button>
+                    <a href="#" id="link-p1" onclick="orderProduct('লাক্সারি গিফট বক্স', 300, false, 0)" class="btn btn-wp"><i class="fab fa-whatsapp"></i> অর্ডার করুন</a>
+                </div>
+            </div>
+
+            <!-- 🛍️ প্রোডাক্ট ২ -->
+            <div class="product-card" id="p2">
+                <span class="badge" id="badge-p2">২০% ধামাকা ছাড়</span>
+                <div class="product-img">
+                    <img src="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-shopping-bag" style="font-size: 40px; display: none;"></i>
+                </div>
+                <div class="product-info">
+                    <h3>প্রিমিয়াম ওয়ালেট ও বেল্ট সেট</h3>
+                    <div class="price-box">
+                        <span class="original-price">₹৫০০</span>
+                        <span class="current-price" id="price-p2" data-price="500" data-discount="20">₹৫০০</span>
+                    </div>
+                    <button class="coupon-btn" onclick="applyDiscount('p2')"><i class="fas fa-tag"></i> উপহার কোড অ্যাপ্লাই করুন</button>
+                    <a href="#" id="link-p2" onclick="orderProduct('প্রিমিয়াম ওয়ালেট সেট', 500, false, 0)" class="btn btn-wp"><i class="fab fa-whatsapp"></i> অর্ডার করুন</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function applyDiscount(productId) {
+            var priceElement = document.getElementById('price-' + productId);
+            var badgeElement = document.getElementById('badge-' + productId);
+            var btnElement = document.querySelector('#' + productId + ' .coupon-btn');
+            
+            var originalPrice = parseInt(priceElement.getAttribute('data-price'));
+            var discountPercent = parseInt(priceElement.getAttribute('data-discount'));
+            
+            var discountAmount = (originalPrice * discountPercent) / 100;
+            var finalPrice = originalPrice - discountAmount;
+            
+            priceElement.innerText = "₹" + finalPrice;
+            badgeElement.innerText = "উপহার অ্যাপ্লাইড! " + discountPercent + "% সাশ্রয়";
+            badgeElement.style.background = "#25d366";
+            
+            btnElement.innerHTML = "<i class='fas fa-check-circle'></i> উপহার অ্যাক্টিভ!";
+            btnElement.classList.add('coupon-applied');
+            btnElement.disabled = true;
+            
+            var cardTitle = document.querySelector('#' + productId + ' h3').innerText;
+            var orderBtn = document.getElementById('link-' + productId);
+            orderBtn.setAttribute('onclick', `orderProduct('${cardTitle}', ${finalPrice}, true, ${discountPercent})`);
+        }
+
+        function orderProduct(productName, finalPrice, isDiscounted, discountPercent) {
+            var whatsappNumber = "917980471077"; 
+            var text = "*Panjagifthouse - নতুন অর্ডার*\n\n" +
+                       "*প্রোডাক্ট:* " + productName + "\n" +
+                       "*ফাইনাল মূল্য:* ₹" + finalPrice + "\n";
+            if(isDiscounted) {
+                text += "*অফারের অবস্থা:* কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার/ছাড় কোড ব্যবহার করেছেন।\n";
+            } else {
+                text += "*অফারের অবস্থা:* কোনো কুপন কোড ব্যবহার করা হয়নি।\n";
+            }
+            text += "\nআমি এই প্রোডাক্টটি কিনতে চাই।";
+            window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(text), '_blank');
+        }
+    </script>
+    <footer>
+        <p>&copy; 2026 Panjagifthouse. জুজর্শা, হাওড়া। সর্বস্বত্ব সংরক্ষিত।</p>
+    </footer>
+</body>
+</html>
