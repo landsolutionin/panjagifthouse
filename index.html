@@ -54,11 +54,12 @@
 
     <div class="header">
         <h1 class="main-title">Panjagifthouse</h1>
-        <div class="sub-title">অনলাইন শপিং ও ক্যাশব্যাক উপহার অফার</div>
+        <div class="sub-title">অনлайн শপিং ও ক্যাশব্যাক উপহার অফার</div>
     </div>
 
     <div class="container">
         
+        <!-- ঠিকানা ও যোগাযোগ কার্ড -->
         <div class="info-grid">
             <div class="info-card">
                 <h3><i class="fas fa-map-marker-alt" style="color:var(--primary-glow);"></i> আমাদের ঠিকানা</h3>
@@ -78,6 +79,7 @@
         
         <div class="product-grid">
 
+            <!-- 🛍️ প্রোডাক্ট ১ -->
             <div class="product-card" id="p1">
                 <span class="badge" id="badge-p1">১০% ক্যাশব্যাক অফার</span>
                 <div class="product-img">
@@ -95,6 +97,7 @@
                 </div>
             </div>
 
+            <!-- 🛍️ প্রোডাক্ট ২ -->
             <div class="product-card" id="p2">
                 <span class="badge" id="badge-p2">২০% ধামাকা ছাড়</span>
                 <div class="product-img">
@@ -114,9 +117,16 @@
 
         </div>
 
+        <!-- 📋 অর্ডার বুকিং ফর্ম ও পেমেন্ট সেকশন -->
         <div id="booking-section" style="background: #121b2d; padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(0, 210, 255, 0.3); display: none;">
             <h3 style="color: #00d2ff; margin-top: 0; text-align: center;"><i class="fas fa-shopping-cart"></i> আপনার ডেলিভারি অ্যাড্রেস ও বুকিং ফর্ম</h3>
             
+            <!-- 🛒 নতুন ভিজ্যুয়াল আইটেম বক্স (যা দেখে কাস্টমার বুঝবে সে কি অর্ডার করছে) -->
+            <div style="margin-bottom: 15px; background: #18253c; padding: 12px; border-radius: 6px; border: 1px dashed var(--accent-gold);">
+                <span style="color: var(--text-muted); font-size: 14px; display: block;">নির্বাচিত প্রোডাক্ট:</span>
+                <span id="selected-item-display" style="color: var(--accent-gold); font-size: 18px; font-weight: bold;">কোনো আইটেম সিলেক্ট করা হয়নি</span>
+            </div>
+
             <div style="margin-bottom: 15px;">
                 <label style="display: block; margin-bottom: 5px; color: #ebeeeb;">আপনার নাম:</label>
                 <input type="text" id="cust-name" placeholder="আপনার পুরো নাম লিখুন" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #18253c; background: #0b111e; color: #fff; box-sizing: border-box;">
@@ -139,6 +149,7 @@
 
     </div>
 
+    <!-- 🎉 বুকিং সফল হওয়ার পপ-আপ বক্স -->
     <div id="success-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;">
         <div style="background: #121b2d; padding: 30px; border-radius: 12px; max-width: 450px; width: 100%; text-align: center; border: 2px solid #25d366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);">
             <i class="fas fa-check-circle" style="font-size: 55px; color: #25d366; margin-bottom: 15px;"></i>
@@ -178,6 +189,13 @@
             var cardTitle = document.querySelector('#' + productId + ' h3').innerText;
             var orderBtn = document.getElementById('link-' + productId);
             orderBtn.setAttribute('onclick', `orderProduct('${cardTitle}', ${finalPrice}, true, ${discountPercent})`);
+            
+            // যদি ফর্ম ওপেন থাকে তবে তৎক্ষণাৎ নাম ও মূল্য আপডেট করে দেবে
+            if(document.getElementById('booking-section').style.display === "block" && currentOrderProduct === cardTitle){
+                document.getElementById('selected-item-display').innerHTML = cardTitle + " (মূল্য: ₹" + finalPrice + ")";
+                currentOrderPrice = finalPrice;
+                currentOrderDiscountInfo = "কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার/ছাড় কোড ব্যবহার করেছেন।";
+            }
         }
 
         var currentOrderProduct = "";
@@ -188,6 +206,9 @@
             currentOrderProduct = productName;
             currentOrderPrice = finalPrice;
             currentOrderDiscountInfo = isDiscounted ? "কাস্টমার ইনস্ট্যান্ট " + discountPercent + "% উপহার/ছাড় কোড ব্যবহার করেছেন।" : "কোনো কুপন কোড ব্যবহার করা হয়নি।";
+            
+            // ফর্মে আইটেমের নাম ও দাম কাস্টমারকে লাইভ দেখানোর জন্য
+            document.getElementById('selected-item-display').innerHTML = productName + " (মূল্য: ₹" + finalPrice + ")";
             
             var bookingSection = document.getElementById('booking-section');
             bookingSection.style.display = "block";
@@ -213,8 +234,6 @@
             var name = document.getElementById('cust-name').value;
             var phone = document.getElementById('cust-phone').value;
             var address = document.getElementById('cust-address').value;
-            
-            // এখানে আপনার নতুন হোয়াটসঅ্যাপ নাম্বার একদম পারফেক্টলি সেট করা হয়েছে
             var whatsappNumber = "918100530600"; 
 
             var text = "*Panjagifthouse - নতুন বুকিং সম্পূর্ণ*\n\n" +
