@@ -1,639 +1,1540 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PANJA GIFTHOUSE Premium</title>
-
+<title>PANJAGift Shop – Find the Perfect Gift</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f5f7fb;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-header{
-    background:linear-gradient(135deg,#1e3a8a,#2563eb);
-    color:#fff;
-    padding:15px;
-    text-align:center;
-    position:sticky;
-    top:0;
-}
+  :root {
+    --rose: #C8836A;
+    --rose-light: #F2D9CF;
+    --rose-pale: #FBF3F0;
+    --rose-deep: #9B5E49;
+    --cream: #FAF6F0;
+    --cream-dark: #F0E8DC;
+    --ink: #2A1F1A;
+    --ink-muted: #6B5044;
+    --gold: #C4A265;
+    --gold-light: #F5EDDA;
+    --white: #FFFFFF;
+    --border: rgba(200, 131, 106, 0.2);
+    --shadow: rgba(42, 31, 26, 0.08);
+  }
 
-.banner{
-    background:#ffd54f;
-    padding:35px;
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
-}
+  html { scroll-behavior: smooth; }
 
-.cat{
-    display:flex;
-    overflow:auto;
-    gap:10px;
-    padding:10px;
-    background:#fff;
-}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-.cat div{
-    background:#eef2ff;
-    padding:10px 15px;
-    border-radius:20px;
-    white-space:nowrap;
-}
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250, 246, 240, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
 
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    padding:15px;
-}
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
 
-.card{
-    background:#fff;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 2px 8px rgba(0,0,0,.12);
-}
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
 
-.card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-}
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: white;
+    letter-spacing: -0.5px;
+  }
 
-.card .c{
-    padding:12px;
-}
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
 
-.price{
-    font-size:20px;
-    font-weight:bold;
-    color:#1e3a8a;
-}
+  .logo-text span { color: var(--rose); }
 
-.old{
-    text-decoration:line-through;
-    color:#777;
-}
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-left: auto;
+  }
 
-.btn{
-    display:block;
-    background:#25d366;
-    padding:10px;
-    text-align:center;
-    text-decoration:none;
-    color:#000;
-    border-radius:6px;
-    margin-top:10px;
-    font-weight:bold;
-}
+  nav a {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
 
-.review,
-.trust{
-    background:#fff;
-    margin:15px;
-    padding:15px;
-    border-radius:12px;
-}
+  nav a:hover { color: var(--rose); }
 
-.float{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    background:#25d366;
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-    font-size:28px;
-}
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 0 16px;
+    height: 40px;
+    gap: 8px;
+    width: 240px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
 
-footer{
-    background:#111827;
-    color:#fff;
-    text-align:center;
-    padding:20px;
-}
+  .search-bar:focus-within {
+    border-color: var(--rose);
+    box-shadow: 0 0 0 3px rgba(200, 131, 106, 0.12);
+  }
+
+  .search-bar svg { color: var(--ink-muted); flex-shrink: 0; }
+
+  .search-bar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    color: var(--ink);
+    width: 100%;
+  }
+
+  .search-bar input::placeholder { color: var(--ink-muted); opacity: 0.6; }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+  }
+
+  .icon-btn:hover { background: var(--rose-light); color: var(--rose); }
+
+  .badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background: var(--rose);
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--cream);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+  }
+
+  .hero-blob-1 {
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, #F2D9CF 0%, transparent 70%);
+    top: -200px; right: -100px;
+  }
+
+  .hero-blob-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, #F5EDDA 0%, transparent 70%);
+    bottom: -100px; left: 100px;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-light);
+    border: 1px solid rgba(196, 162, 101, 0.3);
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-eyebrow svg { width: 14px; height: 14px; }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(42px, 5.5vw, 68px);
+    line-height: 1.08;
+    color: var(--ink);
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-muted);
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--rose);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover { background: var(--rose-deep); transform: translateY(-1px); }
+  .btn-primary svg { width: 16px; height: 16px; }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid rgba(42, 31, 26, 0.2);
+    border-radius: 50px;
+    padding: 13px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14.5px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-ghost:hover { border-color: var(--rose); background: var(--rose-pale); }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-card-stack {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 4/4.8;
+  }
+
+  .gift-card {
+    position: absolute;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px var(--shadow);
+  }
+
+  .gift-card-main {
+    width: 78%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    box-shadow: 0 32px 80px rgba(42, 31, 26, 0.14);
+  }
+
+  .gift-card-left {
+    width: 54%;
+    top: 12%;
+    left: 0%;
+    z-index: 2;
+    transform: rotate(-6deg);
+    opacity: 0.85;
+  }
+
+  .gift-card-right {
+    width: 54%;
+    bottom: 8%;
+    right: 0%;
+    z-index: 2;
+    transform: rotate(5deg);
+    opacity: 0.85;
+  }
+
+  .gift-card-img {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .gift-card-img .img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+  }
+
+  .img-bg-1 { background: linear-gradient(145deg, #FBE8E0, #F5D3C8); }
+  .img-bg-2 { background: linear-gradient(145deg, #EEE8F8, #DDD5F2); }
+  .img-bg-3 { background: linear-gradient(145deg, #E8F3E8, #D0E8D0); }
+
+  .gift-card-body { padding: 14px 16px 16px; }
+
+  .gift-card-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 4px;
+  }
+
+  .gift-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .gift-card-price {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+
+  .floating-badge {
+    position: absolute;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 8px 14px;
+    box-shadow: 0 8px 24px var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    z-index: 10;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .floating-badge.badge-top { top: 14%; right: 2%; animation-delay: 0s; }
+  .floating-badge.badge-bottom { bottom: 14%; left: 2%; animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #4CAF50; }
+
+  /* ── ANNOUNCEMENT BAR ── */
+  .announcement {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+    padding: 10px 2rem;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+  }
+
+  .announcement span { color: var(--rose-light); font-weight: 500; }
+
+  /* ── SECTIONS SHARED ── */
+  section { padding: 5rem 2rem; }
+
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+
+  .section-header { text-align: center; margin-bottom: 3.5rem; }
+
+  .section-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+  }
+
+  .section-title em { font-style: italic; color: var(--rose); }
+
+  .section-desc {
+    font-size: 15px;
+    color: var(--ink-muted);
+    margin-top: 1rem;
+    line-height: 1.7;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── CATEGORIES ── */
+  .categories { background: var(--white); }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .cat-card {
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    text-decoration: none;
+    display: block;
+  }
+
+  .cat-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(42,31,26,0.12); }
+
+  .cat-card-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cat-bg-1 { background: linear-gradient(145deg, #FDEEE7, #F8D6C5); }
+  .cat-bg-2 { background: linear-gradient(145deg, #EBE4F8, #D9CCEF); }
+  .cat-bg-3 { background: linear-gradient(145deg, #E3F3EB, #C8E8D6); }
+  .cat-bg-4 { background: linear-gradient(145deg, #FDF3E0, #F8E6BE); }
+  .cat-bg-5 { background: linear-gradient(145deg, #FDEAF0, #F8C9D8); }
+  .cat-bg-6 { background: linear-gradient(145deg, #E6F2FB, #C4DEF5); }
+
+  .cat-card-body {
+    padding: 1.2rem 1.4rem 1.4rem;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+
+  .cat-card-body h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .cat-card-body p {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .cat-link {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--rose);
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .cat-link svg { transition: transform 0.2s; }
+  .cat-card:hover .cat-link svg { transform: translateX(3px); }
+
+  /* ── FEATURED PRODUCTS ── */
+  .featured { background: var(--rose-pale); }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .product-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+  }
+
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px var(--shadow); }
+
+  .product-img {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    position: relative;
+  }
+
+  .product-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--rose);
+    color: white;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+
+  .product-wishlist {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .product-wishlist:hover { background: var(--rose-light); }
+
+  .product-body { padding: 1rem; }
+
+  .product-category {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 4px;
+  }
+
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .product-stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: var(--gold);
+  }
+
+  .product-stars span { color: var(--ink-muted); font-size: 11.5px; }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .product-price .old {
+    font-size: 13px;
+    color: var(--ink-muted);
+    text-decoration: line-through;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  .add-btn {
+    width: 34px;
+    height: 34px;
+    background: var(--rose);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .add-btn:hover { background: var(--rose-deep); transform: scale(1.08); }
+
+  /* ── BANNER ── */
+  .banner {
+    background: var(--ink);
+    padding: 4rem 2rem;
+  }
+
+  .banner-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .banner h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+  }
+
+  .banner h2 em { color: var(--rose-light); font-style: italic; }
+
+  .banner p {
+    font-size: 15px;
+    color: rgba(250, 246, 240, 0.6);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .banner-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .banner-feat {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .feat-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(200, 131, 106, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+
+  .feat-text strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 2px;
+  }
+
+  .feat-text span {
+    font-size: 12px;
+    color: rgba(250, 246, 240, 0.5);
+    line-height: 1.5;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--cream-dark); }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .testi-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+  }
+
+  .testi-stars {
+    font-size: 14px;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .testi-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .testi-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .av-1 { background: linear-gradient(135deg, #C8836A, #9B5E49); }
+  .av-2 { background: linear-gradient(135deg, #8B7DD6, #5B52A0); }
+  .av-3 { background: linear-gradient(135deg, #60B882, #3A8A57); }
+
+  .testi-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .testi-location {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 1px;
+  }
+
+  /* ── NEWSLETTER ── */
+  .newsletter {
+    background: linear-gradient(135deg, var(--rose-pale) 0%, var(--gold-light) 100%);
+    padding: 5rem 2rem;
+    text-align: center;
+  }
+
+  .newsletter-inner { max-width: 560px; margin: 0 auto; }
+
+  .newsletter h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 3.5vw, 44px);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter p {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .email-form {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .email-input {
+    flex: 1;
+    height: 48px;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 0 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .email-input:focus { border-color: var(--rose); }
+  .email-input::placeholder { color: var(--ink-muted); opacity: 0.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(250, 246, 240, 0.7);
+    padding: 4rem 2rem 2rem;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(250, 246, 240, 0.1);
+    margin-bottom: 2rem;
+  }
+
+  .footer-brand p {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 1rem;
+    max-width: 280px;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-logo-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--rose);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: white;
+  }
+
+  .footer-logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--cream);
+  }
+
+  .footer-col h4 {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(250, 246, 240, 0.4);
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col ul li {
+    margin-bottom: 0.65rem;
+  }
+
+  .footer-col ul li a {
+    font-size: 14px;
+    color: rgba(250, 246, 240, 0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul li a:hover { color: var(--rose-light); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: rgba(250, 246, 240, 0.3);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 12px;
+  }
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(250, 246, 240, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(250, 246, 240, 0.5);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    font-size: 15px;
+  }
+
+  .social-link:hover {
+    border-color: var(--rose);
+    color: var(--rose-light);
+    background: rgba(200, 131, 106, 0.1);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-content > * {
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .hero-eyebrow { animation-delay: 0.1s; }
+  .hero-title { animation-delay: 0.22s; }
+  .hero-subtitle { animation-delay: 0.34s; }
+  .hero-cta { animation-delay: 0.46s; }
+  .hero-stats { animation-delay: 0.56s; }
+
+  .hero-visual {
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
 </style>
-
 </head>
 <body>
 
+<!-- Announcement Bar -->
+<div class="announcement">
+  🎁 Free gift wrapping on orders over ₹999 &nbsp;·&nbsp; <span>Use code: PANJA20 for 20% off your first order</span> &nbsp;·&nbsp; Same-day delivery available
+</div>
+
+<!-- Header -->
 <header>
-    <h1>PANJA GIFTHOUSE</h1>
-    <p>Premium Gift Store</p>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">P</div>
+      <span class="logo-text">PANJA<span>Gift</span></span>
+    </a>
+
+    <div class="search-bar">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search gifts, occasions…">
+    </div>
+
+    <nav>
+      <a href="#">Shop</a>
+      <a href="#">Occasions</a>
+      <a href="#">Custom</a>
+      <a href="#">Corporate</a>
+      <a href="#">About</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" title="Wishlist">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+      <button class="icon-btn" title="Account">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <button class="icon-btn" title="Cart" style="position:relative;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <div class="badge"></div>
+      </button>
+    </div>
+  </div>
 </header>
 
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Trusted by 50,000+ happy gifters
+      </div>
+
+      <h1 class="hero-title">
+        Find the <em>Perfect Gift</em><br>for Your Loved Ones
+      </h1>
+
+      <p class="hero-subtitle">
+        Curated with love — from heartfelt birthdays to custom keepsakes, we help you celebrate every moment with the most memorable gifts.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#" class="btn-primary">
+          Explore Gifts
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn-ghost">Personalize a Gift</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">50k+</div>
+          <div class="stat-label">Happy customers</div>
+        </div>
+        <div>
+          <div class="stat-num">800+</div>
+          <div class="stat-label">Unique products</div>
+        </div>
+        <div>
+          <div class="stat-num">4.9★</div>
+          <div class="stat-label">Average rating</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Visual -->
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <!-- Left card -->
+        <div class="gift-card gift-card-left">
+          <div class="gift-card-img img-bg-2">
+            <div class="img-placeholder">💍</div>
+          </div>
+          <div class="gift-card-body">
+            <div class="gift-card-label">Anniversary</div>
+            <div class="gift-card-name">Crystal Locket</div>
+            <div class="gift-card-price">From ₹1,499</div>
+          </div>
+        </div>
+
+        <!-- Main card -->
+        <div class="gift-card gift-card-main">
+          <div class="gift-card-img img-bg-1" style="aspect-ratio:auto; height: 200px;">
+            <div class="img-placeholder" style="font-size:80px;">🎁</div>
+          </div>
+          <div class="gift-card-body" style="padding: 18px 20px 20px;">
+            <div class="gift-card-label">Birthday Special</div>
+            <div class="gift-card-name" style="font-size:20px;">Luxury Hamper Set</div>
+            <div class="gift-card-price" style="font-size:14px;">From ₹2,199 · ⭐ 4.9 (842)</div>
+          </div>
+        </div>
+
+        <!-- Right card -->
+        <div class="gift-card gift-card-right">
+          <div class="gift-card-img img-bg-3">
+            <div class="img-placeholder">✏️</div>
+          </div>
+          <div class="gift-card-body">
+            <div class="gift-card-label">Custom</div>
+            <div class="gift-card-name">Name Engraved</div>
+            <div class="gift-card-price">From ₹899</div>
+          </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="floating-badge badge-top">
+          <div class="badge-dot"></div>
+          Same-day delivery
+        </div>
+        <div class="floating-badge badge-bottom">
+          🎀 Free gift wrapping
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="categories">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-eyebrow">Browse by Occasion</span>
+      <h2 class="section-title">Shop by <em>Category</em></h2>
+      <p class="section-desc">From birthdays to anniversaries, find the ideal gift for every special moment in life.</p>
+    </div>
+
+    <div class="cat-grid">
+      <!-- Birthday -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-img cat-bg-1">
+          <span>🎂</span>
+        </div>
+        <div class="cat-card-body">
+          <h3>Birthday Gifts</h3>
+          <p>Make their day unforgettable with curated hampers, personalized keepsakes, and surprise bundles.</p>
+          <span class="cat-link">Shop now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Anniversary -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-img cat-bg-2">
+          <span>💝</span>
+        </div>
+        <div class="cat-card-body">
+          <h3>Anniversary Gifts</h3>
+          <p>Celebrate love milestones with romantic gift sets, jewelry, and memory-making experiences.</p>
+          <span class="cat-link">Shop now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Custom Gifts -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-img cat-bg-3">
+          <span>✨</span>
+        </div>
+        <div class="cat-card-body">
+          <h3>Custom Gifts</h3>
+          <p>Personalize anything — photo frames, engraved items, and name-printed gifts made just for them.</p>
+          <span class="cat-link">Shop now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Wedding -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-img cat-bg-4">
+          <span>💒</span>
+        </div>
+        <div class="cat-card-body">
+          <h3>Wedding Gifts</h3>
+          <p>Thoughtful gifts for the couple — from home décor to luxury hampers and experience vouchers.</p>
+          <span class="cat-link">Shop now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Kids -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-img cat-bg-5">
+          <span>🧸</span>
+        </div>
+        <div class="cat-card-body">
+          <h3>Gifts for Kids</h3>
+          <p>Bring smiles to little ones with educational toys, playful kits, and adorable surprise boxes.</p>
+          <span class="cat-link">Shop now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Corporate -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-img cat-bg-6">
+          <span>🏆</span>
+        </div>
+        <div class="cat-card-body">
+          <h3>Corporate Gifts</h3>
+          <p>Impress clients and reward your team with premium branded gifts and bulk-order packages.</p>
+          <span class="cat-link">Shop now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="featured">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-eyebrow">Handpicked for you</span>
+      <h2 class="section-title">Trending <em>Right Now</em></h2>
+      <p class="section-desc">Our bestselling gifts loved by thousands of happy customers across India.</p>
+    </div>
+
+    <div class="products-grid">
+      <!-- Product 1 -->
+      <div class="product-card">
+        <div class="product-img img-bg-1" style="position:relative;">
+          <span>🌷</span>
+          <span class="product-tag">Bestseller</span>
+          <div class="product-wishlist">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8836A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-category">Birthday</div>
+          <div class="product-name">Rose Bloom Hamper</div>
+          <div class="product-stars">★★★★★ <span>(412)</span></div>
+          <div class="product-footer">
+            <div class="product-price">₹1,299 <span class="old">₹1,799</span></div>
+            <button class="add-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card">
+        <div class="product-img img-bg-2" style="position:relative;">
+          <span>🎀</span>
+          <span class="product-tag" style="background:var(--gold);">New</span>
+          <div class="product-wishlist">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8836A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-category">Anniversary</div>
+          <div class="product-name">Velvet Love Box</div>
+          <div class="product-stars">★★★★★ <span>(289)</span></div>
+          <div class="product-footer">
+            <div class="product-price">₹2,499</div>
+            <button class="add-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <div class="product-img img-bg-3" style="position:relative;">
+          <span>🖼️</span>
+          <span class="product-tag">Popular</span>
+          <div class="product-wishlist">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8836A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-category">Custom</div>
+          <div class="product-name">Personalized Photo Frame</div>
+          <div class="product-stars">★★★★☆ <span>(631)</span></div>
+          <div class="product-footer">
+            <div class="product-price">₹799 <span class="old">₹999</span></div>
+            <button class="add-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card">
+        <div class="product-img img-bg-4" style="position:relative;">
+          <span>🍫</span>
+          <div class="product-wishlist">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8836A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-category">Birthday</div>
+          <div class="product-name">Belgian Choco Delight</div>
+          <div class="product-stars">★★★★★ <span>(924)</span></div>
+          <div class="product-footer">
+            <div class="product-price">₹1,099</div>
+            <button class="add-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="#" class="btn-ghost" style="display:inline-flex;">
+        View all products
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Why Us Banner -->
 <div class="banner">
-    🎉 Flash Sale - 50% OFF 🎉
-</div>
-
-<div class="cat">
-    <div>গিফট</div>
-    <div>খেলনা</div>
-    <div>কিচেন</div>
-    <div>স্টাডি</div>
-    <div>ডেকোর</div>
-</div>
-
-<div class="products">
-
-    <div class="card">
-        <img src="https://picsum.photos/400/300?1">
-        <div class="c">
-            <h3>প্রিমিয়াম গিফট সেট</h3>
-            <div class="price">
-                ₹399
-                <span class="old">₹599</span>
-            </div>
-
-            <a class="btn"
-               href="https://wa.me/918100530600">
-               WhatsApp Order
-            </a>
+  <div class="banner-inner">
+    <div>
+      <h2>Why thousands choose <em>PANJAGift</em></h2>
+      <p>We go beyond just gifts — we deliver emotions, memories, and moments that last forever. Every order is packed with love and care.</p>
+      <a href="#" class="btn-primary" style="display:inline-flex;">
+        Learn our story
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="banner-features">
+      <div class="banner-feat">
+        <div class="feat-icon">🎁</div>
+        <div class="feat-text">
+          <strong>Free Gift Wrapping</strong>
+          <span>Premium wrapping on every order, no extra charge</span>
         </div>
+      </div>
+      <div class="banner-feat">
+        <div class="feat-icon">🚀</div>
+        <div class="feat-text">
+          <strong>Same-Day Delivery</strong>
+          <span>Order before 2PM for delivery the same evening</span>
+        </div>
+      </div>
+      <div class="banner-feat">
+        <div class="feat-icon">✏️</div>
+        <div class="feat-text">
+          <strong>Full Customization</strong>
+          <span>Personalize with names, photos, and heartfelt messages</span>
+        </div>
+      </div>
+      <div class="banner-feat">
+        <div class="feat-icon">💯</div>
+        <div class="feat-text">
+          <strong>100% Satisfaction</strong>
+          <span>Hassle-free returns and dedicated support team</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-eyebrow">Customer Love</span>
+      <h2 class="section-title">Stories that <em>Warm our Hearts</em></h2>
     </div>
 
-    <div class="card">
-        <img src="https://picsum.photos/400/300?2">
-        <div class="c">
-            <h3>ডেকোর শোপিস</h3>
-
-            <div class="price">
-                ₹299
-                <span class="old">₹499</span>
-            </div>
-
-            <a class="btn"
-               href="https://wa.me/918100530600">
-               WhatsApp Order
-            </a>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I ordered a custom anniversary hamper for my parents and they were absolutely moved to tears. The packaging was stunning and delivery was right on time!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar av-1">SR</div>
+          <div>
+            <div class="testi-name">Sneha Rao</div>
+            <div class="testi-location">Bangalore · Anniversary Gift</div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <div class="card">
-        <img src="https://picsum.photos/400/300?3">
-        <div class="c">
-            <h3>স্টিল বক্স</h3>
-
-            <div class="price">
-                ₹420
-                <span class="old">₹600</span>
-            </div>
-
-            <a class="btn"
-               href="https://wa.me/918100530600">
-               WhatsApp Order
-            </a>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The personalized photo frame with my daughter's name engraved on it was the most touching birthday gift I've ever given. She cried happy tears!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar av-2">AM</div>
+          <div>
+            <div class="testi-name">Ananya Mehta</div>
+            <div class="testi-location">Kolkata · Birthday Gift</div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <div class="card">
-        <img src="https://picsum.photos/400/300?4">
-        <div class="c">
-            <h3>খেলনা কার</h3>
-
-            <div class="price">
-                ₹599
-                <span class="old">₹999</span>
-            </div>
-
-            <a class="btn"
-               href="https://wa.me/918100530600">
-               WhatsApp Order
-            </a>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Ordered corporate gifts for our entire team. The quality was exceptional, delivery was on time, and the branding looked incredible. Will order again!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar av-3">RK</div>
+          <div>
+            <div class="testi-name">Rahul Kapoor</div>
+            <div class="testi-location">Mumbai · Corporate Gifts</div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+</section>
 
+<!-- Newsletter -->
+<div class="newsletter">
+  <div class="newsletter-inner">
+    <h2>Never miss a gifting moment 🎉</h2>
+    <p>Subscribe for exclusive deals, gifting inspiration, and early access to seasonal collections.</p>
+    <div class="email-form">
+      <input type="email" class="email-input" placeholder="Enter your email address">
+      <button class="btn-primary" style="white-space:nowrap; flex-shrink:0;">Subscribe</button>
+    </div>
+    <p style="font-size:12px; color:var(--ink-muted); margin-top:1rem;">No spam, ever. Unsubscribe anytime. 🔒</p>
+  </div>
 </div>
 
-<div class="trust">
-    🚚 Free Delivery |
-    🔒 Secure Payment |
-    💯 Original Products
-</div>
-
-<div class="review">
-    <h3>Customer Reviews</h3>
-
-    <p>⭐⭐⭐⭐⭐ খুব ভালো প্রোডাক্ট</p>
-    <p>⭐⭐⭐⭐⭐ দ্রুত ডেলিভারি</p>
-</div>
-
-<a class="float"
-   href="https://wa.me/918100530600">
-   💬
-</a>
-
+<!-- Footer -->
 <footer>
-    <h3>PANJA GIFTHOUSE</h3>
-    <p>📞 8100530600</p>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">P</div>
+          <span class="footer-logo-text">PANJAGift Shop</span>
+        </div>
+        <p>Curating joy since 2019. We believe every gift carries the heart of the giver — let us help you express yours perfectly.</p>
+        <div class="social-links" style="margin-top:1.5rem;">
+          <a href="#" class="social-link">📘</a>
+          <a href="#" class="social-link">📸</a>
+          <a href="#" class="social-link">🐦</a>
+          <a href="#" class="social-link">▶️</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">Birthday Gifts</a></li>
+          <li><a href="#">Anniversary Gifts</a></li>
+          <li><a href="#">Custom Gifts</a></li>
+          <li><a href="#">Wedding Gifts</a></li>
+          <li><a href="#">Corporate Gifts</a></li>
+          <li><a href="#">Gifts for Kids</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">Track your order</a></li>
+          <li><a href="#">Returns & exchanges</a></li>
+          <li><a href="#">Shipping info</a></li>
+          <li><a href="#">Gift wrapping</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About PANJAGift</a></li>
+          <li><a href="#">Our story</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms of service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 PANJAGift Shop. All rights reserved.</span>
+      <span>Made with ❤️ in India</span>
+    </div>
+  </div>
 </footer>
-<!DOCTYPE html>
-
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PANJA GIFTHOUSE Premium</title>
-
-<style>
-
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f5f7fb;
-}
-
-header{
-    background:linear-gradient(135deg,#1e3a8a,#2563eb);
-    color:white;
-    text-align:center;
-    padding:15px;
-    position:sticky;
-    top:0;
-    z-index:1000;
-}
-
-.banner{
-    background:#ffd54f;
-    text-align:center;
-    padding:35px;
-    font-size:28px;
-    font-weight:bold;
-}
-
-.cat{
-    display:flex;
-    overflow:auto;
-    gap:10px;
-    padding:10px;
-    background:white;
-}
-
-.cat div{
-    background:#eef2ff;
-    padding:10px 15px;
-    border-radius:20px;
-    white-space:nowrap;
-}
-
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    padding:15px;
-}
-
-.card{
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 2px 8px rgba(0,0,0,.12);
-}
-
-.card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-}
-
-.card .c{
-    padding:12px;
-}
-
-.price{
-    font-size:20px;
-    font-weight:bold;
-    color:#1e3a8a;
-}
-
-.old{
-    text-decoration:line-through;
-    color:#777;
-}
-
-.btn{
-    display:block;
-    background:#25d366;
-    color:black;
-    text-decoration:none;
-    text-align:center;
-    padding:10px;
-    border-radius:6px;
-    margin-top:10px;
-    font-weight:bold;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-<h1>PANJA GIFTHOUSE</h1>
-<p>Premium Gift Store</p>
-</header>
-
-<div class="banner">
-🎉 Flash Sale - 50% OFF 🎉
-</div>
-
-<div class="cat">
-<div>গিফট</div>
-<div>খেলনা</div>
-<div>কিচেন</div>
-<div>স্টাডি</div>
-<div>ডেকোর</div>
-</div>
-PART-2 (Product Section)
-<div class="products">
-<!-- Product 1 -->
-
-<div class="card">
-
-<img src="https://picsum.photos/400/300?1">
-
-<div class="c">
-
-<h3>প্রিমিয়াম গিফট সেট</h3>
-
-<div class="price">
-
-₹399
-
-<span class="old">₹599</span>
-
-</div>
-
-<a class="btn"
-href="https://wa.me/918100530600">
-
-WhatsApp Order
-
-</a>
-
-</div>
-
-</div>
-
-<!-- Product 2 -->
-
-<div class="card">
-
-<img src="https://picsum.photos/400/300?2">
-
-<div class="c">
-
-<h3>ডেকোর শোপিস</h3>
-
-<div class="price">
-
-₹299
-
-<span class="old">₹499</span>
-
-</div>
-
-<a class="btn"
-href="https://wa.me/918100530600">
-
-WhatsApp Order
-
-</a>
-
-</div>
-
-</div>
-
-<!-- Product 3 -->
-
-<div class="card">
-
-<img src="https://picsum.photos/400/300?3">
-
-<div class="c">
-
-<h3>স্টিল লাঞ্চ বক্স</h3>
-
-<div class="price">
-
-₹420
-
-<span class="old">₹600</span>
-
-</div>
-
-<a class="btn"
-href="https://wa.me/918100530600">
-
-WhatsApp Order
-
-</a>
-
-</div>
-
-</div>
-
-<!-- Product 4 -->
-
-<div class="card">
-
-<img src="https://picsum.photos/400/300?4">
-
-<div class="c">
-
-<h3>রিমোট কন্ট্রোল কার</h3>
-
-<div class="price">
-
-₹599
-
-<span class="old">₹999</span>
-
-</div>
-
-<a class="btn"
-href="https://wa.me/918100530600">
-
-WhatsApp Order
-
-</a>
-
-</div>
-
-</div>
-
-<!-- Product 5 -->
-
-<div class="card">
-
-<img src="https://picsum.photos/400/300?5">
-
-<div class="c">
-
-<h3>স্টাডি কিট</h3>
-
-<div class="price">
-
-₹180
-
-<span class="old">₹250</span>
-
-</div>
-
-<a class="btn"
-href="https://wa.me/918100530600">
-
-WhatsApp Order
-
-</a>
-
-</div>
-
-</div>
-
-<!-- Product 6 -->
-
-<div class="card">
-
-<img src="https://picsum.photos/400/300?6">
-
-<div class="c">
-
-<h3>ক্রিস্টাল শোপিস</h3>
-
-<div class="price">
-
-₹350
-
-<span class="old">₹550</span>
-
-</div>
-
-<a class="btn"
-href="https://wa.me/918100530600">
-
-WhatsApp Order
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-................................
-  PART-3 (Trust Section + Review Section + WhatsApp Button + Footer + End Tags)...............
-  <style>
-
-.trust{
-    background:white;
-    margin:15px;
-    padding:15px;
-    border-radius:12px;
-    text-align:center;
-    font-weight:bold;
-}
-
-.review{
-    background:white;
-    margin:15px;
-    padding:15px;
-    border-radius:12px;
-}
-
-.review h3{
-    color:#1e3a8a;
-}
-
-.float{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    width:60px;
-    height:60px;
-    background:#25d366;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-    font-size:28px;
-    box-shadow:0 4px 10px rgba(0,0,0,.3);
-}
-
-footer{
-    background:#111827;
-    color:white;
-    text-align:center;
-    padding:20px;
-    margin-top:20px;
-}
-
-</style>
-
-<div class="trust">
-
-🚚 Free Delivery |
-🔒 Secure Payment |
-💯 Original Products
-
-</div>
-
-<div class="review">
-
-<h3>Customer Reviews</h3>
-
-<p>
-⭐⭐⭐⭐⭐ খুব ভালো প্রোডাক্ট
-</p>
-
-<p>
-⭐⭐⭐⭐⭐ দ্রুত ডেলিভারি পেয়েছি
-</p>
-
-<p>
-⭐⭐⭐⭐⭐ সুন্দর প্যাকেজিং
-</p>
-
-</div>
-
-<a class="float"
-href="https://wa.me/918100530600"
-target="_blank">
-
-💬
-
-</a>
-
-<footer>
-
-<h2>PANJA GIFTHOUSE</h2>
-
-<p>
-সেরা গিফট ও হোম ডেকোর স্টোর
-</p>
-
-<p>
-📞 8100530600
-</p>
-
-<p>
-WhatsApp Support Available
-</p>
-
-</footer>
-
-</body>
-</html>
 
 </body>
 </html>
