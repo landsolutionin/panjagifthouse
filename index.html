@@ -653,6 +653,139 @@ cursor:pointer;
 margin-top:10px;
 
 }
+  .order-btn{
+
+width:100%;
+
+padding:12px;
+
+margin-top:10px;
+
+border:none;
+
+background:#f59e0b;
+
+color:white;
+
+font-size:15px;
+
+font-weight:bold;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+  .payment-section{
+
+background:white;
+
+margin:20px;
+
+padding:20px;
+
+border-radius:15px;
+
+text-align:center;
+
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+
+}
+
+.qr-image{
+
+width:220px;
+
+height:220px;
+
+object-fit:cover;
+
+margin:15px auto;
+
+display:block;
+
+border:2px solid #ddd;
+
+padding:10px;
+
+border-radius:12px;
+
+}
+
+.upi-btn{
+
+width:100%;
+
+padding:12px;
+
+background:#2563eb;
+
+color:white;
+
+border:none;
+
+border-radius:8px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+  .success-popup{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.6);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:9999;
+
+}
+
+.popup-box{
+
+background:white;
+
+padding:25px;
+
+border-radius:15px;
+
+text-align:center;
+
+width:300px;
+
+}
+
+.popup-box button{
+
+margin-top:15px;
+
+padding:10px 20px;
+
+background:#25d366;
+
+border:none;
+
+border-radius:8px;
+
+font-weight:bold;
+
+cursor
 </style>
 
 </head>
@@ -845,7 +978,40 @@ target="_blank">
 </a>
 
 <!-- FOOTER -->
+<!-- ORDER FORM -->
 
+<div class="order-section"
+id="orderSection">
+
+<h2>
+
+📦 Place Your Order
+
+</h2>
+
+<input
+type="text"
+id="customerName"
+placeholder="আপনার নাম">
+
+<input
+type="text"
+id="customerPhone"
+placeholder="মোবাইল নম্বর">
+
+<textarea
+id="customerAddress"
+placeholder="সম্পূর্ণ ঠিকানা">
+</textarea>
+
+<button
+onclick="sendOrder()">
+
+✅ Confirm Order
+
+</button>
+
+</div>
 <footer>
 
 <div class="footer-logo">
@@ -873,7 +1039,40 @@ Premium Online Gift Store
 <p>
 © 2026 PANJA GIFTHOUSE
 </p>
+<!-- ORDER FORM -->
 
+<div class="order-section"
+id="orderSection">
+
+<h2>
+
+📦 Place Your Order
+
+</h2>
+
+<input
+type="text"
+id="customerName"
+placeholder="আপনার নাম">
+
+<input
+type="text"
+id="customerPhone"
+placeholder="মোবাইল নম্বর">
+
+<textarea
+id="customerAddress"
+placeholder="সম্পূর্ণ ঠিকানা">
+</textarea>
+
+<button
+onclick="sendOrder()">
+
+✅ Confirm Order
+
+</button>
+
+</div>
 </footer>
 
 <script>
@@ -968,6 +1167,12 @@ type="text"
 placeholder="প্রোডাক্ট খুঁজুন..."
 onkeyup="searchProducts()">
 </script>
+  <button class="order-btn"
+onclick="openOrderForm()">
+
+📦 Order Now
+
+</button>
 </body>
 </html>
 
