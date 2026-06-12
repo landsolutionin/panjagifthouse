@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANJA GIFTHOUSE - প্রফেশনাল সিকিউর স্টোর</title>
     
-    <!-- Font Awesome CSS Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -128,7 +127,7 @@
             font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
 
-        /* ADMIN CONTROLLED DISCOUNT STYLE */
+        /* LUCKY DISCOUNT STYLE */
         .discount-section { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media(max-width: 768px) { .discount-section { grid-template-columns: 1fr; } }
         
@@ -137,11 +136,16 @@
         .section-box input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; }
         .gen-btn { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; margin-bottom: 10px; }
         
-        /* এডমিন বা দোকানদার ভেরিফিকেশন এরিয়া (কালো বক্স) */
+        /* এডমিন ভেরিফিকেশন এরিয়া (কালো বক্স) */
         .admin-verification-container { background: #0f172a; padding: 15px; border-radius: 8px; margin-top: 15px; color: white; }
         .admin-verification-container h4 { font-size: 14px; color: #38bdf8; margin-bottom: 8px; text-align: center; }
         .black-box-input { width: 100%; background: #1e293b; color: #facc15; padding: 12px; font-size: 18px; font-weight: bold; border: 2px solid #334155; border-radius: 6px; text-align: center; outline: none; letter-spacing: 4px; }
         
+        /* ডায়নামিক এডমিন অ্যামাউন্ট গেট বক্স (ওটিপি মিললে খুলবে) */
+        .admin-amount-box { display: none; margin-top: 15px; background: #1e293b; padding: 12px; border-radius: 6px; border: 1px dashed #38bdf8; }
+        .admin-amount-box label { font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px; font-weight: bold; }
+        .admin-amount-box input { background: #ffffff; color: #0f172a; font-weight: bold; font-size: 16px; margin-bottom: 0; }
+
         /* ডিসকাউন্ট জেনারেট হওয়ার অ্যানিমেশন ক্লিপ */
         .gift-animation { display: none; width: 80px; height: 80px; margin: 10px auto; animation: bounceGift 0.6s infinite alternate; }
         @keyframes bounceGift { 0% { transform: scale(1) rotate(-10deg); } 100% { transform: scale(1.2) rotate(10deg); } }
@@ -173,7 +177,6 @@
 </head>
 <body>
 
-    <!-- ANIMATED UNIQUE LOADER -->
     <div id="loader">
         <div class="loader-content">
             <div class="spinner"></div>
@@ -181,10 +184,8 @@
         </div>
     </div>
 
-    <!-- TOP BAR -->
     <div class="top-bar">🚚 ৪00 টাকার উপরে কেনাকাটা করলে স্পেশাল লাকি ড্র ডিসকাউন্ট কোড প্রযোজ্য!</div>
 
-    <!-- HEADER -->
     <div class="header">
         <div class="logo">PANJA <span>GIFTHOUSE</span></div>
         <div class="header-icons">
@@ -196,15 +197,13 @@
         </div>
     </div>
 
-    <!-- SEARCH BAR -->
     <div class="search-container">
         <div class="search-box">
-            <input id="searchInput" type="text" placeholder="প্রোডাক্ট খুঁজুন..." onkeyup="searchProducts()">
+            <input id="searchInput" type="text" placeholder="প্রोডাক্ট খুঁজুন..." onkeyup="searchProducts()">
             <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
         </div>
     </div>
 
-    <!-- CATEGORY NAV -->
     <div class="category-nav">
         <div class="category-item active" onclick="changeCategory('all', this)">
             <img src="https://cdn-icons-png.flaticon.com/512/6104/6104006.png" alt="সব"><span>সব আইটেম</span>
@@ -223,7 +222,6 @@
         </div>
     </div>
 
-    <!-- ADMIN CONTROLLED LUCKY DISCOUNT SECTION -->
     <div class="discount-section">
         <div class="section-box">
             <h3>🎉 লাকি কুপন ড্র (Up To 50% Off)</h3>
@@ -233,39 +231,37 @@
             <input type="date" id="discDOB">
             <button class="gen-btn" onclick="submitDiscountRequest()">ডিসকাউন্ট রিকোয়েস্ট পাঠান</button>
             
-            <!-- অ্যানিমেশন গিফট বক্স -->
             <img class="gift-animation" id="giftAnim" src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png" alt="Gift">
 
-            <!-- দোকানদার বা এডমিনের সিক্রেট কালো বক্স ভেরিফিকেশন এরিয়া -->
             <div class="admin-verification-container">
                 <h4>🔒 Admin Verification (দোকানদারের কোড বসান)</h4>
                 <input type="text" class="black-box-input" id="adminSecretCodeInput" placeholder="ENTER OTP" onkeyup="verifyAdminOtpCode()">
+                
+                <div class="admin-amount-box" id="adminAmountGate">
+                    <label for="adminManualAmount">💳 টোটাল কেনাকাটার অ্যামাউন্ট বসান (₹400 - ₹4000+):</label>
+                    <input type="number" id="adminManualAmount" placeholder="উদাঃ 550, 1200, 4500" onkeyup="calculateLiveDiscountFromAmount()">
+                </div>
             </div>
             
             <p id="discountStatusText" style="margin-top:10px; font-weight:bold; text-align:center; color:#2563eb;"></p>
         </div>
         
-        <!-- HERO BANNER -->
         <div class="hero-banner">
             <div class="banner-text">
                 <h2>নিরাপদ ও জেনুইন অফার!</h2>
-                <p>কাস্টমার তথ্য সাবমিট করার পর, দোকানদার তার সিক্রেট ওটিপি কোডটি কালো bof বসালেই ডিসকাউন্ট পার্সেন্টেজ লাইভ ভেসে উঠবে!</p>
+                <p>কাস্টমার তথ্য সাবমিট করার পর, দোকানদার তার সিক্রেট ওটিপি কোডটি কালো বক্সে দিয়ে কাস্টমারের কেনাকাটার লাইভ বিল অ্যামাউন্ট সেট করতে পারবেন।</p>
             </div>
         </div>
     </div>
 
-    <!-- MAIN PRODUCT GRID -->
     <div class="main-container">
         <h2 class="section-title" id="sectionTitle"><i class="fas fa-shopping-bag"></i> সমস্ত প্রোডাক্টের তালিকা (প্রচুর স্টক)</h2>
-        <div class="product-grid" id="productGrid">
-            <!-- ডায়নামিকালি জাভাস্ক্রিপ্ট থেকে এখানে প্রোডাক্ট লোড হবে -->
-        </div>
+        <div class="product-grid" id="productGrid"></div>
     </div>
 
-    <!-- CART SIDEBAR -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h2>🛒 আপনার শピング কার্ট</h2>
+            <h2>🛒 আপনার শপিং কার্ট</h2>
             <button style="background:none; border:none; color:white; font-size:24px;" onclick="toggleCart()">×</button>
         </div>
         <div class="cart-items-list" id="cartItemsList"></div>
@@ -283,7 +279,6 @@
         </div>
     </div>
 
-    <!-- QR PAYMENT -->
     <div class="qr-section">
         <h2>🔒 QR পেমেন্ট করুন</h2>
         <div style="text-align:center; border:2px dashed #2563eb; padding:15px; background:#f8fafc; border-radius:8px;">
@@ -292,9 +287,8 @@
         </div>
     </div>
 
-    <!-- ORDER FORM -->
     <div class="order-section" id="orderFormSection">
-        <h2>📦 ডেলিভারি তথ্য ফর্ম</h2>
+        <h2>📦  ডেলিভারি তথ্য ফর্ম</h2>
         <input type="text" id="formProductList" placeholder="কার্ট আইটেম অটোমেটিক আসবে" readonly>
         <input type="text" id="formTotalPrice" placeholder="মোট ফাইনাল দাম" readonly>
         <input type="text" id="custName" placeholder="আপনার নাম লিখুন">
@@ -310,38 +304,20 @@
     </div>
 
     <script>
-        // প্রোডাক্ট ডাটাবেস
         const productsDatabase = [
-            // FASHION (WATCHES)
             { id: 1, name: "প্রিমিয়াম রয়্যাল গোল্ডেন চেইন ঘড়ি", category: "fashion", price: 1299, oldPrice: 2499, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" },
-            { id: 2, name: "স্পোর্টস ডিজিটাল রানিং ব্ল্যাক ওয়াচ", category: "fashion", price: 799, oldPrice: 1499, img: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" },
+            { id: 2, name: "স্পোর্টস ডিজিটাল রানিং ব্ল্যাক ওয়াช", category: "fashion", price: 799, oldPrice: 1499, img: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" },
             { id: 3, name: "ক্যাসিনো সিলভার মেটাল ক্যাজুয়াল ঘড়ি", category: "fashion", price: 999, oldPrice: 1999, img: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400" },
             { id: 4, name: "ব্রাউন লেদার লাক্সারি বিজনেস ঘড়ি", category: "fashion", price: 650, oldPrice: 1199, img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=400" },
-            { id: 5, name: "স্মার্ট ফিটনেস ট্র্যাকার ওয়াচ প্রো", category: "fashion", price: 1499, oldPrice: 2999, img: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400" },
-            { id: 6, name: "লেডিস রোজ গোল্ড ডায়মন্ড স্টাইল ঘড়ি", category: "fashion", price: 890, oldPrice: 1799, img: "https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=400" },
-
-            // BEAUTY CARE
             { id: 7, name: "অর্গানিক ফেস গ্লো কম্বো ফেসওয়াশ কিট", category: "beauty", price: 599, oldPrice: 999, img: "https://images.unsplash.com/photo-1608248597481-496100c8c836?w=400" },
-            { id: 8, name: "প্রিমিয়াম অ্যাডভান্সড হেয়ার... সিরাম", category: "beauty", price: 349, oldPrice: 599, img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400" },
-            { id: 9, name: "ন্যাচারাল অ্যালোভেরা ময়েশ্চারাইজিং ক্রিম", category: "beauty", price: 220, oldPrice: 399, img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" },
-            { id: 10, name: "ভিটামিন-সি স্কিন ব্রাইটেনিং সিরাম", category: "beauty", price: 450, oldPrice: 899, img: "https://images.unsplash.com/photo-1617897903246-719242758050?w=400" },
-
-            // HOME DECOR
             { id: 11, name: "এলইডি ক্রিস্টাল ডায়মন্ড টেবিল ল্যাম্প", category: "decor", price: 499, oldPrice: 999, img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400" },
-            { id: 12, name: "ম্যাজিকাল ৩ডি মুন নাইট লাইট", category: "decor", price: 399, oldPrice: 799, img: "https://images.unsplash.com/photo-1532926381893-7542290edd1d?w=400" },
-            { id: 13, name: "অ্যান্টিক ডিজাইনার কাঠের দেয়াল ঘড়ি", category: "decor", price: 850, oldPrice: 1599, img: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=400" },
-            { id: 14, name: "ইনডোর লিভিং Room আর্টিফিশিয়াল গ্রিন প্ল্যান্ট", category: "decor", price: 299, oldPrice: 599, img: "https://images.unsplash.com/photo-1545241047-6083a3684587?w=400" },
-
-            // ELECTRONICS
-            { id: 15, name: "ওয়ারলেস হাই-বাস ব্লুটুথ নেকব্যান্ড", category: "electronics", price: 499, oldPrice: 999, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
-            { id: 16, name: "স্মার্ট পোর্টেবল মিনি ব্লুটুথ স্পিকার", category: "electronics", price: 699, oldPrice: 1299, img: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400" },
-            { id: 17, name: "আল্ট্রา ফাস্ট মাল্টি-ডিভাইস পাওয়ার ব্যাংক", category: "electronics", price: 999, oldPrice: 1999, img: "https://images.unsplash.com/photo-1609592424109-dd9892f1b177?w=400" }
+            { id: 15, name: "ওয়ারলেস হাই-বাস ব্লুটুথ নেকব্যান্ড", category: "electronics", price: 499, oldPrice: 999, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" }
         ];
 
         let shoppingCart = [];
         let secretAdminOtp = ""; 
-        let lockedDiscountPercent = 0; 
-        let activeDiscountRate = 0; 
+        let activeDiscountPercent = 0; 
+        let currentBillAmount = 0;
 
         window.onload = function() {
             setTimeout(() => document.getElementById("loader").style.display = "none", 3500);
@@ -370,7 +346,6 @@
             });
         }
 
-        // কাস্টমার রিকোয়েস্ট সাবমিট করলে ওটিপি কোড ৩টি নাম্বারের মেসেজ হিসেবে রেডি হয়ে হোয়াটসঅ্যাপে যাবে
         function submitDiscountRequest() {
             const name = document.getElementById("discName").value.trim();
             const phone = document.getElementById("discPhone").value.trim();
@@ -382,21 +357,9 @@
                 return;
             }
 
-            // ব্যাকগ্রাউন্ডে সিক্রেট ৪ ডিজিটের OTP জেনারেট
             secretAdminOtp = String(Math.floor(1000 + Math.random() * 9000));
             
-            // ব্যাকগ্রাউন্ড ডিসকাউন্ট নির্ধারণ (৫% থেকে ২০% ফিক্সড)
-            let currentSubtotal = calculateSubtotal();
-            if(currentSubtotal >= 1500) {
-                lockedDiscountPercent = 20; 
-            } else if(currentSubtotal >= 800) {
-                lockedDiscountPercent = 12;
-            } else {
-                lockedDiscountPercent = Math.floor(5 + Math.random() * 6); 
-            }
-
-            // ৩টি নম্বরের ওটিপি মেসেজ রুট ফরম্যাট
-            let msgText = `PANJA GIFTHOUSE - নতুন ডিসকাউন্ট রিকোয়েস্ট:\n\n` +
+            let msgText = `PANJA GIFTHOUSE - নতুন ডিসकाউন্ট রিকোয়েস্ট:\n\n` +
                           `👤 কাস্টমার: ${name}\n` +
                           `📞 কাস্টমারের নম্বর: ${phone}\n` +
                           `🔑 সিক্রেট ভেরিফিকেশন OTP: ${secretAdminOtp}\n\n` +
@@ -404,66 +367,94 @@
                           `১. ${phone}\n` +
                           `২. [আপনার পুরনো রেজিস্টার্ড নম্বর]\n` +
                           `৩. 7980471077\n\n` +
-                          `দোকানদার এই OTP কালো বক্সে বসালেই অফারটি চালু হবে।`;
+                          `দোকানদার এই OTP কালো বক্সে বসালেই অফার গেট অ্যামাউন্ট সেট করার সুবিধা পাবেন।`;
 
-            // দোকানদারের হোয়াটসঅ্যাপ উইন্ডো ওপেন হবে কোড ডেলিভারি ট্রায়ালের জন্য
             let encodedURL = `https://wa.me/918100530600?text=${encodeURIComponent(msgText)}`;
             window.open(encodedURL, '_blank');
 
             statusText.style.color = "#2563eb";
-            statusText.innerText = "⏳ রিকোয়েস্ট পাঠানো হয়েছে! দোকানদারের থেকে OTP নিয়ে নিচে ভেরিফাই করলেই ডিসকাউন্ট শো করবে।";
+            statusText.innerText = "⏳ রিকোয়েস্ট পাঠানো হয়েছে! দোকানদারের থেকে OTP নিয়ে নিচে ভেরিফাই করুন।";
         }
 
-        // দোকানদার সিক্রেট কালো বক্সে OTP টাইপ করলে রিয়েল-টাইম এনিমেশন ও ভেরিফিকেশন
+        // ওটিপি মিললে পাসকোড অ্যামাউন্ট বক্সটি ওপেন হবে
         function verifyAdminOtpCode() {
             let typedOtp = document.getElementById("adminSecretCodeInput").value.trim();
             let statusText = document.getElementById("discountStatusText");
-            const anim = document.getElementById("giftAnim");
+            let amountGate = document.getElementById("adminAmountGate");
 
             if(typedOtp === "") {
-                activeDiscountRate = 0;
+                amountGate.style.display = "none";
+                activeDiscountPercent = 0;
                 updateCartUI();
                 return;
             }
 
             if(typedOtp === secretAdminOtp && secretAdminOtp !== "") {
-                let currentSubtotal = calculateSubtotal();
-                
-                // ৪০০ টাকার কম কেনাকাটা করলে ডিসকাউন্ট লক থাকবে
-                if(currentSubtotal < 400) {
-                    statusText.style.color = "#ef4444";
-                    statusText.innerText = "❌ মিনিমাম ৪০০ টাকার কেনাকাটা না করলে ডিসকাউন্ট কোড কাজ করবে না!";
-                    activeDiscountRate = 0;
-                    updateCartUI();
-                } else {
-                    anim.style.display = "block";
-                    statusText.innerText = "🎰 লাকি ড্র গণনা করা হচ্ছে...";
-                    
-                    setTimeout(() => {
-                        anim.style.display = "none";
-                        statusText.style.color = "#059669";
-                        statusText.innerText = `🎉 অ্যাডমিন ভেরিফাইড! এই অর্ডারে ফিক্সড ${lockedDiscountPercent}% ডিসকাউন্ট সফলভাবে যোগ হয়েছে!`;
-                        activeDiscountRate = lockedDiscountPercent;
-                        updateCartUI();
-                    }, 2000); 
-                }
+                statusText.style.color = "#38bdf8";
+                statusText.innerText = "🔑 OTP ভেরিফাইড! এবার নিচে কাস্টমারের কেনাকাটার ফাইনাল অ্যামাউন্টটি বসান।";
+                amountGate.style.display = "block"; // অ্যামাউন্ট বক্সটি খুলে যাবে
             } else {
                 statusText.style.color = "#ef4444";
                 statusText.innerText = "❌ ভুল অ্যাডমিন কোড! অফার চালু হয়নি।";
-                activeDiscountRate = 0;
+                amountGate.style.display = "none";
+                activeDiscountPercent = 0;
                 updateCartUI();
             }
         }
 
+        // দোকানদার ম্যানুয়ালি অ্যামাউন্ট টাইপ করলে পার্সেন্টেজ হিসাব হবে
+        function calculateLiveDiscountFromAmount() {
+            let amountInput = parseFloat(document.getElementById("adminManualAmount").value);
+            let statusText = document.getElementById("discountStatusText");
+            const anim = document.getElementById("giftAnim");
+
+            if(isNaN(amountInput) || amountInput === "") {
+                activeDiscountPercent = 0;
+                updateCartUI();
+                return;
+            }
+
+            // ৪০০ টাকার কম হলে ডিসকাউন্ট ক্যানসেল
+            if(amountInput < 400) {
+                statusText.style.color = "#ef4444";
+                statusText.innerText = "❌ ভুল অ্যামাউন্ট! ডিসকাউন্ট অ্যাক্টিভ করার জন্য মিনিমাম ৪০০ টাকা হতে হবে।";
+                activeDiscountPercent = 0;
+                updateCartUI();
+                return;
+            }
+
+            // লজিকঃ ৪০০ থেকে ৪০০০+ এর উপর ভিত্তি করে ডিসকাউন্ট পার্সেন্টেজ ফিক্সড
+            currentBillAmount = amountInput;
+            if(currentBillAmount >= 1500) {
+                activeDiscountPercent = 20; 
+            } else if(currentBillAmount >= 800) {
+                activeDiscountPercent = 12;
+            } else {
+                activeDiscountPercent = 7; 
+            }
+
+            anim.style.display = "block";
+            statusText.style.color = "#facc15";
+            statusText.innerText = `🎲 ₹${currentBillAmount} টাকার ওপর লাকি ডিসকাউন্ট হিসেব হচ্ছে...`;
+
+            setTimeout(() => {
+                anim.style.display = "none";
+                statusText.style.color = "#059669";
+                statusText.innerText = `🎉 সফল! ₹${currentBillAmount} টাকার কেনাকাটায় ফিক্সড ${activeDiscountPercent}% ডিসকাউন্ট চালু হয়েছে।`;
+                updateCartUI();
+            }, 1200);
+        }
+
         function calculateSubtotal() {
-            return shoppingCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            // যদি কার্ট খালি থাকে কিন্তু দোকানদার ম্যানুয়াল অ্যামাউন্ট বসিয়ে থাকেন, তবে সেটাই সাবটোটাল হবে
+            let cartSum = shoppingCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            return cartSum > 0 ? cartSum : currentBillAmount;
         }
 
         function addToCart(prodId) {
             let existingItem = shoppingCart.find(item => item.id === prodId);
-            if(existingItem) {
-                existingItem.qty += 1;
-            } else {
+            if(existingItem) { existingItem.qty += 1; } 
+            else {
                 let initialProd = productsDatabase.find(p => p.id === prodId);
                 shoppingCart.push({ ...initialProd, qty: 1 });
             }
@@ -474,9 +465,7 @@
             let currentItem = shoppingCart.find(item => item.id === prodId);
             if(currentItem) {
                 currentItem.qty += amount;
-                if(currentItem.qty <= 0) {
-                    shoppingCart = shoppingCart.filter(item => item.id !== prodId);
-                }
+                if(currentItem.qty <= 0) { shoppingCart = shoppingCart.filter(item => item.id !== prodId); }
             }
             updateCartUI();
         }
@@ -515,7 +504,7 @@
                 `;
             });
 
-            let discountAmount = Math.round((subtotal * activeDiscountRate) / 100);
+            let discountAmount = Math.round((subtotal * activeDiscountPercent) / 100);
             let finalTotal = subtotal - discountAmount;
 
             cartCountLabel.innerText = totalItemsCount;
@@ -523,9 +512,10 @@
             discountLabel.innerText = "-₹" + discountAmount;
             totalLabel.innerText = "₹" + finalTotal;
             
-            if(shoppingCart.length > 0) {
-                document.getElementById("formProductList").value = shoppingCart.map(i => `${i.name} (${i.qty}টি)`).join(', ');
-                document.getElementById("formTotalPrice").value = "ফাইনাল বিল (ডিসকাউন্ট সহ): ₹" + finalTotal;
+            if(subtotal > 0) {
+                let itemNames = shoppingCart.length > 0 ? shoppingCart.map(i => `${i.name} (${i.qty}টি)`).join(', ') : "সরাসরি শপ ডিসকাউন্ট অর্ডার";
+                document.getElementById("formProductList").value = itemNames;
+                document.getElementById("formTotalPrice").value = "ফাইনাল বিল: ₹" + finalTotal;
             } else {
                 document.getElementById("formProductList").value = "";
                 document.getElementById("formTotalPrice").value = "";
@@ -556,7 +546,7 @@
             const phone = document.getElementById("custPhone").value.trim();
             const address = document.getElementById("custAddress").value.trim();
 
-            if(!list || !name || !phone || !address) { alert("দয়া করে কার্টে পণ্য যোগ করুন এবং ফর্মের সব তথ্য পূরণ করুন!"); return; }
+            if(!name || !phone || !address) { alert("দয়া করে ফর্মের সব তথ্য পূরণ করুন!"); return; }
 
             let customMessage = `নমস্কার PANJA GIFTHOUSE, আমি অর্ডার করতে চাই:\n\n🛍️ প্রোডাক্টস: ${list}\n💰 ${bill}\n\n👤 নাম: ${name}\n📞 ফোন: ${phone}\n📍 ঠিকানা: ${address}`;
             window.open(`https://wa.me/918100530600?text=${encodeURIComponent(customMessage)}`, '_blank');
