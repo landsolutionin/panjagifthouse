@@ -19,7 +19,7 @@
         body {
             background: #f5f5f5;
             color: #333;
-            padding-bottom: 70px; /* Space for bottom nav */
+            padding-bottom: 70px;
         }
 
         /* DARK MODE STYLES */
@@ -36,6 +36,7 @@
         body.dark-mode .trust-box,
         body.dark-mode .order-section,
         body.dark-mode .contact-section,
+        body.dark-mode .qr-section,
         body.dark-mode .bottom-nav {
             background: #1f2937;
             color: white;
@@ -44,6 +45,7 @@
         body.dark-mode .offer-card h3,
         body.dark-mode .review-box h3,
         body.dark-mode .contact-section h2,
+        body.dark-mode .qr-section h2,
         body.dark-mode .order-section h2 {
             color: #facc15;
         }
@@ -368,6 +370,7 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             z-index: 10;
+            color: #333;
         }
         .product-details {
             padding: 15px 15px 5px 15px;
@@ -567,6 +570,40 @@
             cursor: pointer;
         }
 
+        /* QR PAYMENT SECTION */
+        .qr-section {
+            background: white;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.1);
+            text-align: center;
+        }
+        .qr-section h2 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+        }
+        .qr-container {
+            border: 2px dashed #2563eb;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            background: #ddd;
+            margin: 0 auto 15px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #555;
+            border: 1px solid #bbb;
+        }
+
         /* ORDER FORM */
         .order-section {
             background: white;
@@ -630,7 +667,7 @@
             border: none;
         }
 
-        /* PREMIUM FOOTER */
+        /* PREMIUM FOOTER WITH NEWSLETTER */
         .premium-footer {
             background: #0f172a;
             color: white;
@@ -658,6 +695,26 @@
         .footer-box a:hover {
             color: #facc15;
         }
+        .newsletter-box {
+            display: flex;
+            margin-top: 10px;
+        }
+        .newsletter-box input {
+            padding: 10px;
+            border: none;
+            border-radius: 6px 0 0 6px;
+            outline: none;
+            width: 100%;
+        }
+        .newsletter-box button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
         .social-icons {
             display: flex;
             gap: 15px;
@@ -679,7 +736,7 @@
             font-size: 14px;
         }
 
-        /* BOTTOM NAVIGATION (MOBILE BAR) */
+        /* BOTTOM NAVIGATION */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -751,7 +808,7 @@
     <div class="search-container">
         <div class="search-box">
             <input id="searchInput" type="text" placeholder="প্রোডাক্ট খুঁজুন..." onkeyup="searchProducts()">
-            <button><i class="fas fa-search"></i></button>
+            <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
         </div>
     </div>
 
@@ -768,7 +825,7 @@
     <div class="hero-slider">
         <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?w=1200" alt="Banner">
         <div class="slider-content">
-            <h1>विशेष গিফট কালেকশন</h1>
+            <h1>বিশেষ গিফট কালেকশন</h1>
             <p>সেরা দাম | সেরা কোয়ালিটি</p>
             <button onclick="scrollToSection('productSection')">SHOP NOW</button>
         </div>
@@ -802,121 +859,8 @@
 
     <div class="product-section" id="productSection">
         <h2 class="section-title" id="sectionTitle">🛍 জনপ্রিয় পণ্য</h2>
-        <div class="product-grid">
-
-            <div class="product-card" data-category="gift">
-                <div class="discount-badge">30% OFF</div>
-                <div class="wishlist" onclick="toggleWishlist(this)">❤️</div>
-                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723?w=500" alt="Gift Set">
-                <div class="product-details">
-                    <h3>প্রিমিয়াম গিফট সেট</h3>
-                    <div class="rating">⭐⭐⭐⭐⭐ (125)</div>
-                    <div class="price-box">
-                        <span class="new-price">₹399</span>
-                        <span class="old-price">₹599</span>
-                    </div>
-                </div>
-                <div class="quantity-container">
-                    <div class="quantity-box">
-                        <button onclick="decreaseQty(this)">−</button>
-                        <input type="text" value="1" readonly>
-                        <button onclick="increaseQty(this)">+</button>
-                    </div>
-                    <button class="checkout-btn" onclick="quickBuy('প্রিমিয়াম গিফট সেট', this)">⚡ Buy Now</button>
-                </div>
-                <div class="action-buttons">
-                    <a href="#" class="buy-btn" target="_blank" onclick="return trackWhatsApp(this, 'প্রিমিয়াম গিফট সেট')">
-                        <i class="fab fa-whatsapp"></i> WhatsApp Order
-                    </a>
-                    <button class="order-btn" onclick="openOrderForm('প্রিমিয়াম গিফট সেট')">📦 Order Now</button>
-                </div>
+        <div class="product-grid" id="productContainer">
             </div>
-
-            <div class="product-card" data-category="toy">
-                <div class="discount-badge">25% OFF</div>
-                <div class="wishlist" onclick="toggleWishlist(this)">❤️</div>
-                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" alt="Headphone">
-                <div class="product-details">
-                    <h3>ব্লুটুথ হেডফোন</h3>
-                    <div class="rating">⭐⭐⭐⭐⭐ (210)</div>
-                    <div class="price-box">
-                        <span class="new-price">₹999</span>
-                        <span class="old-price">₹1499</span>
-                    </div>
-                </div>
-                <div class="quantity-container">
-                    <div class="quantity-box">
-                        <button onclick="decreaseQty(this)">−</button>
-                        <input type="text" value="1" readonly>
-                        <button onclick="increaseQty(this)">+</button>
-                    </div>
-                    <button class="checkout-btn" onclick="quickBuy('ব্লুটুথ হেডফোন', this)">⚡ Buy Now</button>
-                </div>
-                <div class="action-buttons">
-                    <a href="#" class="buy-btn" target="_blank" onclick="return trackWhatsApp(this, 'ব্লুটুথ হেডফোন')">
-                        <i class="fab fa-whatsapp"></i> WhatsApp Order
-                    </a>
-                    <button class="order-btn" onclick="openOrderForm('ব্লুটুথ হেডফোন')">📦 Order Now</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-category="decor">
-                <div class="discount-badge">35% OFF</div>
-                <div class="wishlist" onclick="toggleWishlist(this)">❤️</div>
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500" alt="Showpiece">
-                <div class="product-details">
-                    <h3>ডেকোরেশন শোপিস</h3>
-                    <div class="rating">⭐⭐⭐⭐⭐ (88)</div>
-                    <div class="price-box">
-                        <span class="new-price">₹299</span>
-                        <span class="old-price">₹499</span>
-                    </div>
-                </div>
-                <div class="quantity-container">
-                    <div class="quantity-box">
-                        <button onclick="decreaseQty(this)">−</button>
-                        <input type="text" value="1" readonly>
-                        <button onclick="increaseQty(this)">+</button>
-                    </div>
-                    <button class="checkout-btn" onclick="quickBuy('ডেকোরেশন শোপিস', this)">⚡ Buy Now</button>
-                </div>
-                <div class="action-buttons">
-                    <a href="#" class="buy-btn" target="_blank" onclick="return trackWhatsApp(this, 'ডেকোরেশন শোপিস')">
-                        <i class="fab fa-whatsapp"></i> WhatsApp Order
-                    </a>
-                    <button class="order-btn" onclick="openOrderForm('ডেকোরেশন শোপিস')">📦 Order Now</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-category="kitchen">
-                <div class="discount-badge">40% OFF</div>
-                <div class="wishlist" onclick="toggleWishlist(this)">❤️</div>
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" alt="Watch">
-                <div class="product-details">
-                    <h3>লাক্সারি ওয়াচ</h3>
-                    <div class="rating">⭐⭐⭐⭐⭐ (95)</div>
-                    <div class="price-box">
-                        <span class="new-price">₹799</span>
-                        <span class="old-price">₹1299</span>
-                    </div>
-                </div>
-                <div class="quantity-container">
-                    <div class="quantity-box">
-                        <button onclick="decreaseQty(this)">−</button>
-                        <input type="text" value="1" readonly>
-                        <button onclick="increaseQty(this)">+</button>
-                    </div>
-                    <button class="checkout-btn" onclick="quickBuy('লাক্সারি ওয়াচ', this)">⚡ Buy Now</button>
-                </div>
-                <div class="action-buttons">
-                    <a href="#" class="buy-btn" target="_blank" onclick="return trackWhatsApp(this, 'লাক্সারি ওয়াচ')">
-                        <i class="fab fa-whatsapp"></i> WhatsApp Order
-                    </a>
-                    <button class="order-btn" onclick="openOrderForm('লাক্সারি ওয়াচ')">📦 Order Now</button>
-                </div>
-            </div>
-
-        </div>
     </div>
 
     <div class="review-section" id="reviewSection">
@@ -954,22 +898,34 @@
 
     <div class="contact-section" id="contactSection">
         <h2>📞 Contact Us</h2>
-        <form onsubmit="event.preventDefault(); alert('ধন্যবাদ! আপনার মেসেজ আমাদের কাছে পৌঁছেছে।'); this.reset();">
+        <form onsubmit="event.preventDefault(); alert('ধন্যবাদ! আপনার মেসেজ সফলভাবে জমা হয়েছে।'); this.reset();">
             <input type="text" placeholder="আপনার নাম" required>
-            <input type="email" placeholder="আপনার Email" required>
+            <input type="email" placeholder="আপনার ইমেল আইডি" required>
             <input type="text" placeholder="মোবাইল নম্বর" required>
-            <textarea placeholder="আপনার মেসেজ" rows="4" required></textarea>
+            <textarea placeholder="আপনার মেসেজ এখানে লিখুন..." rows="4" required></textarea>
             <button type="submit">Send Message</button>
         </form>
+    </div>
+
+    <div class="qr-section">
+        <h2>🔒 QR Payment Section</h2>
+        <p style="margin-bottom: 15px; font-size: 14px;">নিরাপদ পেমেন্টের জন্য নিচের কিউআর কোডটি স্ক্যান করুন</p>
+        <div class="qr-container">
+            <div class="qr-placeholder">
+                <i class="fas fa-qrcode" style="font-size: 60px; color: #1e3a8a; margin-bottom: 10px;"></i><br>
+                G-Pay / PhonePe / UPI
+            </div>
+            <p style="font-weight: bold; color: #10b981;">PANJA GIFTHOUSE</p>
+        </div>
     </div>
 
     <div class="order-section" id="orderSection">
         <h2>📦 Place Your Order</h2>
         <input type="text" id="orderProduct" placeholder="নির্বাচিত প্রোডাক্টের নাম" readonly>
-        <input type="text" id="orderQty" placeholder="পরিমাণ" readonly>
+        <input type="text" id="orderQty" placeholder="পরিমাণ ও মূল্য" readonly>
         <input type="text" id="customerName" placeholder="আপনার নাম" required>
         <input type="text" id="customerPhone" placeholder="মোবাইল নম্বর" required>
-        <textarea id="customerAddress" placeholder="সম্পূর্ণ ঠিকানা" rows="4" required></textarea>
+        <textarea id="customerAddress" placeholder="আপনার সম্পূর্ণ ডেলিভারি ঠিকানা..." rows="4" required></textarea>
         <button onclick="sendOrder()">✅ Confirm Order</button>
     </div>
 
@@ -984,7 +940,7 @@
     <footer class="premium-footer">
         <div class="footer-box">
             <h2>PANJA GIFTHOUSE</h2>
-            <p>Premium Online Gift Store. আমরা আপনাকে দিচ্ছি সেরা কোয়ালিটির প্রোডাক্ট একদম সঠিক মূল্যে।</p>
+            <p>প্রিমিয়াম অনলাইন গিফট স্টোর। আমরা আপনাকে দিচ্ছি সেরা কোয়ালিটির প্রোডাক্ট একদম সঠিক মূল্যে।</p>
             <div class="social-icons">
                 <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
                 <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -993,17 +949,18 @@
             </div>
         </div>
         <div class="footer-box">
-            <h3>Quick Links</h3>
-            <a href="#" onclick="scrollTopPage(); return false;">হোম</a>
-            <a href="#" onclick="scrollToSection('productSection'); return false;">প্রোডাক্টস</a>
-            <a href="#" onclick="scrollToSection('contactSection'); return false;">যোগাযোগ</a>
-            <a href="#" onclick="scrollToSection('orderSection'); return false;">অর্ডার ফর্ম</a>
+            <h3>Newsletter</h3>
+            <p>আমাদের নতুন অফার এবং গিফট কালেকশনের খবর সবার আগে পেতে সাবস্ক্রাইব করুন।</p>
+            <div class="newsletter-box">
+                <input type="email" id="newsEmail" placeholder="আপনার ইমেল দিন">
+                <button onclick="subscribeNewsletter()">Join</button>
+            </div>
         </div>
         <div class="footer-box">
             <h3>Contact Info</h3>
-            <p>📞 Phone: 8100530600</p>
-            <p>📧 Email: support@panjagifthouse.com</p>
-            <p>📍 Kolkata, West Bengal, India</p>
+            <p>📞 ফোন: 8100530600</p>
+            <p>📧 ইমেল: support@panjagifthouse.com</p>
+            <p>📍 কলকাতা, পশ্চিমবঙ্গ, ভারত</p>
         </div>
     </footer>
 
@@ -1018,7 +975,7 @@
         <a href="#" onclick="scrollToSection('productSection'); return false;" id="navProd">
             <i class="fas fa-box"></i><span>Products</span>
         </a>
-        <a href="#" onclick="alert('❤️ আপনার পছন্দ করা প্রোডাক্ট উইশলিস্টে সেভ আছে।'); return false;">
+        <a href="#" onclick="alert('আপনার পছন্দ করা সমস্ত প্রোডাক্ট উইশলিস্টে সংরক্ষিত রয়েছে।'); return false;">
             <i class="fas fa-heart"></i><span class="icon-badge" id="navWishlistCount">0</span><span>Wishlist</span>
         </a>
         <a href="#" onclick="scrollToSection('orderSection'); return false;">
@@ -1030,35 +987,108 @@
     </div>
 
     <script>
-        // 1. Loader (Disappears after 2 seconds)
+        // এখানে আপনার সব গিফট আইটেম বা আইটেমের একটি মূল ডায়নামিক তালিকা তৈরি করা হলো। 
+        // আপনি চাইলে এখানে সহজেই নিচে আরও নতুন নতুন আইটেম যুক্ত করতে পারবেন।
+        const productsData = [
+            { id: 1, name: "প্রিমিয়াম গিফট সেট", category: "gift", price: 399, oldPrice: 599, discount: "30% OFF", rating: "5 (125)", img: "https://images.unsplash.com/photo-1512436991641-6745cdb1723?w=500" },
+            { id: 2, name: "কিডস স্পেশাল খেলনা", category: "toy", price: 450, oldPrice: 600, discount: "25% OFF", rating: "5 (210)", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
+            { id: 3, name: "ওয়াল ডেকোরেশন শোপিস", category: "decor", price: 299, oldPrice: 499, discount: "35% OFF", rating: "4.8 (88)", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500" },
+            { id: 4, name: "স্মার্ট কিচেন কন্টেইনার", category: "kitchen", price: 699, oldPrice: 999, discount: "30% OFF", rating: "4.7 (74)", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" },
+            { id: 5, name: "স্টাডি টেবিল ল্যাম্প", category: "study", price: 349, oldPrice: 499, discount: "30% OFF", rating: "4.9 (95)", img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500" }
+        ];
+
+        // লোডার পেজ রিমুভ ২ সেকেন্ড পর
         window.onload = function() {
             setTimeout(function() {
                 document.getElementById("loader").style.display = "none";
             }, 2000);
+            renderProducts(productsData); // শুরুতেই সব পণ্য স্ক্রিনে দেখাবে
         };
 
-        // 2. Visitor Counter (Using localStorage)
-        let visitors = localStorage.getItem("visitorCount");
-        if (visitors === null) {
-            visitors = 1;
-        } else {
-            visitors = parseInt(visitors) + 1;
+        // পণ্যগুলোর তালিকা এইচটিএমএল-এ জেনারেট করার ফাংশন
+        function renderProducts(products) {
+            const container = document.getElementById("productContainer");
+            container.innerHTML = "";
+            
+            if(products.length === 0) {
+                container.innerHTML = `<p style="text-align:center; width:100%; grid-column: 1/-1; padding: 20px; font-weight:bold;">দুঃখিত! এই নামে কোনো প্রোডাক্ট খুঁজে পাওয়া যায়নি।</p>`;
+                return;
+            }
+
+            products.forEach(product => {
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.setAttribute("data-id", product.id);
+                card.innerHTML = `
+                    <div class="discount-badge">${product.discount}</div>
+                    <div class="wishlist" onclick="toggleWishlist(this)">❤️</div>
+                    <img src="${product.img}" alt="${product.name}">
+                    <div class="product-details">
+                        <h3>${product.name}</h3>
+                        <div class="rating">⭐⭐⭐⭐⭐ (${product.rating})</div>
+                        <div class="price-box">
+                            <span class="new-price">₹${product.price}</span>
+                            <span class="old-price">₹${product.oldPrice}</span>
+                        </div>
+                    </div>
+                    <div class="quantity-container">
+                        <div class="quantity-box">
+                            <button onclick="decreaseQty(this)">−</button>
+                            <input type="text" value="1" readonly>
+                            <button onclick="increaseQty(this)">+</button>
+                        </div>
+                        <button class="checkout-btn" onclick="quickBuy('${product.name}', ${product.price}, this)">⚡ Buy Now</button>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="#" class="buy-btn" target="_blank" onclick="return trackWhatsApp(this, '${product.name}', ${product.price})">
+                            <i class="fab fa-whatsapp"></i> WhatsApp Order
+                        </a>
+                        <button class="order-btn" onclick="openOrderForm('${product.name}', ${product.price})">📦 Order Now</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
+
+        // রিয়েল-টাইম সার্চ ফাংশন (যা সঠিকভাবে কাজ করবে)
+        function searchProducts() {
+            let searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
+            let filtered = productsData.filter(product => product.name.toLowerCase().includes(searchInput));
+            renderProducts(filtered);
+        }
+
+        // ক্যাটাগরি ফিল্টারিং ফাংশন
+        function filterCategory(category, element) {
+            let menuLinks = document.querySelectorAll(".menu a");
+            menuLinks.forEach(link => link.classList.remove("active"));
+            element.classList.add("active");
+
+            let sectionTitle = document.getElementById("sectionTitle");
+            if(category === 'all') {
+                sectionTitle.innerText = "🛍 জনপ্রিয় পণ্য";
+                renderProducts(productsData);
+            } else {
+                sectionTitle.innerText = "🛍 " + element.innerText + " কালেকশন";
+                let filtered = productsData.filter(product => product.category === category);
+                renderProducts(filtered);
+            }
+            scrollToSection('productSection');
+        }
+
+        // ভিজিটর কাউন্টার লজিক
+        let visitors = localStorage.getItem("visitorCount");
+        if (visitors === null) { visitors = 1; } else { visitors = parseInt(visitors) + 1; }
         localStorage.setItem("visitorCount", visitors);
         document.getElementById("visitorCount").innerHTML = visitors;
 
-        // 3. Dark Mode Toggle
+        // ডার্ক মোড টগল
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
             let btn = document.querySelector(".dark-btn");
-            if(document.body.classList.contains("dark-mode")) {
-                btn.innerText = "☀️";
-            } else {
-                btn.innerText = "🌙";
-            }
+            btn.innerText = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
         }
 
-        // 4. Window Scroll Functions (Back to top visibility)
+        // ব্যাক টু টপ বোতাম কন্ট্রোল
         window.onscroll = function() {
             let btn = document.getElementById("topBtn");
             if (document.documentElement.scrollTop > 300 || document.body.scrollTop > 300) {
@@ -1083,61 +1113,20 @@
             document.getElementById(activeId).classList.add("active");
         }
 
-        // 5. Countdown Timer (24 Hours Flash Sale)
+        // ফ্ল্যাশ সেল টাইমার (২৪ ঘণ্টা কাউন্টডাউন)
         let time = 86399;
         setInterval(function() {
             let hours = Math.floor(time / 3600);
             let minutes = Math.floor((time % 3600) / 60);
             let seconds = time % 60;
-            
             hours = hours < 10 ? "0" + hours : hours;
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
-
             document.getElementById("countdown").innerHTML = hours + ":" + minutes + ":" + seconds;
             if (time > 0) { time--; }
         }, 1000);
 
-        // 6. Categories Filtering Functionality (Fixed Upper Bars Click)
-        function filterCategory(category, element) {
-            let menuLinks = document.querySelectorAll(".menu a");
-            menuLinks.forEach(link => link.classList.remove("active"));
-            element.classList.add("active");
-
-            let sectionTitle = document.getElementById("sectionTitle");
-            if(category === 'all') {
-                sectionTitle.innerText = "🛍 জনপ্রিয় পণ্য";
-            } else {
-                sectionTitle.innerText = "🛍 " + element.innerText + " কালেকশন";
-            }
-
-            let products = document.querySelectorAll(".product-card");
-            products.forEach(product => {
-                let pCat = product.getAttribute("data-category");
-                if(category === 'all' || pCat === category) {
-                    product.style.display = "flex";
-                } else {
-                    product.style.display = "none";
-                }
-            });
-            scrollToSection('productSection');
-        }
-
-        // 7. Search Bar Logic
-        function searchProducts() {
-            let input = document.getElementById("searchInput").value.toLowerCase();
-            let products = document.querySelectorAll(".product-card");
-            products.forEach(function(product) {
-                let title = product.querySelector("h3").innerText.toLowerCase();
-                if (title.includes(input)) {
-                    product.style.display = "flex";
-                } else {
-                    product.style.display = "none";
-                }
-            });
-        }
-
-        // 8. Quantity Plus/Minus Logic
+        // প্রোডাক্টের পরিমাণ প্লাস/মাইনাস লজিক
         function increaseQty(btn) {
             let input = btn.parentElement.querySelector("input");
             input.value = parseInt(input.value) + 1;
@@ -1149,28 +1138,30 @@
             if(val > 1) input.value = val - 1;
         }
 
-        // 9. Wishlist Counter Logic
+        // উইশলিস্ট বোতাম টগল লজিক
         let totalWishlist = 0;
         function toggleWishlist(element) {
             if(element.style.color === "red") {
                 element.style.color = "#333";
                 totalWishlist--;
-                alert("💔 উইশলিস্ট থেকে সরানো হয়েছে");
+                alert("উইশলিস্ট থেকে পণ্যটি সরানো হয়েছে!");
             } else {
                 element.style.color = "red";
                 totalWishlist++;
-                alert("❤️ উইশলিস্টে যোগ হয়েছে");
+                alert("পণ্যটি আপনার উইশলিস্টে যোগ করা হয়েছে!");
             }
             document.getElementById("wishlistCount").innerText = totalWishlist;
             document.getElementById("navWishlistCount").innerText = totalWishlist;
         }
 
-        // 10. Buy Now & Order Form Handlers
+        // বাই নাও এবং অর্ডার ফরম কন্ট্রোল
         let totalCart = 0;
-        function quickBuy(productName, btn) {
+        function quickBuy(productName, price, btn) {
             let qty = btn.parentElement.querySelector(".quantity-box input").value;
+            let totalPrice = price * parseInt(qty);
+            
             document.getElementById("orderProduct").value = productName;
-            document.getElementById("orderQty").value = qty + " টি";
+            document.getElementById("orderQty").value = `পরিমাণ: ${qty} টি, মোট মূল্য: ₹${totalPrice}`;
             
             totalCart += parseInt(qty);
             document.getElementById("cartCount").innerText = totalCart;
@@ -1179,22 +1170,23 @@
             scrollToSection('orderSection');
         }
 
-        function openOrderForm(productName) {
+        function openOrderForm(productName, price) {
             document.getElementById("orderProduct").value = productName;
-            document.getElementById("orderQty").value = "1 টি";
+            document.getElementById("orderQty").value = `পরিমাণ: 1 টি, মোট মূল্য: ₹${price}`;
             scrollToSection('orderSection');
         }
 
-        // WhatsApp Order URL custom message builder
-        function trackWhatsApp(linkElement, productName) {
+        // হোয়াটসঅ্যাপ লিঙ্ক ডায়নামিক ও বাংলা মেসেজ মেকার
+        function trackWhatsApp(linkElement, productName, price) {
             let card = linkElement.closest(".product-card");
             let qty = card.querySelector(".quantity-box input").value;
-            let msg = `नमस्ते PANJA GIFTHOUSE, আমি ${qty} টি "${productName}" অর্ডার করতে চাই।`;
+            let totalPrice = price * parseInt(qty);
+            let msg = `নমস্কার PANJA GIFTHOUSE, আমি আপনার ওয়েবসাইট থেকে ${qty} টি "${productName}" অর্ডার করতে চাই, যার মোট মূল্য ₹${totalPrice}। অনুগ্রহ করে আমার অর্ডারটি নিশ্চিত করুন।`;
             linkElement.href = `https://wa.me/918100530600?text=${encodeURIComponent(msg)}`;
             return true;
         }
 
-        // Order Form Submit Validation
+        // অর্ডার ফর্ম সাবমিশন এবং অ্যালার্ট
         function sendOrder() {
             let prod = document.getElementById("orderProduct").value;
             let qty = document.getElementById("orderQty").value;
@@ -1203,20 +1195,33 @@
             let address = document.getElementById("customerAddress").value;
 
             if(!prod) {
-                alert("অনুগ্রহ করে প্রথমে যেকোনো প্রোডাক্টের অর্ডার বাটনে ক্লিক করুন!");
+                alert("অনুগ্রহ করে প্রথমে যেকোনো একটি প্রোডাক্ট সিলেক্ট করুন!");
                 return;
             }
             if(!name || !phone || !address) {
-                alert("দয়া করে ফর্মের সবকটি ঘর পূরণ করুন।");
+                alert("দয়া করে ফর্মের সবকটি ঘর সঠিকভাবে পূরণ করুন।");
                 return;
             }
 
-            alert(`🎉 ধন্যবাদ ${name}! আপনার ${qty} ${prod}-এর অর্ডারটি সফলভাবে সাবমিট হয়েছে।`);
+            alert(`🎉 ধন্যবাদ ${name}! আপনার "${prod}" এর জন্য অর্ডারটি সফলভাবে জমা হয়েছে। (${qty})`);
+            
+            // ফর্ম ক্লিয়ার করা
             document.getElementById("orderProduct").value = "";
             document.getElementById("orderQty").value = "";
             document.getElementById("customerName").value = "";
             document.getElementById("customerPhone").value = "";
             document.getElementById("customerAddress").value = "";
+        }
+
+        // নিউজলেটার সাবস্ক্রিপশন
+        function subscribeNewsletter() {
+            let email = document.getElementById("newsEmail").value;
+            if(!email) {
+                alert("দয়া করে একটি সঠিক ইমেল আইডি দিন।");
+                return;
+            }
+            alert("ধন্যবাদ! আমাদের নিউজলেটারে যোগ দেওয়ার জন্য।");
+            document.getElementById("newsEmail").value = "";
         }
     </script>
 </body>
