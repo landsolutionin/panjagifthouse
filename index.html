@@ -244,8 +244,8 @@
     <!-- DISCOUNT AREA -->
     <div class="discount-section">
         <div class="section-box">
-            <h3>🎉 লাকি কুপন ড্র (Up To 50% Off)</h3>
-            <p style="font-size: 11px; color:#ef4444; margin-bottom:10px;">*শর্তাবলী: মিনিমাম ৪০০ টাকার কেনাকাটা আবশ্যিক। সর্বোচ্চ ৫০% পর্যন্ত ডিসকাউন্ট লক।</p>
+            <h3>🎉 লাকি কুপন ড্র (Up To 35% Off)</h3>
+            <p style="font-size: 11px; color:#ef4444; margin-bottom:10px;">*শর্তাবলী: মিনিমাম ৪০০ টাকার কেনাকাটা আবশ্যিক। সর্বোচ্চ ৩৫% পর্যন্ত ডিসকাউন্ট লক।</p>
             <input type="text" id="discName" placeholder="কাস্টমারের নাম">
             <input type="text" id="discPhone" placeholder="মোবাইল নম্বর">
             <input type="date" id="discDOB">
@@ -257,8 +257,8 @@
                 <input type="text" class="black-box-input" id="adminSecretCodeInput" placeholder="ENTER OTP" onkeyup="verifyAdminOtpCode()">
                 
                 <div class="admin-amount-box" id="adminAmountGate">
-                    <label for="adminManualAmount">💳 টোটাল কেনাকাটার অ্যামাউন্ট বসান (₹400 - ₹4000+):</label>
-                    <input type="number" id="adminManualAmount" placeholder="উদাঃ 450, 1200, 3500" onkeyup="checkAndTriggerMeter()">
+                    <label for="adminManualAmount">💳 টোটাল কেনাকাটার অ্যামাউন্ট বসান (₹400 - ₹6000+):</label>
+                    <input type="number" id="adminManualAmount" placeholder="উদাঃ 450, 1200, 5500" onkeyup="checkAndTriggerMeter()">
                 </div>
             </div>
             
@@ -274,7 +274,7 @@
 
             <!-- ১. লাকি কুপন পার্সেন্টেজ বার -->
             <div class="lucky-progress-container" id="progressBarContainer">
-                <div class="lucky-progress-bar" id="liveProgressBar">5%</div>
+                <div class="lucky-progress-bar" id="liveProgressBar">0%</div>
             </div>
 
             <!-- ২. 🎰 উইনিং লাকি বক্স এলিমেন্ট -->
@@ -316,7 +316,7 @@
             <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; margin-bottom:15px; color:#059669;">
                 <span>সর্বমোট মূল্য:</span> <span id="cartTotal">₹0</span>
             </div>
-            <button class="checkout-btn" onclick="proceedToCheckout()" style="width:100%; padding:12px; background:#1e3a8a; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">অর্ডার ফর্মে যান</button>
+            <button class="checkout-btn" onclick="proceedToCheckout()" style="width:100%; padding:12px; background:#1e3a8a; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">অर्डर ফর্মে যান</button>
         </div>
     </div>
 
@@ -359,7 +359,7 @@
         let activeDiscountPercent = 0; 
         let currentBillAmount = 0;
         let isMeterRunning = false;
-        let calculatedTargetPercent = 0;
+        let maxTargetPercent = 0;
 
         window.onload = function() {
             setTimeout(() => document.getElementById("loader").style.display = "none", 3500);
@@ -418,60 +418,84 @@
             }
         }
 
+        /* 🔄 এই অংশটির লজিক সম্পূর্ণ ফিক্স এবং ইউনিক পরিবর্তন করা হয়েছে */
         function checkAndTriggerMeter() {
             let amountInput = parseFloat(document.getElementById("adminManualAmount").value);
+            let statusText = document.getElementById("discountStatusText");
 
             if(isNaN(amountInput) || amountInput <= 0) { resetAllAnimations(); return; }
 
+            // ফিক্স ১: ৪০০ টাকার কম হলে কোনো কাজ করবে না, বক্স আসবে না এবং অ্যালার্ট লক থাকবে
+            if(amountInput < 400) {
+                resetAllAnimations();
+                statusText.style.color = "#ef4444";
+                statusText.innerText = "❌ ভুল অ্যামাউন্ট! লাকি কুপন ড্র এর জন্য মিনিমাম ৪০০ টাকা বা তার বেশি বসাতে হবে।";
+                return;
+            }
+
             currentBillAmount = amountInput;
             
-            if(currentBillAmount < 400) {
-                calculatedTargetPercent = 0; 
-            } else if(currentBillAmount >= 3000) { calculatedTargetPercent = 50; }
-            else if(currentBillAmount >= 2000) { calculatedTargetPercent = 40; }
-            else if(currentBillAmount >= 1500) { calculatedTargetPercent = 30; }
-            else if(currentBillAmount >= 1000) { calculatedTargetPercent = 20; }
-            else if(currentBillAmount >= 700) { calculatedTargetPercent = 15; }
-            else { calculatedTargetPercent = 5; }
+            // ৫% গ্যাপে ধাপে ধাপে তৈরি সুরক্ষিত স্ল্যাবগুলোর সম্ভব্য পার্সেন্টেজ অ্যারে
+            let availablePercents = [5]; 
+            
+            if (currentBillAmount >= 6000) {
+                availablePercents = [5, 10, 15, 20, 25, 30, 35]; // সর্বোচ্চ ৩৫%
+            } else if (currentBillAmount >= 5000) {
+                availablePercents = [5, 10, 15, 20, 25, 30];     // সর্বোচ্চ ৩০%
+            } else if (currentBillAmount >= 4000) {
+                availablePercents = [5, 10, 15, 20, 25];         // সর্বোচ্চ ২৫%
+            } else if (currentBillAmount >= 3000) {
+                availablePercents = [5, 10, 15, 20];             // সর্বোচ্চ ২০%
+            } else if (currentBillAmount >= 2000) {
+                availablePercents = [5, 10, 15];                 // সর্বোচ্চ ১৫%
+            } else if (currentBillAmount >= 1000) {
+                availablePercents = [5, 10];                     // সর্বোচ্চ ১০%
+            } else {
+                availablePercents = [5];                         // ৪০০ থেকে ৯৯৯ হলে শুধুমাত্র ৫%
+            }
+
+            // মিটারে ঘোরার জন্য সর্বোচ্চ মান ট্র্যাক করা
+            maxTargetPercent = availablePercents[availablePercents.length - 1];
 
             if(!isMeterRunning) {
-                runLuckyPercentageMeter(calculatedTargetPercent);
+                runLuckyPercentageMeter(availablePercents);
             }
         }
 
-        function runLuckyPercentageMeter(target) {
+        function runLuckyPercentageMeter(availablePercents) {
             isMeterRunning = true;
             document.getElementById("liveReceiptCard").style.display = "none";
             document.getElementById("luckyBoxSection").style.display = "none";
+            document.getElementById("discountStatusText").innerText = "";
             
             const container = document.getElementById("progressBarContainer");
             const bar = document.getElementById("liveProgressBar");
             container.style.display = "block";
+            bar.style.background = "linear-gradient(90deg, #facc15, #f97316)";
 
-            let steps = [5, 15, 20, 25, 30, 40, 50];
+            let steps = [5, 10, 15, 20, 25, 30, 35];
             let currentStepIdx = 0;
-            let loopLimit = target === 0 ? 25 : target;
 
             let interval = setInterval(() => {
                 let currentVal = steps[currentStepIdx];
                 
-                if (currentVal <= loopLimit) {
+                if (currentVal <= maxTargetPercent) {
                     bar.style.width = currentVal + "%";
                     bar.innerText = currentVal + "%";
                     currentStepIdx++;
                 } else {
                     clearInterval(interval);
-                    triggerLuckyBoxPhase(target);
+                    triggerLuckyBoxPhase(availablePercents);
                 }
                 
                 if (currentStepIdx >= steps.length) {
                     clearInterval(interval);
-                    triggerLuckyBoxPhase(target);
+                    triggerLuckyBoxPhase(availablePercents);
                 }
-            }, 300);
+            }, 250);
         }
 
-        function triggerLuckyBoxPhase(target) {
+        function triggerLuckyBoxPhase(availablePercents) {
             document.getElementById("progressBarContainer").style.display = "none";
             const boxSection = document.getElementById("luckyBoxSection");
             const boxImg = document.getElementById("luckyGiftBoxImg");
@@ -483,19 +507,38 @@
                 boxImg.className = "lucky-box-img open-box";
                 setTimeout(() => {
                     boxSection.style.display = "none";
-                    showFinalCalculatedReceipt(target);
+                    
+                    // কাস্টমার উইন করবে নাকি খালি হাতে ফিরবে (৪০% চান্স থাকবে বেটার লাক আসার)
+                    let isBetterLuck = Math.random() < 0.40; 
+                    
+                    if(isBetterLuck) {
+                        showFinalCalculatedReceipt(0); // ০% সহ Better Luck Next Time
+                    } else {
+                        // ব্যবসার সুরক্ষায় ৫% থেকে শুরু করে ওই স্ল্যাবের যেকোনো সংখ্যা র্যান্ডমলি সিলেক্ট হবে
+                        let randomIdx = Math.floor(Math.random() * availablePercents.length);
+                        let finalPercent = availablePercents[randomIdx];
+                        showFinalCalculatedReceipt(finalPercent); 
+                    }
                 }, 600);
             };
         }
 
-        function showFinalCalculatedReceipt(target) {
+        function showFinalCalculatedReceipt(finalPercent) {
             const statusText = document.getElementById("discountStatusText");
             const receiptCard = document.getElementById("liveReceiptCard");
+            const bar = document.getElementById("liveProgressBar");
+            const container = document.getElementById("progressBarContainer");
             isMeterRunning = false;
 
-            if (target === 0) {
+            if (finalPercent === 0) {
+                // ফিক্স ২: বেটার লাক নেক্সট টাইমে মিটারে লাল রঙে 0% এবং পরিষ্কার টেক্সট আসবে
+                container.style.display = "block";
+                bar.style.width = "100%";
+                bar.style.background = "#ef4444";
+                bar.innerText = "Better Luck Next Time (0%)";
+
                 statusText.style.color = "#ef4444";
-                statusText.innerText = "❌ Better Luck Next Time! মিনিমাম ৪০০ টাকার কেনাকাটা না করায় কোনো ডিসকাউন্ট লক হয়নি।";
+                statusText.innerText = "❌ Better Luck Next Time! এবার আপনার ভাগ্যে কোনো ডিসকাউন্ট মেলেনি।";
                 
                 receiptCard.style.display = "block";
                 document.getElementById("recBill").innerText = "₹" + currentBillAmount;
@@ -505,19 +548,25 @@
                 
                 activeDiscountPercent = 0;
             } else {
+                // সাকসেসফুল ডিসকাউন্ট উইন স্টেট
+                container.style.display = "block";
+                bar.style.width = "100%";
+                bar.style.background = "linear-gradient(90deg, #4ade80, #22c55e)";
+                bar.innerText = `LOCKED ${finalPercent}% OFF!`;
+
                 statusText.style.color = "#4ade80";
-                statusText.innerText = `🎉 চমৎকার! কাস্টমারের ভাগ্যে ফিক্সড ${target}% ডিসকাউন্ট লক হয়েছে!`;
+                statusText.innerText = `🎉 চমৎকার! কাস্টমারের ভাগ্যে ফিক্সড ${finalPercent}% ডিসকাউন্ট লক হয়েছে!`;
                 
-                let discountCash = Math.round((currentBillAmount * target) / 100);
+                let discountCash = Math.round((currentBillAmount * finalPercent) / 100);
                 let payableCash = currentBillAmount - discountCash;
 
                 receiptCard.style.display = "block";
                 document.getElementById("recBill").innerText = "₹" + currentBillAmount;
-                document.getElementById("recPercent").innerText = target;
+                document.getElementById("recPercent").innerText = finalPercent;
                 document.getElementById("recDiscount").innerText = "-₹" + discountCash;
                 document.getElementById("recPayable").innerText = "₹" + payableCash;
 
-                activeDiscountPercent = target;
+                activeDiscountPercent = finalPercent;
             }
             updateCartUI();
         }
@@ -526,6 +575,7 @@
             isMeterRunning = false;
             activeDiscountPercent = 0;
             document.getElementById("progressBarContainer").style.display = "none";
+            document.getElementById("liveProgressBar").style.background = "linear-gradient(90deg, #facc15, #f97316)";
             document.getElementById("luckyBoxSection").style.display = "none";
             document.getElementById("liveReceiptCard").style.display = "none";
             updateCartUI();
