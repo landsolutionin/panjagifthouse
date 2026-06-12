@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANJA GIFTHOUSE - প্রফেশনাল সিকিউর স্টোর</title>
     
+    <!-- Font Awesome CSS Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -36,8 +37,48 @@
             background: #1e293b;
             color: white;
         }
+        body.dark-mode .product-card h3 { color: #facc15; }
 
-        /* TOP BAR */
+        /* UNIQUE REFRESH LOADER ANIMATION */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 99999;
+            animation: bgGradientChange 3s infinite alternate;
+        }
+        @keyframes bgGradientChange {
+            0% { background-color: #ffffff; }
+            50% { background-color: #f0f7ff; }
+            100% { background-color: #f0dfdf; }
+        }
+        .loader-content {
+            text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            animation: uniqueRotate 3.5s ease-in-out forwards;
+        }
+        .spinner {
+            width: 60px; height: 60px;
+            border: 5px solid #cbd5e1; border-top: 5px solid #2563eb;
+            border-radius: 50%; margin-bottom: 20px;
+            animation: spinOnly 1.5s linear infinite;
+        }
+        .loader-content h3 {
+            font-size: 26px; font-weight: 900; color: #1e3a8a; opacity: 0;
+            animation: fadeInText 1s ease-out 0.5s forwards;
+        }
+        .loader-content h3 span { color: #ef4444; }
+        @keyframes fadeInText { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes spinOnly { 100% { transform: rotate(360deg); } }
+        @keyframes uniqueRotate {
+            0% { transform: rotate(0deg); }
+            30% { transform: rotate(360deg); }
+            50% { transform: rotate(360deg); }
+            85% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* HEADER & TOP BAR */
         .top-bar {
             background: #1e3a8a; color: white; padding: 8px 20px; font-size: 13px; text-align: center; font-weight: bold;
         }
@@ -68,18 +109,26 @@
         body.dark-mode .category-item { color: #cbd5e1; }
         .category-item img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 5px; }
         .category-item span { font-size: 12px; font-weight: 600; }
+        .category-item.active span { color: #2563eb; font-weight: bold; }
 
-        /* PRODUCT GRID */
+        /* PRODUCT SECTIONS */
         .main-container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
         .section-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #1e3a8a; display: flex; align-items: center; gap: 8px; }
+        body.dark-mode .section-title { color: #facc15; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.06); display: flex; flex-direction: column; }
+        
+        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.06); display: flex; flex-direction: column; position: relative; }
         .product-card img { width: 100%; height: 180px; object-fit: cover; background: #f8fafc; }
         .product-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: #333; height: 40px; overflow: hidden; }
         .curr-price { font-size: 18px; font-weight: bold; color: #1e3a8a; }
         .old-price { font-size: 13px; text-decoration: line-through; color: #94a3b8; margin-left: 6px; }
+        .add-cart-btn {
+            width: 100%; background: #ff9f00; color: white; border: none; padding: 10px;
+            font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
 
-        /* DISCOUNT SECTION layout */
+        /* LUCKY DISCOUNT AREA */
         .discount-section { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media(max-width: 768px) { .discount-section { grid-template-columns: 1fr; } }
         
@@ -88,63 +137,72 @@
         .section-box input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; }
         .gen-btn { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; }
         
-        /* BLACK BOX ADMIN VERIFICATION */
+        /* BLACK BOX ADMIN */
         .admin-verification-container { background: #0f172a; padding: 15px; border-radius: 8px; margin-top: 15px; color: white; }
         .admin-verification-container h4 { font-size: 14px; color: #38bdf8; margin-bottom: 8px; text-align: center; }
         .black-box-input { width: 100%; background: #1e293b; color: #facc15; padding: 12px; font-size: 18px; font-weight: bold; border: 2px solid #334155; border-radius: 6px; text-align: center; outline: none; letter-spacing: 4px; }
         
         .admin-amount-box { display: none; margin-top: 15px; background: #1e293b; padding: 12px; border-radius: 6px; border: 1px dashed #38bdf8; }
-        .admin-amount-box label { font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px; }
-        .admin-amount-box input { background: #ffffff; color: #0f172a; font-weight: bold; font-size: 16px; }
+        .admin-amount-box label { font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px; font-weight: bold; }
+        .admin-amount-box input { background: #ffffff; color: #0f172a; font-weight: bold; font-size: 16px; margin-bottom: 0; }
 
-        /* BLUE HERO BANNER WITH LIVE BAR & LUCKY BOX */
-        .hero-banner { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 30px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; min-height: 320px; }
+        /* HERO BANNER & PERCENTAGE METER LAYOUT */
+        .hero-banner { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 30px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; min-height: 320px; overflow: hidden; }
         .banner-text h2 { font-size: 22px; margin-bottom: 8px; }
+        .banner-text p { font-size: 14px; opacity: 0.9; }
 
         /* PERCENTAGE PROGRESS BAR */
         .lucky-progress-container { width: 100%; background: rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 4px; display: none; margin-top: 15px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); }
         .lucky-progress-bar { width: 5%; height: 26px; background: linear-gradient(90deg, #facc15, #f97316); border-radius: 15px; display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; font-weight: bold; color: #0f172a; font-size: 14px; transition: width 0.1s linear; }
 
-        /* 🎰 জাদুকরী লাকি বক্স অ্যানিমেশন স্টাইল */
-        .lucky-box-wrapper { display: none; margin: 20px auto; position: relative; text-align: center; }
+        /* 🎰 জাদুকরী লাকি বক্স অ্যানিমেশন */
+        .lucky-box-wrapper { display: none; margin: 20px auto; text-align: center; }
         .lucky-box-img { width: 100px; height: 100px; cursor: pointer; transform-origin: bottom center; }
-        
-        /* বক্স কাঁপার এনিমেশন */
         .shake-box { animation: boxShake 0.5s infinite alternate; }
-        @keyframes boxShake {
-            0% { transform: rotate(-8deg); }
-            100% { transform: rotate(8deg); }
-        }
-        /* বক্স খোলার এনিমেশন */
+        @keyframes boxShake { 0% { transform: rotate(-8deg); } 100% { transform: rotate(8deg); } }
         .open-box { animation: boxOpen 0.6s ease-out forwards; }
-        @keyframes boxOpen {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1) rotate(360deg); opacity: 0; display: none; }
-        }
+        @keyframes boxOpen { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1) rotate(360deg); opacity: 0; display: none; } }
 
-        /* 💰 লাইভ পেমেন্ট ক্যালকুলেটর ডিসপ্লে কার্ড */
+        /* 💰 লাইভ পেমেন্ট ক্যালকুলেটর ডিসপ্লে */
         .live-receipt-card { display: none; background: rgba(255, 255, 255, 0.15); border: 2px dashed #ffffff; padding: 15px; border-radius: 10px; margin-top: 15px; width: 100%; text-align: left; animation: fadeInUp 0.4s ease-out; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .receipt-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 15px; }
         .receipt-total { border-top: 1px solid rgba(255,255,255,0.4); padding-top: 6px; font-size: 18px; font-weight: bold; color: #facc15; }
 
-        /* CART & FORM STYLE */
+        /* CART & SIDEBAR */
         .cart-sidebar { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background: white; box-shadow: -4px 0 15px rgba(0,0,0,.15); z-index: 2000; display: flex; flex-direction: column; transition: 0.3s; }
         .cart-sidebar.open { right: 0; }
         .cart-header { padding: 20px; background: #1e3a8a; color: white; display: flex; justify-content: space-between; align-items: center; }
         .cart-items-list { padding: 15px; flex-grow: 1; overflow-y: auto; }
-        .order-section { background: white; max-width: 600px; margin: 20px auto; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+        .cart-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e2e8f0; align-items: center; }
+        .cart-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
+        .qty-btn { background: #e2e8f0; border: none; width: 24px; height: 24px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+
+        /* FORM & DETAILS */
+        .qr-section, .order-section { background: white; max-width: 600px; margin: 20px auto; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
         .order-section input, .order-section textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 6px; }
         .order-section button { width: 100%; padding: 12px; background: #25d366; color: white; border: none; font-weight: bold; border-radius: 6px; font-size: 16px; cursor: pointer; }
+
+        /* BOTTOM NAV */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,.1); z-index: 1500; }
         .bottom-nav a { text-decoration: none; color: #475569; font-size: 12px; display: flex; flex-direction: column; align-items: center; }
+        .bottom-nav a.active { color: #2563eb; font-weight: bold; }
     </style>
 </head>
 <body>
 
+    <!-- ANIMATED UNIQUE REFRESH LOADER -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <h3>PANJA <span>GIFTHOUSE</span></h3>
+        </div>
+    </div>
+
+    <!-- TOP BAR -->
     <div class="top-bar">🚚 ৪00 টাকার উপরে কেনাকাটা করলে স্পেশাল লাকি ড্র ডিসকাউন্ট কোড প্রযোজ্য!</div>
 
+    <!-- HEADER -->
     <div class="header">
         <div class="logo">PANJA <span>GIFTHOUSE</span></div>
         <div class="header-icons">
@@ -156,6 +214,7 @@
         </div>
     </div>
 
+    <!-- SEARCH BAR -->
     <div class="search-container">
         <div class="search-box">
             <input id="searchInput" type="text" placeholder="প্রোডাক্ট খুঁজুন..." onkeyup="searchProducts()">
@@ -163,6 +222,26 @@
         </div>
     </div>
 
+    <!-- CATEGORY NAV -->
+    <div class="category-nav">
+        <div class="category-item active" onclick="changeCategory('all', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/6104/6104006.png" alt="সব"><span>সব আইটেম</span>
+        </div>
+        <div class="category-item" onclick="changeCategory('fashion', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/3081/3081648.png" alt="ফ্যাশন"><span>ফ্যাশন (ঘড়ি)</span>
+        </div>
+        <div class="category-item" onclick="changeCategory('beauty', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/1940/1940922.png" alt="বিউটি"><span>বিউটি কেয়ার</span>
+        </div>
+        <div class="category-item" onclick="changeCategory('decor', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/1257/1257252.png" alt="ডেকোর"><span>হোম ডেকোর</span>
+        </div>
+        <div class="category-item" onclick="changeCategory('electronics', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/3659/3659899.png" alt="ইলেকট্রনিক্স"><span>ইলেকট্রনিক্স</span>
+        </div>
+    </div>
+
+    <!-- DISCOUNT AREA -->
     <div class="discount-section">
         <div class="section-box">
             <h3>🎉 লাকি কুপন ড্র (Up To 50% Off)</h3>
@@ -172,6 +251,7 @@
             <input type="date" id="discDOB">
             <button class="gen-btn" onclick="submitDiscountRequest()">ডিসকাউন্ট রিকোয়েস্ট পাঠান</button>
             
+            <!-- দোকানদার সিক্রেট কালো বক্স -->
             <div class="admin-verification-container">
                 <h4>🔒 Admin Verification (দোকানদারের কোড বসান)</h4>
                 <input type="text" class="black-box-input" id="adminSecretCodeInput" placeholder="ENTER OTP" onkeyup="verifyAdminOtpCode()">
@@ -185,21 +265,25 @@
             <p id="discountStatusText" style="margin-top:10px; font-weight:bold; text-align:center; color:#2563eb;"></p>
         </div>
         
+        <!-- BLUE HERO BANNER PANEL -->
         <div class="hero-banner" id="heroBannerPanel">
             <div class="banner-text" id="bannerWelcomeText">
                 <h2>নিরাপদ ও জেনুইন অফার!</h2>
-                <p>দোকানদার ভেরিফাইড ওটিপি এবং কাস্টমারের টোটাল কেনাকাটার লাইভ বিল অ্যামাউন্ট সেট করলেই এখানে লাইভ মিটার চালু হবে।</p>
+                <p>কাস্টমার তথ্য সাবমিট করার পর, দোকানদার তার সিক্রেট ওটিপি কোডটি কালো বক্সে দিয়ে কাস্টমারের কেনাকাটার লাইভ বিল অ্যামাউন্ট সেট করতে পারবেন।</p>
             </div>
 
+            <!-- ১. লাকি কুপন পার্সেন্টেজ বার -->
             <div class="lucky-progress-container" id="progressBarContainer">
                 <div class="lucky-progress-bar" id="liveProgressBar">5%</div>
             </div>
 
+            <!-- ২. 🎰 উইনিং লাকি বক্স এলিমেন্ট -->
             <div class="lucky-box-wrapper" id="luckyBoxSection">
                 <img src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png" id="luckyGiftBoxImg" class="lucky-box-img" alt="Lucky Box">
                 <p style="margin-top: 5px; font-weight: bold; color: #facc15;">🎁 বক্সটি খুলতে এর ওপর ক্লিক করুন!</p>
             </div>
 
+            <!-- ৩. 💰 লাইভ কাস্টমার ফাইনাল পেমেন্ট রসিদ কার্ড -->
             <div class="live-receipt-card" id="liveReceiptCard">
                 <h4 style="text-align: center; border-bottom: 1px dashed rgba(255,255,255,0.3); padding-bottom: 5px; margin-bottom: 10px; color: #fff;">📊 ফাইনাল পেমেন্ট রসিদ</h4>
                 <div class="receipt-row"><span>মোট কেনাকাটা (Bill):</span> <span id="recBill">₹0</span></div>
@@ -209,19 +293,43 @@
         </div>
     </div>
 
+    <!-- MAIN PRODUCT GRID -->
     <div class="main-container">
-        <h2 class="section-title"><i class="fas fa-shopping-bag"></i> সমস্ত প্রোডাক্টের তালিকা (প্রচুর স্টক)</h2>
+        <h2 class="section-title" id="sectionTitle"><i class="fas fa-shopping-bag"></i> সমস্ত প্রোডাক্টের তালিকা (প্রচুর স্টক)</h2>
         <div class="product-grid" id="productGrid"></div>
     </div>
 
+    <!-- CART SIDEBAR -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
             <h2>🛒 আপনার শপিং কার্ট</h2>
             <button style="background:none; border:none; color:white; font-size:24px;" onclick="toggleCart()">×</button>
         </div>
         <div class="cart-items-list" id="cartItemsList"></div>
+        <div class="cart-footer" style="padding:20px; border-top:1px solid #ddd;">
+            <div style="display:flex; justify-content:space-between; font-size:16px; margin-bottom:5px;">
+                <span>সাবটোটাল:</span> <span id="subTotalLabel">₹0</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:16px; margin-bottom:5px; color:#ef4444;">
+                <span>লাকি ডিসকাউন্ট:</span> <span id="discountLabel">-₹0</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; margin-bottom:15px; color:#059669;">
+                <span>সর্বমোট মূল্য:</span> <span id="cartTotal">₹0</span>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()" style="width:100%; padding:12px; background:#1e3a8a; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">অর্ডার ফর্মে যান</button>
+        </div>
     </div>
 
+    <!-- QR PAYMENT -->
+    <div class="qr-section">
+        <h2>🔒 QR পেমেন্ট করুন</h2>
+        <div style="text-align:center; border:2px dashed #2563eb; padding:15px; background:#f8fafc; border-radius:8px;">
+            <i class="fas fa-qrcode" style="font-size:40px; color:#1e3a8a;"></i>
+            <p style="font-weight:bold; margin-top:5px;">UPI ID: panjagifthouse@upi</p>
+        </div>
+    </div>
+
+    <!-- ORDER FORM -->
     <div class="order-section" id="orderFormSection">
         <h2>📦 ডেলিভারি তথ্য ফর্ম</h2>
         <input type="text" id="formProductList" placeholder="কার্ট আইটেম অটোমেটিক আসবে" readonly>
@@ -232,10 +340,18 @@
         <button onclick="submitOrderViaWhatsApp()"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার করুন</button>
     </div>
 
+    <div class="bottom-nav">
+        <a href="#" class="active" onclick="changeCategory('all', this); return false;"><i class="fas fa-home"></i><span>হোম</span></a>
+        <a href="#" onclick="toggleCart(); return false;"><i class="fas fa-shopping-cart"></i><span>কার্ট</span></a>
+        <a href="#" onclick="document.getElementById('orderFormSection').scrollIntoView({behavior:'smooth'}); return false;"><i class="fas fa-truck"></i><span>অর্ডার</span></a>
+    </div>
+
     <script>
         const productsDatabase = [
-            { id: 1, name: "প্রিমিয়াম রয়্যাল গোল্ডেন চেইন ঘড়ি", price: 1299, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" },
-            { id: 2, name: "স্পোর্টস ডিজিটাল রানিং ব্ল্যাক ওয়াচ", price: 799, img: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" }
+            { id: 1, name: "প্রিমিয়াম রয়্যাল গোল্ডেন চেইন ঘড়ি", category: "fashion", price: 1299, oldPrice: 2499, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" },
+            { id: 2, name: "স্পোর্টস ডিজিটাল রানিং ব্ল্যাক ওয়াচ", category: "fashion", price: 799, oldPrice: 1499, img: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" },
+            { id: 3, name: "ক্যাসিনো সিলভার মেটাল ক্যাজুয়াল ঘড়ি", category: "fashion", price: 999, oldPrice: 1999, img: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400" },
+            { id: 4, name: "ব্রাউন লেদার লাক্সারি বিজনেস ঘড়ি", category: "fashion", price: 650, oldPrice: 1199, img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=400" }
         ];
 
         let shoppingCart = [];
@@ -243,9 +359,10 @@
         let activeDiscountPercent = 0; 
         let currentBillAmount = 0;
         let isMeterRunning = false;
-        let calculatedTargetPercent = 0; // ফাইনাল স্টোরের জন্য টার্গেট পার্সেন্টেজ
+        let calculatedTargetPercent = 0;
 
         window.onload = function() {
+            setTimeout(() => document.getElementById("loader").style.display = "none", 3500);
             renderProductsList(productsDatabase);
         };
 
@@ -258,8 +375,11 @@
                         <img src="${prod.img}" alt="${prod.name}">
                         <div class="product-info">
                             <h3>${prod.name}</h3>
-                            <div><span class="curr-price">₹${prod.price}</span></div>
-                            <button class="add-cart-btn" onclick="addToCart(${prod.id})" style="margin-top:10px; background:#ff9f00; color:white; border:none; padding:8px; cursor:pointer; font-weight:bold; border-radius:5px;">
+                            <div>
+                                <span class="curr-price">₹${prod.price}</span>
+                                <span class="old-price">₹${prod.oldPrice}</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="addToCart(${prod.id})" style="margin-top:10px;">
                                 <i class="fas fa-shopping-basket"></i> যোগ করুন
                             </button>
                         </div>
@@ -272,12 +392,15 @@
             const name = document.getElementById("discName").value.trim();
             const phone = document.getElementById("discPhone").value.trim();
             const dob = document.getElementById("discDOB").value;
+            const statusText = document.getElementById("discountStatusText");
+
             if(!name || !phone || !dob) { alert("দয়া করে সম্পূর্ণ তথ্য পূরণ করুন!"); return; }
 
             secretAdminOtp = String(Math.floor(1000 + Math.random() * 9000));
-            let msgText = `PANJA GIFTHOUSE - নতুন ডিসকাউন্ট রিকোয়েস্ট:\n👤 কাস্টমার: ${name}\n📞 নম্বর: ${phone}\n🔑 OTP কোড: ${secretAdminOtp}`;
+            
+            let msgText = `PANJA GIFTHOUSE - নতুন ডিসকাউন্ট রিকোয়েস্ট:\n\n👤 কাস্টমার: ${name}\n📞 নম্বর: ${phone}\n🔑 ওটিপি কোড: ${secretAdminOtp}`;
             window.open(`https://wa.me/918100530600?text=${encodeURIComponent(msgText)}`, '_blank');
-            document.getElementById("discountStatusText").innerText = "⏳ রিকোয়েস্ট সেন্ট! দোকানদারের থেকে OTP নিয়ে নিচে দিন।";
+            statusText.innerText = "⏳ রিকোয়েস্ট সেন্ট! দোকানদারের থেকে OTP নিয়ে নিচে দিন।";
         }
 
         function verifyAdminOtpCode() {
@@ -297,15 +420,12 @@
 
         function checkAndTriggerMeter() {
             let amountInput = parseFloat(document.getElementById("adminManualAmount").value);
-            let statusText = document.getElementById("discountStatusText");
 
             if(isNaN(amountInput) || amountInput <= 0) { resetAllAnimations(); return; }
 
             currentBillAmount = amountInput;
             
-            // 🛑 BETTER LUCK NEXT TIME লজিক এবং কন্ডিশনাল টার্গেট ডিসকাউন্ট সেটআপ
             if(currentBillAmount < 400) {
-                // ৪০০ টাকার নিচে কেনাকাটা করলে ডিসকাউন্ট দেওয়া হবে না
                 calculatedTargetPercent = 0; 
             } else if(currentBillAmount >= 3000) { calculatedTargetPercent = 50; }
             else if(currentBillAmount >= 2000) { calculatedTargetPercent = 40; }
@@ -319,7 +439,6 @@
             }
         }
 
-        // পার্সেন্টেজ বার রান করানোর ফাংশন (৫% -> ১৫% -> ২০% -> ৩০% -> ৪০% -> ৫০%)
         function runLuckyPercentageMeter(target) {
             isMeterRunning = true;
             document.getElementById("liveReceiptCard").style.display = "none";
@@ -331,8 +450,6 @@
 
             let steps = [5, 15, 20, 25, 30, 40, 50];
             let currentStepIdx = 0;
-
-            // যদি কাস্টমারের "Better Luck Next Time" হয়, তবে মিটার সর্বোচ্চ ২০% পর্যন্ত ঘুরে থেমে যাবে
             let loopLimit = target === 0 ? 25 : target;
 
             let interval = setInterval(() => {
@@ -354,19 +471,16 @@
             }, 300);
         }
 
-        // মিটার শেষে লাকি বক্স সামনে আনার ফেজ
         function triggerLuckyBoxPhase(target) {
             document.getElementById("progressBarContainer").style.display = "none";
             const boxSection = document.getElementById("luckyBoxSection");
             const boxImg = document.getElementById("luckyGiftBoxImg");
             
             boxSection.style.display = "block";
-            boxImg.className = "lucky-box-img shake-box"; // কাঁপানো শুরু করো
+            boxImg.className = "lucky-box-img shake-box";
 
-            // বক্স এর ক্লিকের ওপর ফাইনাল ডিসকাউন্ট এবং বিল হিসেব সেট করা
             boxImg.onclick = function() {
-                boxImg.className = "lucky-box-img open-box"; // খোলার অ্যাকশন
-                
+                boxImg.className = "lucky-box-img open-box";
                 setTimeout(() => {
                     boxSection.style.display = "none";
                     showFinalCalculatedReceipt(target);
@@ -374,14 +488,12 @@
             };
         }
 
-        // ফাইনাল পেমেন্ট রসিদ এবং Better Luck নেক্সট টাইম শো করা
         function showFinalCalculatedReceipt(target) {
             const statusText = document.getElementById("discountStatusText");
             const receiptCard = document.getElementById("liveReceiptCard");
             isMeterRunning = false;
 
             if (target === 0) {
-                // 😭 BETTER LUCK NEXT TIME রেসপন্স
                 statusText.style.color = "#ef4444";
                 statusText.innerText = "❌ Better Luck Next Time! মিনিমাম ৪০০ টাকার কেনাকাটা না করায় কোনো ডিসকাউন্ট লক হয়নি।";
                 
@@ -393,7 +505,6 @@
                 
                 activeDiscountPercent = 0;
             } else {
-                // 🎉 উইনিং সাকসেস স্টেট রেসপন্স
                 statusText.style.color = "#4ade80";
                 statusText.innerText = `🎉 চমৎকার! কাস্টমারের ভাগ্যে ফিক্সড ${target}% ডিসকাউন্ট লক হয়েছে!`;
                 
@@ -417,33 +528,99 @@
             document.getElementById("progressBarContainer").style.display = "none";
             document.getElementById("luckyBoxSection").style.display = "none";
             document.getElementById("liveReceiptCard").style.display = "none";
-            document.getElementById("discountStatusText").innerText = "";
             updateCartUI();
         }
 
         function addToCart(prodId) {
-            let initialProd = productsDatabase.find(p => p.id === prodId);
-            shoppingCart.push({ ...initialProd, qty: 1 });
+            let existingItem = shoppingCart.find(item => item.id === prodId);
+            if(existingItem) { existingItem.qty += 1; } 
+            else {
+                let initialProd = productsDatabase.find(p => p.id === prodId);
+                shoppingCart.push({ ...initialProd, qty: 1 });
+            }
+            updateCartUI();
+        }
+
+        function alterQty(prodId, amount) {
+            let currentItem = shoppingCart.find(item => item.id === prodId);
+            if(currentItem) {
+                currentItem.qty += amount;
+                if(currentItem.qty <= 0) { shoppingCart = shoppingCart.filter(item => item.id !== prodId); }
+            }
             updateCartUI();
         }
 
         function updateCartUI() {
+            const listContainer = document.getElementById("cartItemsList");
+            const subTotalLabel = document.getElementById("subTotalLabel");
+            const discountLabel = document.getElementById("discountLabel");
+            const totalLabel = document.getElementById("cartTotal");
+            
+            listContainer.innerHTML = "";
             let cartSum = shoppingCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             let subtotal = cartSum > 0 ? cartSum : currentBillAmount;
+
+            shoppingCart.forEach(item => {
+                listContainer.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div style="flex-grow:1;">
+                            <h4>${item.name}</h4>
+                            <p>₹${item.price * item.qty}</p>
+                            <div>
+                                <button class="qty-btn" onclick="alterQty(${item.id}, -1)">-</button>
+                                <span>${item.qty}</span>
+                                <button class="qty-btn" onclick="alterQty(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
             let discountAmount = Math.round((subtotal * activeDiscountPercent) / 100);
             let finalTotal = subtotal - discountAmount;
 
-            document.getElementById("cartCount").innerText = shoppingCart.length;
+            document.getElementById("cartCount").innerText = shoppingCart.reduce((sum, i) => sum + i.qty, 0);
+            subTotalLabel.innerText = "₹" + subtotal;
+            discountLabel.innerText = "-₹" + discountAmount;
+            totalLabel.innerText = "₹" + finalTotal;
+            
             if(subtotal > 0) {
-                document.getElementById("formProductList").value = shoppingCart.length > 0 ? "কার্ট প্রোডাক্ট আইটেমসমূহ" : "সরাসরি শপ ডিসকাউন্ট ড্র বিল";
-                document.getElementById("formTotalPrice").value = "ফাইনাল পেয়েবল অ্যামাউন্ট: ₹" + finalTotal;
+                let itemNames = shoppingCart.length > 0 ? shoppingCart.map(i => `${i.name} (${i.qty}টি)`).join(', ') : "সরাসরি শপ ড্র ডিসকাউন্ট";
+                document.getElementById("formProductList").value = itemNames;
+                document.getElementById("formTotalPrice").value = "ফাইনাল বিল: ₹" + finalTotal;
             }
+        }
+
+        function changeCategory(catName, element) {
+            document.querySelectorAll(".category-nav .category-item").forEach(item => item.classList.remove("active"));
+            element.classList.add("active");
+            let filtered = catName === 'all' ? productsDatabase : productsDatabase.filter(p => p.category === catName);
+            renderProductsList(filtered);
+        }
+
+        function searchProducts() {
+            let query = document.getElementById("searchInput").value.toLowerCase().trim();
+            let matched = productsDatabase.filter(p => p.name.toLowerCase().includes(query));
+            renderProductsList(matched);
         }
 
         function toggleCart() { document.getElementById("cartSidebar").classList.toggle("open"); }
         function toggleDarkMode() { document.body.classList.toggle("dark-mode"); }
-        function searchProducts() {}
-        function submitOrderViaWhatsApp() { alert("অর্ডার তথ্য হোয়াটসঅ্যাপে পাঠানো হচ্ছে..."); }
+        function proceedToCheckout() { toggleCart(); document.getElementById("orderFormSection").scrollIntoView({ behavior: 'smooth' }); }
+
+        function submitOrderViaWhatsApp() {
+            const list = document.getElementById("formProductList").value;
+            const bill = document.getElementById("formTotalPrice").value;
+            const name = document.getElementById("custName").value.trim();
+            const phone = document.getElementById("custPhone").value.trim();
+            const address = document.getElementById("custAddress").value.trim();
+
+            if(!name || !phone || !address) { alert("দয়া করে ফর্ম পূরণ করুন!"); return; }
+
+            let customMessage = `নমস্কার PANJA GIFTHOUSE, আমি অর্ডার করতে চাই:\n\n🛍️ প্রোডাক্টস: ${list}\n💰 ${bill}\n\n👤 নাম: ${name}\n📞 ফোন: ${phone}\n📍 ঠিকানা: ${address}`;
+            window.open(`https://wa.me/918100530600?text=${encodeURIComponent(customMessage)}`, '_blank');
+        }
     </script>
 </body>
 </html>
