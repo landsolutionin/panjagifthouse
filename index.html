@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PANJA GIFTHOUSE</title>
+    <title>PANJA GIFTHOUSE - মাল্টি-ক্যাটাগরি স্টোর</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -12,1216 +12,607 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             transition: background 0.3s, color 0.3s;
         }
 
         body {
-            background: #f5f5f5;
+            background: #f1f5f9;
             color: #333;
             padding-bottom: 70px;
         }
 
-        /* DARK MODE STYLES */
+        /* Dark Mode */
         body.dark-mode {
-            background: #111827;
-            color: #f3f4f6;
+            background: #0f172a;
+            color: #f8fafc;
         }
         body.dark-mode .header, 
         body.dark-mode .search-container,
-        body.dark-mode .offer-section,
-        body.dark-mode .offer-card,
+        body.dark-mode .category-nav,
         body.dark-mode .product-card,
-        body.dark-mode .review-box,
-        body.dark-mode .trust-box,
+        body.dark-mode .cart-sidebar,
         body.dark-mode .order-section,
-        body.dark-mode .contact-section,
-        body.dark-mode .qr-section,
-        body.dark-mode .bottom-nav {
-            background: #1f2937;
+        body.dark-mode .qr-section {
+            background: #1e293b;
             color: white;
         }
-        body.dark-mode .product-card h3,
-        body.dark-mode .offer-card h3,
-        body.dark-mode .review-box h3,
-        body.dark-mode .contact-section h2,
-        body.dark-mode .qr-section h2,
-        body.dark-mode .order-section h2 {
-            color: #facc15;
-        }
-        body.dark-mode .wishlist {
-            background: #374151;
-        }
+        body.dark-mode .product-card h3 { color: #facc15; }
 
-        /* LOADER */
+        /* ADVANCED UNIQUE LOADER ANIMATION */
         #loader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 99999;
+            /* শুরুতে ব্যাকগ্রাউন্ড কালার চেঞ্জ হওয়ার অ্যানিমেশন */
+            animation: bgGradientChange 3s infinite alternate;
+            overflow: hidden;
+        }
+        
+        /* ব্যাকগ্রাউন্ড কালার হালকা চেঞ্জ হওয়ার এফেক্ট */
+        @keyframes bgGradientChange {
+            0% { background-color: #ffffff; }
+            50% { background-color: #f0f7ff; }
+            100% { background-color: #f0fdf4; }
+        }
+
+        .loader-content {
+            text-align: center;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 99999;
+            justify-content: center;
+            /* পুরো কন্টেন্টটি একবার ক্লকওয়াইজ ও একবার অ্যান্টি-ক্লকওয়াইজ ঘুরবে */
+            animation: uniqueRotate 3.5s ease-in-out forwards;
         }
+
+        /* স্পিনার স্টাইল */
         .spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid #ddd;
-            border-top: 6px solid #2563eb;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+            width: 60px; height: 60px;
+            border: 5px solid #cbd5e1; border-top: 5px solid #2563eb;
+            border-radius: 50%; 
+            margin-bottom: 20px;
+            animation: spinOnly 1.5s linear infinite;
         }
-        #loader h3 {
-            margin-top: 15px;
+
+        .loader-content h3 {
+            font-size: 26px;
+            font-weight: 900;
             color: #1e3a8a;
-            font-size: 20px;
-            font-weight: bold;
+            letter-spacing: 1px;
+            opacity: 0;
+            /* লেখাটি একটু সময় নিয়ে সুন্দরভাবে ভেসে উঠবে */
+            animation: fadeInText 1s ease-out 0.5s forwards;
         }
-        @keyframes spin {
+        .loader-content h3 span {
+            color: #ef4444;
+        }
+
+        /* টেক্সট ফেড ইন অ্যানিমেশন */
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* স্পিনারের নিজস্ব অনবরত ঘূর্ণন */
+        @keyframes spinOnly {
             100% { transform: rotate(360deg); }
         }
 
-        /* BACK TO TOP BUTTON */
-        #topBtn {
-            position: fixed;
-            bottom: 100px;
-            right: 25px;
-            width: 55px;
-            height: 55px;
-            border: none;
-            border-radius: 50%;
-            background: #2563eb;
-            color: white;
-            font-size: 22px;
-            cursor: pointer;
-            display: none;
-            z-index: 9999;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        /* আপনার পছন্দ মতন: একবার ক্লকওয়াইজ ও একবার অ্যান্টি-ক্লকওয়াইজ ঘোরার মেইন লজিক */
+        @keyframes uniqueRotate {
+            0% { transform: rotate(0deg); }
+            30% { transform: rotate(360deg); }   /* প্রথমে একবার পুরো ক্লকওয়াইজ ঘুরল */
+            50% { transform: rotate(360deg); }   /* মাঝখানে সামান্য একটু হোল্ড বা বিরতি */
+            85% { transform: rotate(0deg); }     /* তারপর উল্টোদিকে ঘুরে আবার অ্যান্টি-ক্লকওয়াইজ আগের জায়গায় এল */
+            100% { transform: rotate(0deg); }
         }
 
-        /* TOP BAR */
+        /* HEADER & TOP BAR */
         .top-bar {
-            background: #0f172a;
-            color: white;
-            padding: 8px 20px;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #1e3a8a; color: white;
+            padding: 8px 20px; font-size: 13px;
+            text-align: center; font-weight: bold;
         }
-
-        /* ANNOUNCEMENT BAR */
-        .announcement {
-            background: #dc2626;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            animation: blink 2s infinite;
-        }
-        @keyframes blink {
-            50% { opacity: .8; }
-        }
-
-        /* PREMIUM HEADER */
         .header {
-            background: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0,0,0,.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: white; padding: 15px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+            position: sticky; top: 0; z-index: 1000;
         }
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            color: #1e3a8a;
-        }
-        .logo span {
-            color: #ef4444;
-        }
-        .icons {
-            display: flex;
-            gap: 20px;
-            font-size: 20px;
-            color: #374151;
-            align-items: center;
-        }
-        .icon-item {
-            position: relative;
-            cursor: pointer;
-        }
+        .logo { font-size: 22px; font-weight: 900; color: #1e3a8a; }
+        .logo span { color: #ef4444; }
+        .header-icons { display: flex; gap: 20px; font-size: 20px; align-items: center; }
+        .icon-item { position: relative; cursor: pointer; color: #475569; }
+        body.dark-mode .icon-item { color: #cbd5e1; }
         .icon-badge {
-            position: absolute;
-            top: -8px;
-            right: -10px;
-            background: #ef4444;
-            color: white;
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 50%;
-            font-weight: bold;
-        }
-        .dark-btn {
-            border: none;
-            background: none;
-            font-size: 22px;
-            cursor: pointer;
+            position: absolute; top: -8px; right: -10px;
+            background: #ef4444; color: white; font-size: 11px;
+            padding: 2px 6px; border-radius: 50%; font-weight: bold;
         }
 
         /* SEARCH BAR */
-        .search-container {
-            background: white;
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-        }
-        .search-box {
-            display: flex;
-            width: 100%;
-            max-width: 600px;
-        }
+        .search-container { background: white; padding: 12px 20px; display: flex; justify-content: center; }
+        .search-box { display: flex; width: 100%; max-width: 600px; }
         .search-box input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #2563eb;
-            border-radius: 8px 0 0 8px;
-            outline: none;
-            font-size: 15px;
+            width: 100%; padding: 10px 15px;
+            border: 2px solid #2563eb; border-radius: 8px 0 0 8px;
+            outline: none; font-size: 15px;
         }
         .search-box button {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 0 8px 8px 0;
-            cursor: pointer;
+            background: #2563eb; color: white; border: none;
+            padding: 10px 20px; border-radius: 0 8px 8px 0; cursor: pointer;
         }
 
-        /* CATEGORIES MENU */
-        .menu {
-            background: #1e3a8a;
-            display: flex;
-            overflow-x: auto;
-            white-space: nowrap;
+        /* FLIPKART STYLE CATEGORY NAV */
+        .category-nav {
+            background: white; display: flex; justify-content: gap;
+            overflow-x: auto; padding: 15px 10px;
+            box-shadow: 0 1px 5px rgba(0,0,0,.05);
+            scroll-behavior: smooth;
         }
-        .menu a {
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            display: inline-block;
-            font-size: 14px;
-            cursor: pointer;
+        .category-item {
+            display: flex; flex-direction: column; align-items: center;
+            min-width: 85px; text-align: center; cursor: pointer; text-decoration: none; color: #333;
         }
-        .menu a:hover, .menu a.active {
-            background: #2563eb;
-            font-weight: bold;
-        }
+        body.dark-mode .category-item { color: #cbd5e1; }
+        .category-item img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 5px; }
+        .category-item span { font-size: 12px; font-weight: 600; }
+        .category-item.active span { color: #2563eb; font-weight: bold; }
 
         /* HERO BANNER */
-        .hero-slider {
-            position: relative;
-            height: 350px;
-            overflow: hidden;
-            background: #111827;
+        .hero-banner { width: 100%; max-width: 1200px; margin: 15px auto; padding: 0 15px; }
+        .banner-container {
+            width: 100%; height: 220px; border-radius: 12px;
+            background: linear-gradient(135deg, #e0f2fe, #bbf7d0);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 40px; overflow: hidden; position: relative;
         }
-        .hero-slider img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.7;
-        }
-        .slider-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: white;
-            background: rgba(0,0,0,.55);
-            padding: 30px;
-            border-radius: 12px;
-            width: 85%;
-            max-width: 500px;
-        }
-        .slider-content h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        .slider-content p {
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-        .slider-content button {
-            background: #f59e0b;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 15px;
-        }
+        body.dark-mode .banner-container { background: linear-gradient(135deg, #1e3a8a, #065f46); }
+        .banner-text h2 { font-size: 24px; color: #1e3a8a; margin-bottom: 8px; }
+        body.dark-mode .banner-text h2 { color: #facc15; }
+        .banner-text p { font-size: 14px; color: #475569; }
+        body.dark-mode .banner-text p { color: #e2e8f0; }
+        .banner-img { height: 100%; max-width: 40%; object-fit: contain; }
 
-        /* OFFER SECTION */
-        .offer-section {
-            padding: 30px 20px;
-            background: white;
-            text-align: center;
-        }
-        .offer-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #1e3a8a;
-        }
-        .offer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .offer-card {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,.05);
-            cursor: pointer;
-        }
-        .offer-card i {
-            font-size: 35px;
-            color: #2563eb;
-            margin-bottom: 10px;
-        }
-        .offer-card h3 {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-        .offer-card p {
-            font-size: 14px;
-            color: #64748b;
-        }
-
-        /* PRODUCT CARDS */
-        .product-section {
-            padding: 30px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            scroll-margin-top: 80px;
-        }
-        .section-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #1e3a8a;
-        }
+        /* MAIN LAYOUT & PRODUCT CONTAINER */
+        .main-container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
+        .section-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #1e3a8a; display: flex; align-items: center; gap: 8px; }
+        body.dark-mode .section-title { color: #facc15; }
+        
         .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;
         }
         .product-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 3px 10px rgba(0,0,0,.08);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06); display: flex; flex-direction: column; position: relative;
         }
-        .product-card:hover {
-            transform: translateY(-5px);
-            transition: 0.3s;
+        .product-card img { width: 100%; height: 180px; object-fit: cover; background: #f8fafc; }
+        .wishlist-icon {
+            position: absolute; top: 10px; right: 10px; background: white;
+            padding: 6px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,.15);
+            color: #94a3b8; z-index: 5;
         }
-        .product-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
+        .wishlist-icon.active { color: #ef4444; }
+        .product-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-info h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #333; }
+        body.dark-mode .product-info h3 { color: #f8fafc; }
+        .price-row { margin: 8px 0; }
+        .curr-price { font-size: 18px; font-weight: bold; color: #1e3a8a; }
+        body.dark-mode .curr-price { color: #38bdf8; }
+        .old-price { font-size: 13px; text-decoration: line-through; color: #94a3b8; margin-left: 6px; }
+        .add-cart-btn {
+            width: 100%; background: #ff9f00; color: white; border: none;
+            padding: 10px; font-weight: bold; border-radius: 6px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px;
         }
-        .discount-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #ef4444;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            z-index: 10;
-        }
-        .wishlist {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 10;
-            color: #333;
-        }
-        .product-details {
-            padding: 15px 15px 5px 15px;
-            flex-grow: 1;
-        }
-        .product-card h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-        .rating {
-            color: #f59e0b;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-        .price-box {
-            margin-bottom: 10px;
-        }
-        .new-price {
-            font-size: 20px;
-            font-weight: bold;
-            color: #1e3a8a;
-        }
-        .old-price {
-            margin-left: 10px;
-            text-decoration: line-through;
-            color: #94a3b8;
-            font-size: 14px;
-        }
+        .add-cart-btn:hover { background: #f59e0b; }
 
-        /* QUANTITY BOX & BUY NOW */
-        .quantity-container {
-            padding: 0 15px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* CART SIDEBAR */
+        .cart-sidebar {
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%;
+            background: white; box-shadow: -4px 0 15px rgba(0,0,0,.15); z-index: 2000;
+            display: flex; flex-direction: column; transition: 0.3s;
         }
-        .quantity-box {
-            display: flex;
-            align-items: center;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            background: #f8fafc;
-            overflow: hidden;
+        .cart-sidebar.open { right: 0; }
+        .cart-header {
+            padding: 20px; background: #1e3a8a; color: white;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .quantity-box button {
-            background: #e2e8f0;
-            border: none;
-            width: 32px;
-            height: 32px;
-            font-size: 18px;
-            cursor: pointer;
-            font-weight: bold;
+        .cart-header h2 { font-size: 18px; }
+        .close-cart { background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
+        .cart-items-list { padding: 15px; flex-grow: 1; overflow-y: auto; }
+        
+        .cart-item {
+            display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e2e8f0; align-items: center;
         }
-        .quantity-box input {
-            width: 40px;
-            text-align: center;
-            border: none;
-            background: transparent;
-            font-size: 15px;
-            font-weight: bold;
-            outline: none;
+        .cart-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+        .cart-item-details { flex-grow: 1; }
+        .cart-item-details h4 { font-size: 14px; margin-bottom: 4px; }
+        .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
+        .qty-btn {
+            background: #e2e8f0; border: none; width: 24px; height: 24px;
+            font-weight: bold; cursor: pointer; border-radius: 4px;
         }
+        body.dark-mode .qty-btn { background: #475569; color: white; }
+        .remove-item { color: #ef4444; border: none; background: none; cursor: pointer; font-size: 13px; margin-left: auto; }
+
+        .cart-footer { padding: 20px; border-top: 1px solid #e2e8f0; }
+        .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
         .checkout-btn {
-            background: #f59e0b;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .action-buttons {
-            padding: 0 15px 15px 15px;
-        }
-        .buy-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            text-align: center;
-            background: #25d366;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 15px;
-            margin-bottom: 8px;
-        }
-        .order-btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            background: #2563eb;
-            color: white;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
+            width: 100%; background: #2563eb; color: white; border: none;
+            padding: 12px; font-weight: bold; border-radius: 8px; cursor: pointer; text-align: center;
         }
 
-        /* REVIEWS */
-        .review-section {
-            padding: 40px 20px;
-            background: #e2e8f0;
+        /* ORDER & QR SECTION */
+        .order-section, .qr-section {
+            background: white; max-width: 500px; margin: 30px auto; padding: 25px;
+            border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.05); scroll-margin-top: 90px;
         }
-        body.dark-mode .review-section {
-            background: #111827;
-        }
-        .review-title {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #1e3a8a;
-        }
-        .review-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .review-box {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.05);
-        }
-
-        /* TRUST BADGES */
-        .trust-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            padding: 30px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .trust-box {
-            background: white;
-            padding: 20px;
-            text-align: center;
-            font-weight: bold;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.05);
-            color: #1e3a8a;
-        }
-
-        /* COUNTDOWN TIMER */
-        .timer-section {
-            background: #1e3a8a;
-            color: white;
-            text-align: center;
-            padding: 35px 20px;
-        }
-        #countdown {
-            font-size: 36px;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #facc15;
-            letter-spacing: 2px;
-        }
-
-        /* CONTACT SECTION */
-        .contact-section {
-            background: white;
-            max-width: 500px;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.1);
-        }
-        .contact-section h2 {
-            text-align: center;
-            color: #1e3a8a;
-            margin-bottom: 20px;
-        }
-        .contact-section input, .contact-section textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
-            font-size: 14px;
-        }
-        .contact-section button {
-            width: 100%;
-            padding: 12px;
-            background: #10b981;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* QR PAYMENT SECTION */
-        .qr-section {
-            background: white;
-            max-width: 500px;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.1);
-            text-align: center;
-        }
-        .qr-section h2 {
-            color: #1e3a8a;
-            margin-bottom: 15px;
-        }
-        .qr-container {
-            border: 2px dashed #2563eb;
-            padding: 20px;
-            display: inline-block;
-            border-radius: 12px;
-            background: #f8fafc;
-        }
-        .qr-placeholder {
-            width: 200px;
-            height: 200px;
-            background: #ddd;
-            margin: 0 auto 15px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            color: #555;
-            border: 1px solid #bbb;
-        }
-
-        /* ORDER FORM */
-        .order-section {
-            background: white;
-            max-width: 500px;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.1);
-            scroll-margin-top: 90px;
-        }
-        .order-section h2 {
-            text-align: center;
-            color: #1e3a8a;
-            margin-bottom: 20px;
-        }
+        .order-section h2, .qr-section h2 { text-align: center; color: #1e3a8a; margin-bottom: 15px; font-size: 20px; }
+        body.dark-mode .order-section h2, body.dark-mode .qr-section h2 { color: #facc15; }
         .order-section input, .order-section textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
-            font-size: 14px;
+            width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none;
         }
         .order-section button {
-            width: 100%;
-            padding: 12px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
+            width: 100%; padding: 12px; background: #25d366; color: white; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px;
         }
+        .qr-box { text-align: center; border: 2px dashed #2563eb; padding: 15px; border-radius: 8px; background: #f8fafc; }
+        body.dark-mode .qr-box { background: #334155; }
 
-        /* VISITOR COUNTER */
-        .visitor-box {
-            text-align: center;
-            padding: 15px;
-            background: #334155;
-            color: white;
-            font-weight: bold;
-            font-size: 15px;
-        }
-        #visitorCount {
-            color: #facc15;
-            font-size: 18px;
-            margin-left: 5px;
-        }
+        /* FOOTER & NEWSLETTER */
+        .footer { background: #0f172a; color: white; padding: 30px 20px; text-align: center; margin-top: 40px; }
+        .newsletter { max-width: 400px; margin: 0 auto 20px auto; }
+        .newsletter input { padding: 10px; width: 70%; border: none; border-radius: 6px 0 0 6px; }
+        .newsletter button { padding: 10px 15px; background: #2563eb; color: white; border: none; border-radius: 0 6px 6px 0; cursor: pointer; }
+        .footer-socials a { color: white; font-size: 22px; margin: 0 10px; text-decoration: none; }
 
-        /* GOOGLE MAP SECTION */
-        .map-section {
-            width: 100%;
-            height: 250px;
-            margin-top: 20px;
-        }
-        .map-section iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* PREMIUM FOOTER WITH NEWSLETTER */
-        .premium-footer {
-            background: #0f172a;
-            color: white;
-            padding: 40px 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-        }
-        .footer-box h2, .footer-box h3 {
-            margin-bottom: 15px;
-            color: #facc15;
-        }
-        .footer-box p {
-            margin: 8px 0;
-            color: #cbd5e1;
-            font-size: 14px;
-        }
-        .footer-box a {
-            display: block;
-            color: #cbd5e1;
-            text-decoration: none;
-            margin: 8px 0;
-            font-size: 14px;
-        }
-        .footer-box a:hover {
-            color: #facc15;
-        }
-        .newsletter-box {
-            display: flex;
-            margin-top: 10px;
-        }
-        .newsletter-box input {
-            padding: 10px;
-            border: none;
-            border-radius: 6px 0 0 6px;
-            outline: none;
-            width: 100%;
-        }
-        .newsletter-box button {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 0 6px 6px 0;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .social-icons a {
-            font-size: 28px;
-            text-decoration: none;
-            color: white;
-        }
-        .social-icons a:hover {
-            color: #facc15;
-        }
-        .copyright {
-            background: #020617;
-            color: #94a3b8;
-            text-align: center;
-            padding: 15px;
-            font-size: 14px;
-        }
-
-        /* BOTTOM NAVIGATION */
+        /* BOTTOM NAV */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,.1);
-            z-index: 9999;
+            position: fixed; bottom: 0; left: 0; width: 100%; background: white;
+            display: flex; justify-content: space-around; padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,.1); z-index: 1500;
         }
-        .bottom-nav a {
-            text-decoration: none;
-            color: #475569;
-            font-size: 18px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            position: relative;
-        }
-        .bottom-nav a span {
-            font-size: 11px;
-            font-weight: bold;
-        }
-        .bottom-nav a:hover, .bottom-nav a.active {
-            color: #2563eb;
-        }
-        .bottom-nav .icon-badge {
-            top: -5px;
-            right: -5px;
-        }
+        .bottom-nav a { text-decoration: none; color: #475569; font-size: 12px; display: flex; flex-direction: column; align-items: center; font-weight: bold; }
+        .bottom-nav a i { font-size: 18px; margin-bottom: 2px; }
+        .bottom-nav a.active, .bottom-nav a:hover { color: #2563eb; }
+        body.dark-mode .bottom-nav { background: #1e293b; }
+        body.dark-mode .bottom-nav a { color: #94a3b8; }
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <div class="spinner"></div>
-        <h3>PANJA GIFTHOUSE</h3>
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <h3>PANJA <span>GIFTHOUSE</span></h3>
+        </div>
     </div>
 
-    <button id="topBtn" onclick="scrollTopPage()">▲</button>
-
-    <div class="top-bar">
-        <div>🔥 Flash Sale Today</div>
-        <div>📞 8100530600</div>
-    </div>
-
-    <div class="announcement">
-        🔥 Welcome To PANJA GIFTHOUSE | 🚚 Free Delivery Above ₹499 | 🎁 Special Festival Offer
-    </div>
+    <div class="top-bar">🚚 ৪৯৯ টাকার উপরে অর্ডারে সম্পূর্ণ ফ্রি ডেলিভারি!</div>
 
     <div class="header">
         <div class="logo">PANJA <span>GIFTHOUSE</span></div>
-        <div class="icons">
-            <div class="icon-item" onclick="scrollToSection('productSection')">
-                <i class="fas fa-heart"></i>
-                <span class="icon-badge" id="wishlistCount">0</span>
-            </div>
-            <div class="icon-item" onclick="scrollToSection('orderSection')">
+        <div class="header-icons">
+            <button onclick="toggleDarkMode()" style="background:none; border:none; font-size:20px; cursor:pointer;">🌙</button>
+            <div class="icon-item" onclick="toggleCart()">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="icon-badge" id="cartCount">0</span>
             </div>
-            <button class="dark-btn" onclick="toggleDarkMode()">🌙</button>
         </div>
     </div>
 
     <div class="search-container">
         <div class="search-box">
-            <input id="searchInput" type="text" placeholder="প্রোডাক্ট খুঁজুন..." onkeyup="searchProducts()">
+            <input id="searchInput" type="text" placeholder="প্রোডাক্ট বা ক্যাটাগরি খুঁজুন..." onkeyup="searchProducts()">
             <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
         </div>
     </div>
 
-    <div class="menu" id="menuBar">
-        <a onclick="filterCategory('all', this)" class="active">হোম</a>
-        <a onclick="filterCategory('gift', this)">গিফট</a>
-        <a onclick="filterCategory('toy', this)">খেলনা</a>
-        <a onclick="filterCategory('decor', this)">হোম ডেকোর</a>
-        <a onclick="filterCategory('kitchen', this)">কিচেন</a>
-        <a onclick="filterCategory('study', this)">স্টাডি</a>
-        <a onclick="filterCategory('all', this)">নতুন অফার</a>
-    </div>
-
-    <div class="hero-slider">
-        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?w=1200" alt="Banner">
-        <div class="slider-content">
-            <h1>বিশেষ গিফট কালেকশন</h1>
-            <p>সেরা দাম | সেরা কোয়ালিটি</p>
-            <button onclick="scrollToSection('productSection')">SHOP NOW</button>
+    <div class="category-nav">
+        <div class="category-item active" onclick="changeCategory('all', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/6104/6104006.png" alt="সব">
+            <span>সব আইটেম</span>
+        </div>
+        <div class="category-item" onclick="changeCategory('fashion', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/3081/3081648.png" alt="ফ্যাশন">
+            <span>ফ্যাশন (ঘড়ি)</span>
+        </div>
+        <div class="category-item" onclick="changeCategory('beauty', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/1940/1940922.png" alt="বিউটি">
+            <span>বিউটি কেয়ার</span>
+        </div>
+        <div class="category-item" onclick="changeCategory('decor', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/1257/1257252.png" alt="ডেকোর">
+            <span>হোম ডেকোর</span>
+        </div>
+        <div class="category-item" onclick="changeCategory('electronics', this)">
+            <img src="https://cdn-icons-png.flaticon.com/512/3659/3659899.png" alt="ইলেকট্রনিক্স">
+            <span>ইলেকট্রনিক্স</span>
         </div>
     </div>
 
-    <div class="offer-section">
-        <div class="offer-title">🔥 আজকের বিশেষ অফার</div>
-        <div class="offer-grid">
-            <div class="offer-card" onclick="document.querySelectorAll('#menuBar a')[1].click();">
-                <i class="fas fa-gift"></i>
-                <h3>গিফট আইটেম</h3>
-                <p>৫০% পর্যন্ত ছাড়</p>
+    <div class="hero-banner">
+        <div class="banner-container" id="heroBanner">
+            <div class="banner-text">
+                <h2 id="bannerTitle">সেরা উৎসবের গিফট কালেকশন</h2>
+                <p id="bannerDesc">আমাদের বিশেষ স্টক থেকে বেছে নিন আপনার পছন্দের জিনিস ৫০% পর্যন্ত ছাড়ে।</p>
             </div>
-            <div class="offer-card" onclick="document.querySelectorAll('#menuBar a')[2].click();">
-                <i class="fas fa-gamepad"></i>
-                <h3>খেলনা</h3>
-                <p>নতুন কালেকশন</p>
-            </div>
-            <div class="offer-card" onclick="document.querySelectorAll('#menuBar a')[3].click();">
-                <i class="fas fa-home"></i>
-                <h3>হোম ডেকোর</h3>
-                <p>স্টাইলিশ ডিজাইন</p>
-            </div>
-            <div class="offer-card" onclick="document.querySelectorAll('#menuBar a')[4].click();">
-                <i class="fas fa-utensils"></i>
-                <h3>কিচেন আইটেম</h3>
-                <p>বেস্ট সেলার</p>
-            </div>
+            <img class="banner-img" id="bannerImg" src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png" alt="Banner Graphic">
         </div>
     </div>
 
-    <div class="product-section" id="productSection">
-        <h2 class="section-title" id="sectionTitle">🛍 জনপ্রিয় পণ্য</h2>
-        <div class="product-grid" id="productContainer">
+    <div class="main-container">
+        <h2 class="section-title" id="sectionTitle"><i class="fas fa-shopping-bag"></i> সমস্ত প্রোডাক্টের তালিকা</h2>
+        <div class="product-grid" id="productGrid">
             </div>
     </div>
 
-    <div class="review-section" id="reviewSection">
-        <h2 class="review-title">⭐ Customer Reviews</h2>
-        <div class="review-container">
-            <div class="review-box">
-                <h3>Rahul Das</h3>
-                <p style="color:#f59e0b">⭐⭐⭐⭐⭐</p>
-                <p>খুব সুন্দর প্রোডাক্ট। ডেলিভারি দ্রুত পেয়েছি।</p>
-            </div>
-            <div class="review-box">
-                <h3>Priya Mondal</h3>
-                <p style="color:#f59e0b">⭐⭐⭐⭐⭐</p>
-                <p>প্যাকেজিং এবং কোয়ালিটি অসাধারণ।</p>
-            </div>
-            <div class="review-box">
-                <h3>Amit Roy</h3>
-                <p style="color:#f59e0b">⭐⭐⭐⭐⭐</p>
-                <p>দাম অনুযায়ী খুব ভালো।</p>
-            </div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>🛒 আপনার শপিং কার্ট</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
         </div>
-    </div>
-
-    <div class="trust-section">
-        <div class="trust-box">🚚 Free Delivery</div>
-        <div class="trust-box">🔒 Secure Payment</div>
-        <div class="trust-box">💯 Original Product</div>
-        <div class="trust-box">📞 24x7 Support</div>
-    </div>
-
-    <div class="timer-section">
-        <h2>⏰ Flash Sale Ends In</h2>
-        <div id="countdown">23:59:59</div>
-    </div>
-
-    <div class="contact-section" id="contactSection">
-        <h2>📞 Contact Us</h2>
-        <form onsubmit="event.preventDefault(); alert('ধন্যবাদ! আপনার মেসেজ সফলভাবে জমা হয়েছে।'); this.reset();">
-            <input type="text" placeholder="আপনার নাম" required>
-            <input type="email" placeholder="আপনার ইমেল আইডি" required>
-            <input type="text" placeholder="মোবাইল নম্বর" required>
-            <textarea placeholder="আপনার মেসেজ এখানে লিখুন..." rows="4" required></textarea>
-            <button type="submit">Send Message</button>
-        </form>
+        <div class="cart-items-list" id="cartItemsList">
+            </div>
+        <div class="cart-footer">
+            <div class="total-row">
+                <span>মোট মূল্য:</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">অর্ডার ফর্মে যান</button>
+        </div>
     </div>
 
     <div class="qr-section">
-        <h2>🔒 QR Payment Section</h2>
-        <p style="margin-bottom: 15px; font-size: 14px;">নিরাপদ পেমেন্টের জন্য নিচের কিউআর কোডটি স্ক্যান করুন</p>
-        <div class="qr-container">
-            <div class="qr-placeholder">
-                <i class="fas fa-qrcode" style="font-size: 60px; color: #1e3a8a; margin-bottom: 10px;"></i><br>
-                G-Pay / PhonePe / UPI
-            </div>
-            <p style="font-weight: bold; color: #10b981;">PANJA GIFTHOUSE</p>
+        <h2>🔒 QR পেমেন্ট সেকশন</h2>
+        <div class="qr-box">
+            <i class="fas fa-qrcode" style="font-size: 50px; color: #1e3a8a; margin-bottom: 10px;"></i>
+            <p style="font-weight: bold; margin-bottom: 5px;">UPI ID: panjagifthouse@upi</p>
+            <p style="font-size: 12px; color: #64748b;">GPay / PhonePe / Paytm দ্বারা স্ক্যান করুন</p>
         </div>
     </div>
 
-    <div class="order-section" id="orderSection">
-        <h2>📦 Place Your Order</h2>
-        <input type="text" id="orderProduct" placeholder="নির্বাচিত প্রোডাক্টের নাম" readonly>
-        <input type="text" id="orderQty" placeholder="পরিমাণ ও মূল্য" readonly>
-        <input type="text" id="customerName" placeholder="আপনার নাম" required>
-        <input type="text" id="customerPhone" placeholder="মোবাইল নম্বর" required>
-        <textarea id="customerAddress" placeholder="আপনার সম্পূর্ণ ডেলিভারি ঠিকানা..." rows="4" required></textarea>
-        <button onclick="sendOrder()">✅ Confirm Order</button>
+    <div class="order-section" id="orderFormSection">
+        <h2>📦 Delivery Details Form</h2>
+        <input type="text" id="formProductList" placeholder="কার্ট থেকে পণ্য অটোমেটিক সিলেক্ট হবে" readonly>
+        <input type="text" id="formTotalPrice" placeholder="মোট দাম" readonly>
+        <input type="text" id="custName" placeholder="আপনার পুরো নাম লিখুন" required>
+        <input type="text" id="custPhone" placeholder="আপনার মোবাইল নম্বর" required>
+        <textarea id="custAddress" placeholder="আপনার সম্পূর্ণ ডেলিভারি ঠিকানা (পিনকোড সহ)" rows="4" required></textarea>
+        <button onclick="submitOrderViaWhatsApp()"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার কনফার্ম করুন</button>
     </div>
 
-    <div class="visitor-box">
-        👥 Visitors: <span id="visitorCount">0</span>
-    </div>
-
-    <div class="map-section">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.1228227690623!2d88.3444634!3d22.5744214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a027713437ff7a9%3A0xe7bc3da0e30d1aa1!2sKolkata%2C%20West%20Bengal!5e0!3m2!1sbn!2sin!4v1700000000000!5m2!1sbn!2sin" allowfullscreen="" loading="lazy"></iframe>
-    </div>
-
-    <footer class="premium-footer">
-        <div class="footer-box">
-            <h2>PANJA GIFTHOUSE</h2>
-            <p>প্রিমিয়াম অনলাইন গিফট স্টোর। আমরা আপনাকে দিচ্ছি সেরা কোয়ালিটির প্রোডাক্ট একদম সঠিক মূল্যে।</p>
-            <div class="social-icons">
-                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a href="https://telegram.org" target="_blank"><i class="fab fa-telegram"></i></a>
-            </div>
+    <footer class="footer">
+        <div class="newsletter">
+            <h3 style="margin-bottom:10px;">আমাদের নিউজলেটারে যোগ দিন</h3>
+            <input type="email" placeholder="আপনার ইমেল আইডি দিন">
+            <button onclick="alert('ধন্যবাদ! আপনি সফলভাবে সাবস্ক্রাইব করেছেন।')">Join</button>
         </div>
-        <div class="footer-box">
-            <h3>Newsletter</h3>
-            <p>আমাদের নতুন অফার এবং গিফট কালেকশনের খবর সবার আগে পেতে সাবস্ক্রাইব করুন।</p>
-            <div class="newsletter-box">
-                <input type="email" id="newsEmail" placeholder="আপনার ইমেল দিন">
-                <button onclick="subscribeNewsletter()">Join</button>
-            </div>
+        <div class="footer-socials">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <div class="footer-box">
-            <h3>Contact Info</h3>
-            <p>📞 ফোন: 8100530600</p>
-            <p>📧 ইমেল: support@panjagifthouse.com</p>
-            <p>📍 কলকাতা, পশ্চিমবঙ্গ, ভারত</p>
-        </div>
+        <p style="margin-top: 15px; font-size: 13px; color: #94a3b8;">© 2026 PANJA GIFTHOUSE | All Rights Reserved</p>
     </footer>
 
-    <div class="copyright">
-        © 2026 PANJA GIFTHOUSE | All Rights Reserved.
-    </div>
-
     <div class="bottom-nav">
-        <a href="#" onclick="scrollTopPage(); return false;" class="active" id="navHome">
-            <i class="fas fa-home"></i><span>Home</span>
-        </a>
-        <a href="#" onclick="scrollToSection('productSection'); return false;" id="navProd">
-            <i class="fas fa-box"></i><span>Products</span>
-        </a>
-        <a href="#" onclick="alert('আপনার পছন্দ করা সমস্ত প্রোডাক্ট উইশলিস্টে সংরক্ষিত রয়েছে।'); return false;">
-            <i class="fas fa-heart"></i><span class="icon-badge" id="navWishlistCount">0</span><span>Wishlist</span>
-        </a>
-        <a href="#" onclick="scrollToSection('orderSection'); return false;">
-            <i class="fas fa-shopping-cart"></i><span class="icon-badge" id="navCartCount">0</span><span>Cart</span>
-        </a>
-        <a href="https://wa.me/918100530600" target="_blank">
-            <i class="fab fa-whatsapp"></i><span>Chat</span>
-        </a>
+        <a href="#" class="active" onclick="changeCategory('all', this); return false;"><i class="fas fa-home"></i><span>হোম</span></a>
+        <a href="#" onclick="toggleCart(); return false;"><i class="fas fa-shopping-cart"></i><span>কার্ট</span></a>
+        <a href="#" onclick="document.getElementById('orderFormSection').scrollIntoView({behavior:'smooth'}); return false;"><i class="fas fa-truck"></i><span>অর্ডার</span></a>
     </div>
 
     <script>
-        // এখানে আপনার সব গিফট আইটেম বা আইটেমের একটি মূল ডায়নামিক তালিকা তৈরি করা হলো। 
-        // আপনি চাইলে এখানে সহজেই নিচে আরও নতুন নতুন আইটেম যুক্ত করতে পারবেন।
-        const productsData = [
-            { id: 1, name: "প্রিমিয়াম গিফট সেট", category: "gift", price: 399, oldPrice: 599, discount: "30% OFF", rating: "5 (125)", img: "https://images.unsplash.com/photo-1512436991641-6745cdb1723?w=500" },
-            { id: 2, name: "কিডস স্পেশাল খেলনা", category: "toy", price: 450, oldPrice: 600, discount: "25% OFF", rating: "5 (210)", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
-            { id: 3, name: "ওয়াল ডেকোরেশন শোপিস", category: "decor", price: 299, oldPrice: 499, discount: "35% OFF", rating: "4.8 (88)", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500" },
-            { id: 4, name: "স্মার্ট কিচেন কন্টেইনার", category: "kitchen", price: 699, oldPrice: 999, discount: "30% OFF", rating: "4.7 (74)", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" },
-            { id: 5, name: "স্টাডি টেবিল ল্যাম্প", category: "study", price: 349, oldPrice: 499, discount: "30% OFF", rating: "4.9 (95)", img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500" }
+        const productsDatabase = [
+            // FASHION CATEGORY (WATCHES)
+            { id: 101, name: "প্রিমিয়াম রয়্যাল গোল্ডেন ঘড়ি", category: "fashion", price: 1299, oldPrice: 2499, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" },
+            { id: 102, name: "স্পোর্টস ডিজিটাল ব্ল্যাক ওয়াচ", category: "fashion", price: 799, oldPrice: 1499, img: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" },
+            { id: 103, name: "ক্যাসিনো স্টাইল সিলভার চেইন ঘড়ি", category: "fashion", price: 999, oldPrice: 1999, img: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400" },
+            { id: 104, name: "লেদার স্ট্র্যাপ ক্লাসিক ঘড়ি", category: "fashion", price: 650, oldPrice: 1199, img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=400" },
+
+            // BEAUTY CARE CATEGORY
+            { id: 201, name: "অর্গানিক ফেস গ্লো কিট (কম্বো)", category: "beauty", price: 599, oldPrice: 999, img: "https://images.unsplash.com/photo-1608248597481-496100c8c836?w=400" },
+            { id: 202, name: "প্রিমিয়াম হেয়ার কেয়ার সিরাম", category: "beauty", price: 349, oldPrice: 599, img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400" },
+            { id: 203, name: "প্রাকৃতিক অ্যালোভেরা ময়েশ্চারাইজার", category: "beauty", price: 220, oldPrice: 399, img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" },
+
+            // HOME DECOR CATEGORY
+            { id: 301, name: "এলইডি ক্রিস্টাল টেবিল ল্যাম্প", category: "decor", price: 499, oldPrice: 999, img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400" },
+            { id: 302, name: "ম্যাজিকাল ৩ডি মুন নাইট লাইট", category: "decor", price: 399, oldPrice: 799, img: "https://images.unsplash.com/photo-1532926381893-7542290edd1d?w=400" },
+            { id: 303, name: "অ্যান্টিক কাঠের দেয়াল ঘড়ি", category: "decor", price: 850, oldPrice: 1599, img: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=400" },
+
+            // ELECTRONICS CATEGORY
+            { id: 401, name: "ওয়ারলেস ব্লুটুث নেকব্যান্ড প্রফেশনাল", category: "electronics", price: 499, oldPrice: 999, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
+            { id: 402, name: "স্মার্ট পোর্টেবল মিনি ব্লুটুথ স্পিকার", category: "electronics", price: 699, oldPrice: 1299, img: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400" }
         ];
 
-        // লোডার পেজ রিমুভ ২ সেকেন্ড পর
+        let shoppingCart = [];
+
+        // অ্যানিমেশনটি ভালোভাবে দেখানোর জন্য লোডার টাইমআউট ৩.৫ সেকেন্ড (3500ms) করা হলো
         window.onload = function() {
-            setTimeout(function() {
+            setTimeout(() => {
                 document.getElementById("loader").style.display = "none";
-            }, 2000);
-            renderProducts(productsData); // শুরুতেই সব পণ্য স্ক্রিনে দেখাবে
+            }, 3500);
+            renderProductsList(productsDatabase);
         };
 
-        // পণ্যগুলোর তালিকা এইচটিএমএল-এ জেনারেট করার ফাংশন
-        function renderProducts(products) {
-            const container = document.getElementById("productContainer");
-            container.innerHTML = "";
-            
+        function renderProductsList(products) {
+            const grid = document.getElementById("productGrid");
+            grid.innerHTML = "";
             if(products.length === 0) {
-                container.innerHTML = `<p style="text-align:center; width:100%; grid-column: 1/-1; padding: 20px; font-weight:bold;">দুঃখিত! এই নামে কোনো প্রোডাক্ট খুঁজে পাওয়া যায়নি।</p>`;
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding:30px; font-weight:bold;">দুঃখিত, কোনো প্রোডাক্ট পাওয়া যায়নি!</p>`;
                 return;
             }
-
-            products.forEach(product => {
-                const card = document.createElement("div");
-                card.className = "product-card";
-                card.setAttribute("data-id", product.id);
-                card.innerHTML = `
-                    <div class="discount-badge">${product.discount}</div>
-                    <div class="wishlist" onclick="toggleWishlist(this)">❤️</div>
-                    <img src="${product.img}" alt="${product.name}">
-                    <div class="product-details">
-                        <h3>${product.name}</h3>
-                        <div class="rating">⭐⭐⭐⭐⭐ (${product.rating})</div>
-                        <div class="price-box">
-                            <span class="new-price">₹${product.price}</span>
-                            <span class="old-price">₹${product.oldPrice}</span>
+            products.forEach(prod => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <i class="fas fa-heart wishlist-icon" onclick="this.classList.toggle('active')"></i>
+                        <img src="${prod.img}" alt="${prod.name}">
+                        <div class="product-info">
+                            <h3>${prod.name}</h3>
+                            <div class="price-row">
+                                <span class="curr-price">₹${prod.price}</span>
+                                <span class="old-price">₹${prod.oldPrice}</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="addToCart(${prod.id})">
+                                <i class="fas fa-shopping-basket"></i> কার্ট-এ যোগ করুন
+                            </button>
                         </div>
-                    </div>
-                    <div class="quantity-container">
-                        <div class="quantity-box">
-                            <button onclick="decreaseQty(this)">−</button>
-                            <input type="text" value="1" readonly>
-                            <button onclick="increaseQty(this)">+</button>
-                        </div>
-                        <button class="checkout-btn" onclick="quickBuy('${product.name}', ${product.price}, this)">⚡ Buy Now</button>
-                    </div>
-                    <div class="action-buttons">
-                        <a href="#" class="buy-btn" target="_blank" onclick="return trackWhatsApp(this, '${product.name}', ${product.price})">
-                            <i class="fab fa-whatsapp"></i> WhatsApp Order
-                        </a>
-                        <button class="order-btn" onclick="openOrderForm('${product.name}', ${product.price})">📦 Order Now</button>
                     </div>
                 `;
-                container.appendChild(card);
             });
         }
 
-        // রিয়েল-টাইম সার্চ ফাংশন (যা সঠিকভাবে কাজ করবে)
-        function searchProducts() {
-            let searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
-            let filtered = productsData.filter(product => product.name.toLowerCase().includes(searchInput));
-            renderProducts(filtered);
-        }
-
-        // ক্যাটাগরি ফিল্টারিং ফাংশন
-        function filterCategory(category, element) {
-            let menuLinks = document.querySelectorAll(".menu a");
-            menuLinks.forEach(link => link.classList.remove("active"));
+        function changeCategory(catName, element) {
+            document.querySelectorAll(".category-nav .category-item").forEach(item => item.classList.remove("active"));
             element.classList.add("active");
 
-            let sectionTitle = document.getElementById("sectionTitle");
-            if(category === 'all') {
-                sectionTitle.innerText = "🛍 জনপ্রিয় পণ্য";
-                renderProducts(productsData);
+            const sectionTitle = document.getElementById("sectionTitle");
+            const bTitle = document.getElementById("bannerTitle");
+            const bDesc = document.getElementById("bannerDesc");
+            const bImg = document.getElementById("bannerImg");
+
+            if(catName === 'all') {
+                sectionTitle.innerHTML = `<i class="fas fa-shopping-bag"></i> সমস্ত প্রোডাক্টের তালিকা`;
+                bTitle.innerText = "সেরা উৎসবের গিফট কালেকশন";
+                bDesc.innerText = "আমাদের বিশেষ স্টক থেকে বেছে নিন আপনার পছন্দের জিনিস ৫০% পর্যন্ত ছাড়ে।";
+                bImg.src = "https://cdn-icons-png.flaticon.com/512/4213/4213958.png";
+                renderProductsList(productsDatabase);
             } else {
-                sectionTitle.innerText = "🛍 " + element.innerText + " কালেকশন";
-                let filtered = productsData.filter(product => product.category === category);
-                renderProducts(filtered);
+                let filtered = productsDatabase.filter(p => p.category === catName);
+                sectionTitle.innerHTML = `<i class="fas fa-star"></i> ${element.querySelector('span').innerText} কালেকশন`;
+                
+                bTitle.innerText = `এক্সক্লুসিভ ${element.querySelector('span').innerText} ধামাকা`;
+                bDesc.innerText = "সর্বোত্তম গুণমান এবং গ্যারান্টিযুক্ত ডিল পান শুধুমাত্র আজকের জন্য।";
+                
+                if(catName === 'fashion') bImg.src = "https://cdn-icons-png.flaticon.com/512/2785/2785231.png";
+                if(catName === 'beauty') bImg.src = "https://cdn-icons-png.flaticon.com/512/2707/2707142.png";
+                if(catName === 'decor') bImg.src = "https://cdn-icons-png.flaticon.com/512/1257/1257252.png";
+                if(catName === 'electronics') bImg.src = "https://cdn-icons-png.flaticon.com/512/3659/3659899.png";
+
+                renderProductsList(filtered);
             }
-            scrollToSection('productSection');
         }
 
-        // ভিজিটর কাউন্টার লজিক
-        let visitors = localStorage.getItem("visitorCount");
-        if (visitors === null) { visitors = 1; } else { visitors = parseInt(visitors) + 1; }
-        localStorage.setItem("visitorCount", visitors);
-        document.getElementById("visitorCount").innerHTML = visitors;
+        function searchProducts() {
+            let query = document.getElementById("searchInput").value.toLowerCase().trim();
+            let matched = productsDatabase.filter(p => p.name.toLowerCase().includes(query));
+            renderProductsList(matched);
+        }
 
-        // ডার্ক মোড টগল
+        function toggleCart() {
+            document.getElementById("cartSidebar").classList.toggle("open");
+        }
+
+        function addToCart(prodId) {
+            let existingItem = shoppingCart.find(item => item.id === prodId);
+            if(existingItem) {
+                existingItem.qty += 1;
+            } else {
+                let initialProd = productsDatabase.find(p => p.id === prodId);
+                shoppingCart.push({ ...initialProd, qty: 1 });
+            }
+            updateCartUI();
+        }
+
+        function alterQty(prodId, amount) {
+            let currentItem = shoppingCart.find(item => item.id === prodId);
+            if(currentItem) {
+                currentItem.qty += amount;
+                if(currentItem.qty <= 0) {
+                    shoppingCart = shoppingCart.filter(item => item.id !== prodId);
+                }
+            }
+            updateCartUI();
+        }
+
+        function removeCartItem(prodId) {
+            shoppingCart = shoppingCart.filter(item => item.id !== prodId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const listContainer = document.getElementById("cartItemsList");
+            const cartCountLabel = document.getElementById("cartCount");
+            const totalLabel = document.getElementById("cartTotal");
+            
+            listContainer.innerHTML = "";
+            let totalCost = 0;
+            let totalItemsCount = 0;
+
+            if(shoppingCart.length === 0) {
+                listContainer.innerHTML = `<p style="text-align:center; color:#94a3b8; margin-top:40px;">আপনার কার্ট একদম খালি!</p>`;
+            } else {
+                shoppingCart.forEach(item => {
+                    totalCost += (item.price * item.qty);
+                    totalItemsCount += item.qty;
+
+                    listContainer.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${item.img}" alt="${item.name}">
+                            <div class="cart-item-details">
+                                <h4>${item.name}</h4>
+                                <p style="font-weight:bold; color:#2563eb;">₹${item.price * item.qty}</p>
+                                <div class="cart-item-qty">
+                                    <button class="qty-btn" onclick="alterQty(${item.id}, -1)">-</button>
+                                    <span>${item.qty}</span>
+                                    <button class="qty-btn" onclick="alterQty(${item.id}, 1)">+</button>
+                                </div>
+                            </div>
+                            <button class="remove-item" onclick="removeCartItem(${item.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                });
+            }
+
+            cartCountLabel.innerText = totalItemsCount;
+            totalLabel.innerText = "₹" + totalCost;
+            
+            if(shoppingCart.length > 0) {
+                let summaryNames = shoppingCart.map(i => `${i.name} (${i.qty}টি)`).join(', ');
+                document.getElementById("formProductList").value = summaryNames;
+                document.getElementById("formTotalPrice").value = "মোট বিল: ₹" + totalCost;
+            } else {
+                document.getElementById("formProductList").value = "";
+                document.getElementById("formTotalPrice").value = "";
+            }
+        }
+
+        function proceedToCheckout() {
+            if(shoppingCart.length === 0) {
+                alert("আপনার কার্ট খালি! অনুগ্রহ করে আগে প্রোডাক্ট যোগ করুন।");
+                return;
+            }
+            toggleCart();
+            document.getElementById("orderFormSection").scrollIntoView({ behavior: 'smooth' });
+        }
+
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
-            let btn = document.querySelector(".dark-btn");
-            btn.innerText = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
         }
 
-        // ব্যাক টু টপ বোতাম কন্ট্রোল
-        window.onscroll = function() {
-            let btn = document.getElementById("topBtn");
-            if (document.documentElement.scrollTop > 300 || document.body.scrollTop > 300) {
-                btn.style.display = "block";
-            } else {
-                btn.style.display = "none";
-            }
-        };
+        function submitOrderViaWhatsApp() {
+            const list = document.getElementById("formProductList").value;
+            const bill = document.getElementById("formTotalPrice").value;
+            const name = document.getElementById("custName").value.trim();
+            const phone = document.getElementById("custPhone").value.trim();
+            const address = document.getElementById("custAddress").value.trim();
 
-        function scrollTopPage() {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            updateBottomNav('navHome');
-        }
+            if(!list) { alert("কার্টে কোনো প্রোডাক্ট নেই!"); return; }
+            if(!name || !phone || !address) { alert("দয়া করে ফর্মের সব তথ্য পূরণ করুন!"); return; }
 
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-            if(id === 'productSection') updateBottomNav('navProd');
-        }
+            let customMessage = `নমস্কার PANJA GIFTHOUSE, আমি একটি নতুন অর্ডার করতে চাই:\n\n` +
+                                `🛍️ প্রোডাক্টস: ${list}\n` +
+                                `💰 ${bill}\n\n` +
+                                `👤 কাস্টমার নাম: ${name}\n` +
+                                `📞 মোবাইল নম্বর: ${phone}\n` +
+                                `📍 ঠিকানা: ${address}\n\n` +
+                                `অনুগ্রহ করে অর্ডারটি কনফার্ম করুন। ধন্যবাদ!`;
 
-        function updateBottomNav(activeId) {
-            document.querySelectorAll(".bottom-nav a").forEach(a => a.classList.remove("active"));
-            document.getElementById(activeId).classList.add("active");
-        }
-
-        // ফ্ল্যাশ সেল টাইমার (২৪ ঘণ্টা কাউন্টডাউন)
-        let time = 86399;
-        setInterval(function() {
-            let hours = Math.floor(time / 3600);
-            let minutes = Math.floor((time % 3600) / 60);
-            let seconds = time % 60;
-            hours = hours < 10 ? "0" + hours : hours;
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            document.getElementById("countdown").innerHTML = hours + ":" + minutes + ":" + seconds;
-            if (time > 0) { time--; }
-        }, 1000);
-
-        // প্রোডাক্টের পরিমাণ প্লাস/মাইনাস লজিক
-        function increaseQty(btn) {
-            let input = btn.parentElement.querySelector("input");
-            input.value = parseInt(input.value) + 1;
-        }
-
-        function decreaseQty(btn) {
-            let input = btn.parentElement.querySelector("input");
-            let val = parseInt(input.value);
-            if(val > 1) input.value = val - 1;
-        }
-
-        // উইশলিস্ট বোতাম টগল লজিক
-        let totalWishlist = 0;
-        function toggleWishlist(element) {
-            if(element.style.color === "red") {
-                element.style.color = "#333";
-                totalWishlist--;
-                alert("উইশলিস্ট থেকে পণ্যটি সরানো হয়েছে!");
-            } else {
-                element.style.color = "red";
-                totalWishlist++;
-                alert("পণ্যটি আপনার উইশলিস্টে যোগ করা হয়েছে!");
-            }
-            document.getElementById("wishlistCount").innerText = totalWishlist;
-            document.getElementById("navWishlistCount").innerText = totalWishlist;
-        }
-
-        // বাই নাও এবং অর্ডার ফরম কন্ট্রোল
-        let totalCart = 0;
-        function quickBuy(productName, price, btn) {
-            let qty = btn.parentElement.querySelector(".quantity-box input").value;
-            let totalPrice = price * parseInt(qty);
-            
-            document.getElementById("orderProduct").value = productName;
-            document.getElementById("orderQty").value = `পরিমাণ: ${qty} টি, মোট মূল্য: ₹${totalPrice}`;
-            
-            totalCart += parseInt(qty);
-            document.getElementById("cartCount").innerText = totalCart;
-            document.getElementById("navCartCount").innerText = totalCart;
-
-            scrollToSection('orderSection');
-        }
-
-        function openOrderForm(productName, price) {
-            document.getElementById("orderProduct").value = productName;
-            document.getElementById("orderQty").value = `পরিমাণ: 1 টি, মোট মূল্য: ₹${price}`;
-            scrollToSection('orderSection');
-        }
-
-        // হোয়াটসঅ্যাপ লিঙ্ক ডায়নামিক ও বাংলা মেসেজ মেকার
-        function trackWhatsApp(linkElement, productName, price) {
-            let card = linkElement.closest(".product-card");
-            let qty = card.querySelector(".quantity-box input").value;
-            let totalPrice = price * parseInt(qty);
-            let msg = `নমস্কার PANJA GIFTHOUSE, আমি আপনার ওয়েবসাইট থেকে ${qty} টি "${productName}" অর্ডার করতে চাই, যার মোট মূল্য ₹${totalPrice}। অনুগ্রহ করে আমার অর্ডারটি নিশ্চিত করুন।`;
-            linkElement.href = `https://wa.me/918100530600?text=${encodeURIComponent(msg)}`;
-            return true;
-        }
-
-        // অর্ডার ফর্ম সাবমিশন এবং অ্যালার্ট
-        function sendOrder() {
-            let prod = document.getElementById("orderProduct").value;
-            let qty = document.getElementById("orderQty").value;
-            let name = document.getElementById("customerName").value;
-            let phone = document.getElementById("customerPhone").value;
-            let address = document.getElementById("customerAddress").value;
-
-            if(!prod) {
-                alert("অনুগ্রহ করে প্রথমে যেকোনো একটি প্রোডাক্ট সিলেক্ট করুন!");
-                return;
-            }
-            if(!name || !phone || !address) {
-                alert("দয়া করে ফর্মের সবকটি ঘর সঠিকভাবে পূরণ করুন।");
-                return;
-            }
-
-            alert(`🎉 ধন্যবাদ ${name}! আপনার "${prod}" এর জন্য অর্ডারটি সফলভাবে জমা হয়েছে। (${qty})`);
-            
-            // ফর্ম ক্লিয়ার করা
-            document.getElementById("orderProduct").value = "";
-            document.getElementById("orderQty").value = "";
-            document.getElementById("customerName").value = "";
-            document.getElementById("customerPhone").value = "";
-            document.getElementById("customerAddress").value = "";
-        }
-
-        // নিউজলেটার সাবস্ক্রিপশন
-        function subscribeNewsletter() {
-            let email = document.getElementById("newsEmail").value;
-            if(!email) {
-                alert("দয়া করে একটি সঠিক ইমেল আইডি দিন।");
-                return;
-            }
-            alert("ধন্যবাদ! আমাদের নিউজলেটারে যোগ দেওয়ার জন্য।");
-            document.getElementById("newsEmail").value = "";
+            let encodedURL = `https://wa.me/918100530600?text=${encodeURIComponent(customMessage)}`;
+            window.open(encodedURL, '_blank');
         }
     </script>
 </body>
