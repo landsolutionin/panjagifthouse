@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANJA GIFTHOUSE - প্রফেশনাল সিকিউর স্টোর</title>
     
+    <!-- Font Awesome CSS Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -131,7 +132,7 @@
         .discount-section { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media(max-width: 768px) { .discount-section { grid-template-columns: 1fr; } }
         
-        .section-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,.05); position: relative; }
+        .section-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,.05); position: relative; display: flex; flex-direction: column; justify-content: center; }
         .section-box h3 { color: #1e3a8a; margin-bottom: 12px; font-size: 18px; }
         .section-box input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; }
         .gen-btn { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; margin-bottom: 10px; }
@@ -141,10 +142,19 @@
         .admin-verification-container h4 { font-size: 14px; color: #38bdf8; margin-bottom: 8px; text-align: center; }
         .black-box-input { width: 100%; background: #1e293b; color: #facc15; padding: 12px; font-size: 18px; font-weight: bold; border: 2px solid #334155; border-radius: 6px; text-align: center; outline: none; letter-spacing: 4px; }
         
-        /* ডায়নামিক এডমিন অ্যামাউন্ট গেট বক্স (ওটিপি মিললে খুলবে) */
+        /* ডায়নামিক এডমিন অ্যামাউন্ট গেট বক্স */
         .admin-amount-box { display: none; margin-top: 15px; background: #1e293b; padding: 12px; border-radius: 6px; border: 1px dashed #38bdf8; }
         .admin-amount-box label { font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px; font-weight: bold; }
         .admin-amount-box input { background: #ffffff; color: #0f172a; font-weight: bold; font-size: 16px; margin-bottom: 0; }
+
+        /* HERO BANNER & LIVE PERCENTAGE BAR COMPONENT */
+        .hero-banner { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 30px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
+        .banner-text h2 { font-size: 22px; margin-bottom: 8px; }
+        .banner-text p { font-size: 14px; opacity: 0.9; margin-bottom: 15px; }
+
+        /* নতুন লাকি ড্র পার্সেন্টেজ বার স্টাইল */
+        .lucky-progress-container { width: 100%; background: rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 4px; display: none; margin-top: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); }
+        .lucky-progress-bar { width: 5%; height: 24px; background: linear-gradient(90deg, #facc15, #f97316); border-radius: 15px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-weight: bold; color: #0f172a; font-size: 13px; transition: width 0.1s linear; }
 
         /* ডিসকাউন্ট জেনারেট হওয়ার অ্যানিমেশন ক্লিপ */
         .gift-animation { display: none; width: 80px; height: 80px; margin: 10px auto; animation: bounceGift 0.6s infinite alternate; }
@@ -164,11 +174,6 @@
         .order-section input, .order-section textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 6px; }
         .order-section button { width: 100%; padding: 12px; background: #25d366; color: white; border: none; font-weight: bold; border-radius: 6px; font-size: 16px; cursor: pointer; }
 
-        /* HERO BANNER */
-        .hero-banner { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 30px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; }
-        .banner-text h2 { font-size: 22px; margin-bottom: 8px; }
-        .banner-text p { font-size: 14px; opacity: 0.9; }
-
         /* BOTTOM NAV */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,.1); z-index: 1500; }
         .bottom-nav a { text-decoration: none; color: #475569; font-size: 12px; display: flex; flex-direction: column; align-items: center; }
@@ -177,6 +182,7 @@
 </head>
 <body>
 
+    <!-- ANIMATED UNIQUE LOADER -->
     <div id="loader">
         <div class="loader-content">
             <div class="spinner"></div>
@@ -184,8 +190,10 @@
         </div>
     </div>
 
+    <!-- TOP BAR -->
     <div class="top-bar">🚚 ৪00 টাকার উপরে কেনাকাটা করলে স্পেশাল লাকি ড্র ডিসকাউন্ট কোড প্রযোজ্য!</div>
 
+    <!-- HEADER -->
     <div class="header">
         <div class="logo">PANJA <span>GIFTHOUSE</span></div>
         <div class="header-icons">
@@ -197,13 +205,15 @@
         </div>
     </div>
 
+    <!-- SEARCH BAR -->
     <div class="search-container">
         <div class="search-box">
-            <input id="searchInput" type="text" placeholder="প্রोডাক্ট খুঁজুন..." onkeyup="searchProducts()">
+            <input id="searchInput" type="text" placeholder="প্রোডাক্ট খুঁজুন..." onkeyup="searchProducts()">
             <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
         </div>
     </div>
 
+    <!-- CATEGORY NAV -->
     <div class="category-nav">
         <div class="category-item active" onclick="changeCategory('all', this)">
             <img src="https://cdn-icons-png.flaticon.com/512/6104/6104006.png" alt="সব"><span>সব আইটেম</span>
@@ -222,10 +232,11 @@
         </div>
     </div>
 
+    <!-- DISCOUNT AREA WITH LIVE ANIMATED PERCENTAGE BAR -->
     <div class="discount-section">
         <div class="section-box">
             <h3>🎉 লাকি কুপন ড্র (Up To 50% Off)</h3>
-            <p style="font-size: 11px; color:#ef4444; margin-bottom:10px;">*শর্তাবলী: মিনিমাম ৪০০ টাকার কেনাকাটা আবশ্যিক। সর্বোচ্চ ২০% পর্যন্ত ডিসকাউন্ট লক।</p>
+            <p style="font-size: 11px; color:#ef4444; margin-bottom:10px;">*শর্তাবলী: মিনিমাম ৪০০ টাকার কেনাকাটা আবশ্যিক। সর্বোচ্চ ৫০% পর্যন্ত ডিসকাউন্ট লক।</p>
             <input type="text" id="discName" placeholder="কাস্টমারের নাম">
             <input type="text" id="discPhone" placeholder="মোবাইল নম্বর">
             <input type="date" id="discDOB">
@@ -233,32 +244,41 @@
             
             <img class="gift-animation" id="giftAnim" src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png" alt="Gift">
 
+            <!-- দোকানদার সিক্রেট কালো বক্স ভেরিফিকেশন এরিয়া -->
             <div class="admin-verification-container">
                 <h4>🔒 Admin Verification (দোকানদারের কোড বসান)</h4>
                 <input type="text" class="black-box-input" id="adminSecretCodeInput" placeholder="ENTER OTP" onkeyup="verifyAdminOtpCode()">
                 
                 <div class="admin-amount-box" id="adminAmountGate">
                     <label for="adminManualAmount">💳 টোটাল কেনাকাটার অ্যামাউন্ট বসান (₹400 - ₹4000+):</label>
-                    <input type="number" id="adminManualAmount" placeholder="উদাঃ 550, 1200, 4500" onkeyup="calculateLiveDiscountFromAmount()">
+                    <input type="number" id="adminManualAmount" placeholder="উদাঃ 550, 1200, 4500" onkeyup="checkAndTriggerMeter()">
                 </div>
             </div>
             
             <p id="discountStatusText" style="margin-top:10px; font-weight:bold; text-align:center; color:#2563eb;"></p>
         </div>
         
+        <!-- BLUE HERO BANNER WITH NEW ANIMATED METER BAR -->
         <div class="hero-banner">
             <div class="banner-text">
                 <h2>নিরাপদ ও জেনুইন অফার!</h2>
                 <p>কাস্টমার তথ্য সাবমিট করার পর, দোকানদার তার সিক্রেট ওটিপি কোডটি কালো বক্সে দিয়ে কাস্টমারের কেনাকাটার লাইভ বিল অ্যামাউন্ট সেট করতে পারবেন।</p>
             </div>
+
+            <!-- লাকি কুপন পার্সেন্টেজ বার উপাদান -->
+            <div class="lucky-progress-container" id="progressBarContainer">
+                <div class="lucky-progress-bar" id="liveProgressBar">5%</div>
+            </div>
         </div>
     </div>
 
+    <!-- MAIN PRODUCT GRID -->
     <div class="main-container">
         <h2 class="section-title" id="sectionTitle"><i class="fas fa-shopping-bag"></i> সমস্ত প্রোডাক্টের তালিকা (প্রচুর স্টক)</h2>
         <div class="product-grid" id="productGrid"></div>
     </div>
 
+    <!-- CART SIDEBAR -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
             <h2>🛒 আপনার শপিং কার্ট</h2>
@@ -279,6 +299,7 @@
         </div>
     </div>
 
+    <!-- QR PAYMENT -->
     <div class="qr-section">
         <h2>🔒 QR পেমেন্ট করুন</h2>
         <div style="text-align:center; border:2px dashed #2563eb; padding:15px; background:#f8fafc; border-radius:8px;">
@@ -287,8 +308,9 @@
         </div>
     </div>
 
+    <!-- ORDER FORM -->
     <div class="order-section" id="orderFormSection">
-        <h2>📦  ডেলিভারি তথ্য ফর্ম</h2>
+        <h2>📦 ডেলিভারি তথ্য ফর্ম</h2>
         <input type="text" id="formProductList" placeholder="কার্ট আইটেম অটোমেটিক আসবে" readonly>
         <input type="text" id="formTotalPrice" placeholder="মোট ফাইনাল দাম" readonly>
         <input type="text" id="custName" placeholder="আপনার নাম লিখুন">
@@ -306,18 +328,16 @@
     <script>
         const productsDatabase = [
             { id: 1, name: "প্রিমিয়াম রয়্যাল গোল্ডেন চেইন ঘড়ি", category: "fashion", price: 1299, oldPrice: 2499, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" },
-            { id: 2, name: "স্পোর্টস ডিজিটাল রানিং ব্ল্যাক ওয়াช", category: "fashion", price: 799, oldPrice: 1499, img: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" },
+            { id: 2, name: "স্পোর্টস ডিজিটাল রানিং ব্ল্যাক ওয়াচ", category: "fashion", price: 799, oldPrice: 1499, img: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" },
             { id: 3, name: "ক্যাসিনো সিলভার মেটাল ক্যাজুয়াল ঘড়ি", category: "fashion", price: 999, oldPrice: 1999, img: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400" },
-            { id: 4, name: "ব্রাউন লেদার লাক্সারি বিজনেস ঘড়ি", category: "fashion", price: 650, oldPrice: 1199, img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=400" },
-            { id: 7, name: "অর্গানিক ফেস গ্লো কম্বো ফেসওয়াশ কিট", category: "beauty", price: 599, oldPrice: 999, img: "https://images.unsplash.com/photo-1608248597481-496100c8c836?w=400" },
-            { id: 11, name: "এলইডি ক্রিস্টাল ডায়মন্ড টেবিল ল্যাম্প", category: "decor", price: 499, oldPrice: 999, img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400" },
-            { id: 15, name: "ওয়ারলেস হাই-বাস ব্লুটুথ নেকব্যান্ড", category: "electronics", price: 499, oldPrice: 999, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" }
+            { id: 4, name: "ব্রাউন লেদার লাক্সারি বিজনেস ঘড়ি", category: "fashion", price: 650, oldPrice: 1199, img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=400" }
         ];
 
         let shoppingCart = [];
         let secretAdminOtp = ""; 
         let activeDiscountPercent = 0; 
         let currentBillAmount = 0;
+        let isMeterRunning = false; // একাধিকবার টাইপ রুখতে
 
         window.onload = function() {
             setTimeout(() => document.getElementById("loader").style.display = "none", 3500);
@@ -352,31 +372,24 @@
             const dob = document.getElementById("discDOB").value;
             const statusText = document.getElementById("discountStatusText");
 
-            if(!name || !phone || !dob) {
-                alert("দয়া করে নাম, মোবাইল নম্বর এবং জন্মতারিখ সঠিকভাবে পূরণ করুন!");
-                return;
-            }
+            if(!name || !phone || !dob) { alert("দয়া করে নাম, মোবাইল নম্বর এবং জন্মতারিখ পূরণ করুন!"); return; }
 
             secretAdminOtp = String(Math.floor(1000 + Math.random() * 9000));
             
-            let msgText = `PANJA GIFTHOUSE - নতুন ডিসकाউন্ট রিকোয়েস্ট:\n\n` +
+            let msgText = `PANJA GIFTHOUSE - নতুন ডিসকাউন্ট রিকোয়েস্ট:\n\n` +
                           `👤 কাস্টমার: ${name}\n` +
                           `📞 কাস্টমারের নম্বর: ${phone}\n` +
                           `🔑 সিক্রেট ভেরিফিকেশন OTP: ${secretAdminOtp}\n\n` +
-                          `নিচের ৩টি নম্বরে এই কোডটি পৌঁছেছে:\n` +
                           `১. ${phone}\n` +
-                          `২. [আপনার পুরনো রেজিস্টার্ড নম্বর]\n` +
+                          `২. [পুরনো নম্বর]\n` +
                           `৩. 7980471077\n\n` +
-                          `দোকানদার এই OTP কালো বক্সে বসালেই অফার গেট অ্যামাউন্ট সেট করার সুবিধা পাবেন।`;
+                          `দোকানদার এই OTP কালো বক্সে বসালেই মিটারে লাইভ ডিসকাউন্ট ড্র চালু হবে।`;
 
-            let encodedURL = `https://wa.me/918100530600?text=${encodeURIComponent(msgText)}`;
-            window.open(encodedURL, '_blank');
-
+            window.open(`https://wa.me/918100530600?text=${encodeURIComponent(msgText)}`, '_blank');
             statusText.style.color = "#2563eb";
             statusText.innerText = "⏳ রিকোয়েস্ট পাঠানো হয়েছে! দোকানদারের থেকে OTP নিয়ে নিচে ভেরিফাই করুন।";
         }
 
-        // ওটিপি মিললে পাসকোড অ্যামাউন্ট বক্সটি ওপেন হবে
         function verifyAdminOtpCode() {
             let typedOtp = document.getElementById("adminSecretCodeInput").value.trim();
             let statusText = document.getElementById("discountStatusText");
@@ -384,69 +397,107 @@
 
             if(typedOtp === "") {
                 amountGate.style.display = "none";
-                activeDiscountPercent = 0;
-                updateCartUI();
+                resetProgressBar();
                 return;
             }
 
             if(typedOtp === secretAdminOtp && secretAdminOtp !== "") {
                 statusText.style.color = "#38bdf8";
-                statusText.innerText = "🔑 OTP ভেরিফাইড! এবার নিচে কাস্টমারের কেনাকাটার ফাইনাল অ্যামাউন্টটি বসান।";
-                amountGate.style.display = "block"; // অ্যামাউন্ট বক্সটি খুলে যাবে
+                statusText.innerText = "🔑 OTP ভেরিফাইড! এবার নিচে কাস্টমারের ফাইনাল অ্যামাউন্টটি বসান।";
+                amountGate.style.display = "block";
             } else {
                 statusText.style.color = "#ef4444";
                 statusText.innerText = "❌ ভুল অ্যাডমিন কোড! অফার চালু হয়নি।";
                 amountGate.style.display = "none";
-                activeDiscountPercent = 0;
-                updateCartUI();
+                resetProgressBar();
             }
         }
 
-        // দোকানদার ম্যানুয়ালি অ্যামাউন্ট টাইপ করলে পার্সেন্টেজ হিসাব হবে
-        function calculateLiveDiscountFromAmount() {
+        function checkAndTriggerMeter() {
             let amountInput = parseFloat(document.getElementById("adminManualAmount").value);
             let statusText = document.getElementById("discountStatusText");
-            const anim = document.getElementById("giftAnim");
 
-            if(isNaN(amountInput) || amountInput === "") {
-                activeDiscountPercent = 0;
-                updateCartUI();
-                return;
-            }
+            if(isNaN(amountInput) || amountInput === "") { resetProgressBar(); return; }
 
-            // ৪০০ টাকার কম হলে ডিসকাউন্ট ক্যানসেল
             if(amountInput < 400) {
                 statusText.style.color = "#ef4444";
-                statusText.innerText = "❌ ভুল অ্যামাউন্ট! ডিসকাউন্ট অ্যাক্টিভ করার জন্য মিনিমাম ৪০০ টাকা হতে হবে।";
-                activeDiscountPercent = 0;
-                updateCartUI();
+                statusText.innerText = "❌ ভুল অ্যামাউন্ট! ডিসকাউন্ট মিটারের জন্য মিনিমাম ৪০০ টাকা হতে হবে।";
+                resetProgressBar();
                 return;
             }
 
-            // লজিকঃ ৪০০ থেকে ৪০০০+ এর উপর ভিত্তি করে ডিসকাউন্ট পার্সেন্টেজ ফিক্সড
             currentBillAmount = amountInput;
-            if(currentBillAmount >= 1500) {
-                activeDiscountPercent = 20; 
-            } else if(currentBillAmount >= 800) {
-                activeDiscountPercent = 12;
-            } else {
-                activeDiscountPercent = 7; 
-            }
+            
+            // রেঞ্জ বা কুপন অনুযায়ী টার্গেট ফাইনাল পার্সেন্টেজ ফিক্সড করা
+            let targetPercent = 5;
+            if(currentBillAmount >= 3000) { targetPercent = 50; }
+            else if(currentBillAmount >= 2000) { targetPercent = 40; }
+            else if(currentBillAmount >= 1500) { targetPercent = 30; }
+            else if(currentBillAmount >= 1000) { targetPercent = 20; }
+            else if(currentBillAmount >= 700) { targetPercent = 15; }
+            else { targetPercent = 5; }
 
+            // যদি অলরেডি এনিমেশন না চলে, তবেই রান হবে
+            if(!isMeterRunning) {
+                runLuckyPercentageMeter(targetPercent);
+            }
+        }
+
+        // ডিজিটাল প্রোগ্রেস বার অ্যানিমেশন লজিক (৫% -> ১৫% -> ২০% -> ৩০% -> ৪০% -> ৫০%)
+        function runLuckyPercentageMeter(target) {
+            isMeterRunning = true;
+            activeDiscountPercent = 0;
+            updateCartUI();
+
+            const container = document.getElementById("progressBarContainer");
+            const bar = document.getElementById("liveProgressBar");
+            const statusText = document.getElementById("discountStatusText");
+            const anim = document.getElementById("giftAnim");
+
+            container.style.display = "block";
             anim.style.display = "block";
             statusText.style.color = "#facc15";
-            statusText.innerText = `🎲 ₹${currentBillAmount} টাকার ওপর লাকি ডিসকাউন্ট হিসেব হচ্ছে...`;
+            statusText.innerText = "🎰 লাকি ড্র মিটার স্পিডে ঘুরছে... কাস্টমার স্ক্রিনে চোখ রাখুন!";
 
-            setTimeout(() => {
-                anim.style.display = "none";
-                statusText.style.color = "#059669";
-                statusText.innerText = `🎉 সফল! ₹${currentBillAmount} টাকার কেনাকাটায় ফিক্সড ${activeDiscountPercent}% ডিসকাউন্ট চালু হয়েছে।`;
-                updateCartUI();
-            }, 1200);
+            // স্টেপ বাই স্টেপ সিকোয়েন্সিয়াল রিয়েলস্টিক লটারি ড্র ফিলিং
+            let steps = [5, 15, 20, 25, 30, 40, 50];
+            let currentStepIdx = 0;
+
+            let interval = setInterval(() => {
+                let currentVal = steps[currentStepIdx];
+                
+                if (currentVal <= target) {
+                    bar.style.width = currentVal + "%";
+                    bar.innerText = currentVal + "%";
+                    currentStepIdx++;
+                }
+                
+                if (currentVal >= target || currentStepIdx >= steps.length) {
+                    clearInterval(interval);
+                    
+                    // সাকসেস স্টেট ফাইনাল লক
+                    setTimeout(() => {
+                        anim.style.display = "none";
+                        statusText.style.color = "#4ade80";
+                        statusText.innerText = `🎉 বুম! লাকি ড্র মিটারে কাস্টমারের জন্য ফিক্সড ${target}% ডিসকাউন্ট লক হয়েছে!`;
+                        activeDiscountPercent = target;
+                        isMeterRunning = false;
+                        updateCartUI();
+                    }, 500);
+                }
+            }, 400); // প্রতি ৪০০ মিলি-সেকেন্ডে পার্সেন্টেজ লাফাবে
+        }
+
+        function resetProgressBar() {
+            activeDiscountPercent = 0;
+            isMeterRunning = false;
+            document.getElementById("progressBarContainer").style.display = "none";
+            document.getElementById("liveProgressBar").style.width = "5%";
+            document.getElementById("liveProgressBar").innerText = "5%";
+            updateCartUI();
         }
 
         function calculateSubtotal() {
-            // যদি কার্ট খালি থাকে কিন্তু দোকানদার ম্যানুয়াল অ্যামাউন্ট বসিয়ে থাকেন, তবে সেটাই সাবটোটাল হবে
             let cartSum = shoppingCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             return cartSum > 0 ? cartSum : currentBillAmount;
         }
@@ -499,7 +550,6 @@
                                 <button class="qty-btn" onclick="alterQty(${item.id}, 1)">+</button>
                             </div>
                         </div>
-                        <button onclick="removeCartItem(${item.id})" style="color:#ef4444; border:none; background:none; cursor:pointer;"><i class="fas fa-trash"></i></button>
                     </div>
                 `;
             });
@@ -513,7 +563,7 @@
             totalLabel.innerText = "₹" + finalTotal;
             
             if(subtotal > 0) {
-                let itemNames = shoppingCart.length > 0 ? shoppingCart.map(i => `${i.name} (${i.qty}টি)`).join(', ') : "সরাসরি শপ ডিসকাউন্ট অর্ডার";
+                let itemNames = shoppingCart.length > 0 ? shoppingCart.map(i => `${i.name} (${i.qty}টি)`).join(', ') : "সরাসরি শপ ড্র ডিসকাউন্ট";
                 document.getElementById("formProductList").value = itemNames;
                 document.getElementById("formTotalPrice").value = "ফাইনাল বিল: ₹" + finalTotal;
             } else {
@@ -546,7 +596,7 @@
             const phone = document.getElementById("custPhone").value.trim();
             const address = document.getElementById("custAddress").value.trim();
 
-            if(!name || !phone || !address) { alert("দয়া করে ফর্মের সব তথ্য পূরণ করুন!"); return; }
+            if(!name || !phone || !address) { alert("দয়া করে ফর্ম পূরণ করুন!"); return; }
 
             let customMessage = `নমস্কার PANJA GIFTHOUSE, আমি অর্ডার করতে চাই:\n\n🛍️ প্রোডাক্টস: ${list}\n💰 ${bill}\n\n👤 নাম: ${name}\n📞 ফোন: ${phone}\n📍 ঠিকানা: ${address}`;
             window.open(`https://wa.me/918100530600?text=${encodeURIComponent(customMessage)}`, '_blank');
