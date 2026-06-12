@@ -20,7 +20,6 @@
 <body>
 
     <div id="loader"><div class="spinner" id="mainSpinner"></div></div>
-
     <div class="header">PANJA GIFTHOUSE</div>
 
     <div class="discount-section">
@@ -33,41 +32,69 @@
         <div style="margin-top:20px;">
             <h4>🔒 Admin Verification</h4>
             <input type="text" class="black-box-input" id="adminOtp" placeholder="ENTER OTP" onkeyup="verifyOtp()">
-            
             <div class="admin-amount-box" id="amountGate">
                 <label>টোটাল কেনাকাটার অ্যামাউন্ট (₹400+):</label>
                 <input type="number" id="billAmount" placeholder="অ্যামাউন্ট বসান" onkeyup="calculateDiscount()">
             </div>
         </div>
         <div id="statusText" style="margin-top:10px; font-weight:bold;"></div>
-        
         <div class="lucky-progress-container" id="progCont">
             <div class="lucky-progress-bar" id="progBar">0%</div>
         </div>
     </div>
 
     <script>
-        // রিফ্রেশ অ্যানিমেশন র্যান্ডমাইজেশন
+        // ==========================================
+        // পয়েন্ট ১: নিরাপত্তা ও লিমিট লজিক (নতুন)
+        // ==========================================
+        let customerHistory = JSON.parse(localStorage.getItem('custHistory')) || {};
+        let editCount = 0; // সেশন প্রতি এডিট কাউন্টার
+        let generatedOtp = "";
+
+        // লোডার র্যান্ডম অ্যানিমেশন
         window.onload = () => {
             const loaders = ["spin 1s linear infinite", "spin 1.5s ease-in infinite"];
             document.getElementById("mainSpinner").style.animation = loaders[Math.floor(Math.random() * loaders.length)];
             setTimeout(() => document.getElementById("loader").style.display = "none", 1500);
         };
 
-        let generatedOtp = "";
-
+        // মোবাইল নম্বর লিমিট লজিক (দিনে ৩ বার)
         function submitRequest() {
+            const phone = document.getElementById("discPhone").value.trim();
+            const today = new Date().toISOString().split('T')[0];
+
+            if (!customerHistory[phone]) customerHistory[phone] = { count: 0, date: today };
+            if (customerHistory[phone].date !== today) { customerHistory[phone].count = 0; customerHistory[phone].date = today; }
+            
+            if (customerHistory[phone].count >= 3) {
+                alert("এই নম্বরটি আজকের জন্য লিমিট শেষ! আগামীকাল আবার ট্রাই করুন।");
+                return;
+            }
+
+            customerHistory[phone].count++;
+            localStorage.setItem('custHistory', JSON.stringify(customerHistory));
+            
             generatedOtp = String(Math.floor(1000 + Math.random() * 9000));
-            alert("OTP জেনারেট হয়েছে (টেস্ট মোড): " + generatedOtp);
+            alert("OTP জেনারেট হয়েছে: " + generatedOtp);
+            editCount = 0; // নতুন OTP সেশন শুরু
         }
 
         function verifyOtp() {
-            if(document.getElementById("adminOtp").value === generatedOtp) {
+            if(document.getElementById("adminOtp").value === generatedOtp && generatedOtp !== "") {
                 document.getElementById("amountGate").style.display = "block";
             }
         }
 
+        // ==========================================
+        // পয়েন্ট ২: অ্যামাউন্ট এডিট ও ডিসকাউন্ট লজিক
+        // ==========================================
         function calculateDiscount() {
+            // এডিট লিমিট (২ বার)
+            if(editCount >= 2) {
+                alert("এই OTP-র এডিট লিমিট শেষ! নতুন OTP নিন।");
+                return;
+            }
+
             let amount = parseFloat(document.getElementById("billAmount").value);
             let status = document.getElementById("statusText");
             let progCont = document.getElementById("progCont");
@@ -79,7 +106,10 @@
                 return;
             }
 
+            editCount++; 
             progCont.style.display = "block";
+            
+            // ডিসকাউন্ট রেঞ্জ স্ল্যাব (পরিবর্তনের জন্য এখানে আসবেন)
             let max = 5;
             if(amount >= 6000) max = 35;
             else if(amount >= 5000) max = 30;
@@ -92,7 +122,10 @@
             
             progBar.style.width = "100%";
             progBar.innerText = finalPerc + "% OFF";
-            status.innerText = finalPerc === 0 ? "Better Luck Next Time!" : "অভিনন্দন! আপনি জিতেছেন " + finalPerc + "%";
+            
+            // Better Luck লজিক
+            status.style.color = (finalPerc === 0) ? "red" : "green";
+            status.innerText = finalPerc === 0 ? "Better Luck Next Time (0%)" : "অভিনন্দন! আপনি জিতেছেন " + finalPerc + "%";
         }
     </script>
 </body>
