@@ -1,5 +1,199 @@
 <!DOCTYPE html>
+<html lang="bn"><!DOCTYPE html>
 <html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PANJA GIFTHOUSE</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    padding:20px;
+    text-align:center;
+}
+
+.box{
+    background:white;
+    max-width:450px;
+    margin:20px auto;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+}
+
+input{
+    width:95%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#198754;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#146c43;
+}
+
+.page{
+    display:none;
+}
+
+.active{
+    display:block;
+}
+
+.gift-box{
+    width:120px;
+    cursor:pointer;
+    animation:shake 1s infinite;
+}
+
+@keyframes shake{
+    0%{transform:rotate(0deg);}
+    25%{transform:rotate(5deg);}
+    75%{transform:rotate(-5deg);}
+    100%{transform:rotate(0deg);}
+}
+
+.result{
+    font-size:20px;
+    font-weight:bold;
+    color:#198754;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎁 PANJA GIFTHOUSE</h1>
+
+<!-- স্টাফ লগইন -->
+<div id="staffLogin" class="box page active">
+    <h3>স্টাফ লগইন</h3>
+
+    <input type="text" id="sPhone" placeholder="মোবাইল নম্বর">
+    <input type="password" id="sOtp" placeholder="OTP">
+
+    <button onclick="checkStaff()">লগইন করুন</button>
+</div>
+
+<!-- কাস্টমার -->
+<div id="custEntry" class="box page">
+    <h3>কাস্টমার তথ্য</h3>
+
+    <input type="text" id="cName" placeholder="কাস্টমারের নাম">
+    <input type="text" id="cPhone" placeholder="মোবাইল নম্বর">
+    <input type="date" id="cDate">
+    <input type="number" id="cAmount" placeholder="মোট কেনাকাটার টাকা">
+
+    <input type="password" id="cOtp" placeholder="দ্বিতীয় OTP">
+
+    <button onclick="verifyCust()">ভেরিফাই করুন</button>
+</div>
+
+<!-- গিফট -->
+<div id="giftPage" class="box page">
+    <h3>উপহার জানার জন্য ক্লিক করুন</h3>
+
+    <img
+    src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png"
+    class="gift-box"
+    onclick="showResult()">
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+
+// স্টাফ OTP
+const STAFF_OTP = "1234";
+
+// কাস্টমার OTP
+const CUSTOMER_OTP = "5678";
+
+// লগইন
+function checkStaff(){
+
+    let otp = document.getElementById("sOtp").value;
+
+    if(otp === STAFF_OTP){
+
+        document.getElementById("staffLogin").classList.remove("active");
+        document.getElementById("custEntry").classList.add("active");
+
+    }else{
+        alert("ভুল OTP");
+    }
+}
+
+// কাস্টমার ভেরিফাই
+function verifyCust(){
+
+    let otp = document.getElementById("cOtp").value;
+
+    if(otp === CUSTOMER_OTP){
+
+        document.getElementById("custEntry").classList.remove("active");
+        document.getElementById("giftPage").classList.add("active");
+
+    }else{
+        alert("ভুল OTP");
+    }
+}
+
+// গিফট ও ডিসকাউন্ট
+function showResult(){
+
+    let amount =
+    parseFloat(document.getElementById("cAmount").value);
+
+    if(!amount){
+        alert("কেনাকাটার টাকা দিন");
+        return;
+    }
+
+    const offers = [
+        5,
+        10,
+        15,
+        20
+    ];
+
+    let discount =
+    offers[Math.floor(Math.random()*offers.length)];
+
+    let discountAmount =
+    amount * discount / 100;
+
+    let finalAmount =
+    amount - discountAmount;
+
+    document.getElementById("result").innerHTML =
+    `
+    মোট কেনাকাটা: ৳${amount}<br>
+    ডিসকাউন্ট: ${discount}%<br>
+    ছাড়: ৳${discountAmount.toFixed(2)}<br>
+    পরিশোধযোগ্য: ৳${finalAmount.toFixed(2)}
+    `;
+}
+</script>
+
+</body>
+</html>
 <head>
     <meta charset="UTF-8">
     <title>PANJA GIFTHOUSE - স্টাফ প্যানেল</title>
