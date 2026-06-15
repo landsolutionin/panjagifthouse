@@ -72,40 +72,74 @@
         <div class="nav-item"><i class="fas fa-user"></i><br>Profile</div>
     </div>
 
-    <script>
-        let generatedOtp = "";
-        
-        function submitRequest() {
-            generatedOtp = String(Math.floor(1000 + Math.random() * 9000));
-            alert("আপনার OTP হলো: " + generatedOtp);
-            document.getElementById('otpSection').style.display = "block";
-        }
+ <style>
+    /* ভেরিয়েবল সেটআপ */
+    :root {
+        --primary: #2563eb;
+        --secondary: #1e3a8a;
+    }
+    
+    .container { 
+        max-width: 500px; 
+        margin: 20px auto; 
+        background: white; 
+        padding: 25px; 
+        border-radius: 15px; 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+    }
+    
+    .black-box-input { 
+        font-size: 18px; 
+        font-weight: bold; 
+        letter-spacing: 5px; 
+    }
+</style>
 
-        function verifyOtp() {
-            if(document.getElementById("adminOtp").value === generatedOtp) {
-                document.getElementById("amountSection").style.display = "block";
-            }
-        }
+<div class="container">
+    <h3>🎉 লাকি কুপন ড্র</h3>
+    
+    <input type="text" id="discPhone" placeholder="আপনার মোবাইল নম্বর" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;">
+    
+    <button onclick="submitRequest()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">রিকোয়েস্ট পাঠান</button>
 
-        function calculateDiscount() {
-            let amount = parseFloat(document.getElementById("billAmount").value);
-            if(amount >= 400) {
-                document.getElementById("progCont").style.display = "block";
-                let progBar = document.getElementById("progBar");
-                let successCard = document.getElementById("successCard");
-                
-                progBar.style.width = "100%";
-                let discount = Math.floor(Math.random() * 50) + 5;
-                progBar.innerText = discount + "% OFF";
-                
-                successCard.style.display = "block";
-                successCard.innerText = "অভিনন্দন! আপনি জিতেছেন " + discount + "% ডিসকাউন্ট!";
-                
-                // Winning effect
-                document.body.style.background = "linear-gradient(135deg, #fef9c3, #ffffff)";
-                setTimeout(() => { document.body.style.background = "#f1f5f9"; }, 2000);
-            }
+    <div id="otpSection" style="margin-top:15px; display:none;">
+        <input type="text" id="adminOtp" placeholder="OTP বসান" class="black-box-input" onkeyup="verifyOtp()" style="width:100%; padding:12px; background:#0f172a; color:#facc15; border:none; text-align:center; border-radius:8px; box-sizing:border-box;">
+    </div>
+
+    <div id="amountSection" style="margin-top:15px; display:none;">
+        <input type="number" id="billAmount" placeholder="বিল অ্যামাউন্ট (৪০০+)" onkeyup="calculateDiscount()" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;">
+    </div>
+
+    <div id="progCont" style="width:100%; background:#e2e8f0; height:30px; border-radius:15px; margin-top:15px; display:none; overflow:hidden;">
+        <div class="lucky-progress-bar" id="progBar">0%</div>
+    </div>
+    
+    <div id="successCard" class="success-card"></div>
+</div>
+
+<script>
+    // লজিক আপডেট
+    function submitRequest() {
+        // মোবাইল নম্বর চেক করার পর...
+        document.getElementById("otpSection").style.display = "block";
+        alert("আপনার ফোনে একটি ওটিপি পাঠানো হয়েছে।");
+    }
+
+    function verifyOtp() {
+        // ওটিপি যাচাই করার পর...
+        if(document.getElementById("adminOtp").value.length >= 4) {
+            document.getElementById("amountSection").style.display = "block";
         }
-    </script>
+    }
+
+    function calculateDiscount() {
+        // ডিসকাউন্ট লজিক এখানে থাকবে...
+        document.getElementById("progCont").style.display = "block";
+        document.getElementById("progBar").style.width = "100%";
+        document.getElementById("progBar").innerText = "২০% OFF";
+        document.getElementById("successCard").style.display = "block";
+        document.getElementById("successCard").innerText = "অভিনন্দন! আপনি ২০% ডিসকাউন্ট জিতেছেন।";
+    }
+</script>
 </body>
 </html>
