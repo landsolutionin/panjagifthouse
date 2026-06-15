@@ -2,73 +2,61 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>PANJA GIFTHOUSE - প্রিমিয়াম স্টোর</title>
+    <title>PANJA GIFTHOUSE - প্রিমিয়াম স্টোর</title>
     <style>
-        /* কনফিগারেশন: কালার ও ডিজাইন */
-        :root { --primary: #15803d; --accent: #facc15; }
-        body { margin: 0; font-family: sans-serif; transition: background 1s ease; background: #f0fdf4; }
-
-        /* লোগো অ্যানিমেশন: রিফ্রেশে লোগো বড় হওয়া */
-        #loader { position: fixed; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .logo-box { font-size: 2rem; font-weight: bold; color: var(--primary); animation: grow 1.5s ease-out; }
-        @keyframes grow { 0% { transform: scale(0.5); } 100% { transform: scale(1.2); } }
-
-        /* গ্রিড ও কার্ড স্টাইল */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .card { background: white; padding: 10px; border-radius: 10px; text-align: center; border: 1px solid #ccc; }
-        .card img { width: 100%; height: 100px; object-fit: cover; border-radius: 5px; }
-
-        /* লগইন ও কুপন সেকশন */
-        .login-box { padding: 20px; background: white; margin: 20px; border-radius: 10px; border: 2px solid var(--primary); }
-        .progress-container { width: 100%; height: 20px; background: #ddd; margin-top: 10px; border-radius: 10px; overflow: hidden; }
-        #progBar { height: 100%; background: var(--accent); width: 10%; transition: width 0.3s; }
+        body { font-family: sans-serif; text-align: center; background: #f1f5f9; padding: 20px; }
+        .box { background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, button { width: 90%; padding: 10px; margin: 10px 0; }
+        #discountPage, #giftBox { display: none; }
+        /* গিফট বক্স এনিমেশন */
+        .gift-img { width: 100px; cursor: pointer; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="logo-box">PANJA GIFTHOUSE</div></div>
-
-    <div class="grid">
-        <div class="card"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=500"><p>ফ্যাশন</p></div>
-        <div class="card"><img src="https://images.unsplash.com/photo-1549465220-1a8b9650b297?q=80&w=500"><p>গিফট</p></div>
-        <div class="card"><img src="https://images.unsplash.com/photo-1596464716127-f2a82987de9d?q=80&w=500"><p>খেলনা</p></div>
-        <div class="card"><img src="https://images.unsplash.com/photo-1513885535751-8b9238bd345a?q=80&w=500"><p>অন্যান্য</p></div>
+    <!-- পার্ট ১: স্টাফ লগইন পেজ -->
+    <div class="box" id="loginPage">
+        <h3>স্টাফ লগইন</h3>
+        <input type="text" id="staffPhone" placeholder="আপনার মোবাইল নম্বর">
+        <button onclick="loginProcess()">ওটিপি পাঠান ও লগইন করুন</button>
     </div>
 
-    <div class="login-box">
-        <h3>লগইন ও ডিসকাউন্ট দেখুন</h3>
-        <input type="text" id="phone" placeholder="আপনার মোবাইল নম্বর" style="width:90%; padding:10px;">
-        <button onclick="startProcess()" style="width:95%; padding:10px; background:var(--primary); color:white; border:none; margin-top:10px;">লগইন করুন</button>
-        <div class="progress-container"><div id="progBar"></div></div>
+    <!-- পার্ট ২: ডিসকাউন্ট এন্ট্রি পেজ (লগইন সফল হলে খুলবে) -->
+    <div class="box" id="discountPage">
+        <h3>কাস্টমার ডিটেইলস</h3>
+        <input type="text" id="custPhone" placeholder="কাস্টমারের মোবাইল নম্বর">
+        <input type="number" id="shopAmount" placeholder="শপিং অ্যামাউন্ট">
+        <button onclick="showGift()">ডিসকাউন্ট দেখুন</button>
+    </div>
+
+    <!-- পার্ট ৩: গিফট বক্স এনিমেশন -->
+    <div class="box" id="giftBox">
+        <h3>উপহারের জন্য ক্লিক করুন!</h3>
+        <img src="https://cdn-icons-png.flaticon.com/512/3132/3132039.png" class="gift-img" onclick="revealDiscount()">
     </div>
 
     <script>
-        // প্রতি রিফ্রেশে ব্যাকগ্রাউন্ড কালার লুপ (ব্ল্যাক, রেড, গ্রিন)
-        const colors = ['#1a1a1a', '#8b0000', '#006400'];
-        document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        // ১. লগইন প্রসেস
+        function loginProcess() {
+            alert("ওটিপি পাঠানো হয়েছে!"); // সিমুলেটেড ওটিপি
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('discountPage').style.display = 'block';
+        }
 
-        // পেজ লোড হলে অ্যানিমেশন সরানোর লজিক
-        window.onload = () => setTimeout(() => document.getElementById('loader').style.display = 'none', 1500);
+        // ২. কাস্টমার ডাটা এন্ট্রি
+        function showGift() {
+            document.getElementById('discountPage').style.display = 'none';
+            document.getElementById('giftBox').style.display = 'block';
+        }
 
-        // লগইন ও ডিসকাউন্ট প্রসেস
-        function startProcess() {
-            let phone = document.getElementById('phone').value;
-            if(phone.length < 10) { alert("সঠিক মোবাইল নম্বর দিন!"); return; }
-            
-            // ডাটাবেস ট্র্যাকিং (লোকাল)
-            console.log("লগইন করা হয়েছে: " + phone + " - ডিভাইস: " + navigator.userAgent);
-            alert("আপনার নম্বরে ওটিপি পাঠানো হয়েছে!");
-
-            // স্লো ডিসকাউন্ট এনিমেশন (১০% -> ৫০% -> ১০%)
-            let bar = document.getElementById('progBar');
-            let width = 10;
-            let dir = 1;
-            let interval = setInterval(() => {
-                width += (5 * dir);
-                bar.style.width = width + "%";
-                if (width >= 50) dir = -1;
-                if (width <= 10) { clearInterval(interval); alert("অভিনন্দন! আপনার ডিসকাউন্ট: ১০%"); }
-            }, 200);
+        // ৩. গিফট বক্স ক্লিক করলে ডিসকাউন্ট শো করা
+        function revealDiscount() {
+            let amount = document.getElementById('shopAmount').value;
+            let discount = (amount > 1000) ? "২০%" : "১০%"; // আপনার ডিসকাউন্ট লজিক
+            alert("অভিনন্দন! আপনি জিতেছেন: " + discount + " ডিসকাউন্ট!");
+            // এখানে আপনি এই ডাটাটি লোকাল ডেটাবেসে বা কনসোলে সেভ করে রাখতে পারেন
+            console.log("কাস্টমার ডাটা রেকর্ড হয়েছে");
         }
     </script>
 </body>
