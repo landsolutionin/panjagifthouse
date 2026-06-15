@@ -2,144 +2,65 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PANJA GIFTHOUSE - প্রিমিয়াম গিফট স্টোর</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>PANJA GIFTHOUSE - প্রিমিয়াম স্টোর</title>
     <style>
-        :root { --primary: #2563eb; --secondary: #1e3a8a; --accent: #facc15; }
-        
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        body { font-family: 'Segoe UI', sans-serif; background: #f1f5f9; margin: 0; padding-bottom: 80px; transition: background 0.5s; }
-        
-        /* Premium Header */
-        .header { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; padding: 20px; font-size: 24px; font-weight: 700; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,.2); }
-        
-        .container { max-width: 500px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        
-        .lucky-progress-bar { height: 30px; background: linear-gradient(90deg, #22c55e, var(--accent), #f97316); width: 0%; text-align: center; color: black; font-weight: bold; line-height: 30px; transition: all 1s ease; border-radius: 15px; }
-        
-        .success-card { background: #ecfdf5; border: 2px solid #22c55e; padding: 15px; border-radius: 10px; margin-top: 15px; text-align: center; display: none; }
+        /* [পার্ট ১: থিম কালার কনফিগারেশন - পরিবর্তনযোগ্য] */
+        :root { --primary: #2563eb; --accent: #facc15; }
+        body { margin: 0; font-family: sans-serif; transition: background 1s ease; }
 
-        /* Bottom Navigation */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
-        .nav-item { text-align: center; color: var(--primary); font-size: 12px; cursor: pointer; }
-        
-        /* Footer */
-        .footer { text-align: center; padding: 20px; color: #64748b; font-size: 14px; }
-        .social-icons a { font-size: 24px; margin: 0 10px; color: var(--primary); text-decoration: none; }
+        /* [পার্ট ২: প্রি-লোডার ও অ্যানিমেশন] */
+        #loader { position: fixed; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; justify-content: center; align-items: center; }
+        .logo-box { font-size: 2.5rem; font-weight: bold; color: var(--primary); animation: grow 1.5s ease-out; }
+        @keyframes grow { 0% { transform: scale(0.5); } 100% { transform: scale(1.2); } }
+
+        /* [পার্ট ৩: প্রোডাক্ট কার্ড ও লেআউট] */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .card { background: white; padding: 10px; border-radius: 10px; text-align: center; cursor: pointer; }
+        .img-placeholder { height: 100px; background: #ddd; margin-bottom: 10px; }
+
+        /* [পার্ট ৪: কুপন ও প্রগ্রেস বার] */
+        .coupon-sec { padding: 20px; background: white; margin: 20px; border-radius: 10px; }
+        #progBar { height: 20px; background: var(--accent); width: 0%; transition: width 0.5s; }
     </style>
 </head>
 <body>
 
-    <div class="header">PANJA GIFTHOUSE</div>
+    <div id="loader"><div class="logo-box">PANJA GIFTHOUSE</div></div>
 
-    <div class="container">
-        <h3>🎉 লাকি কুপন ড্র</h3>
-        <input type="text" id="discPhone" placeholder="আপনার মোবাইল নম্বর" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px;">
-        <button onclick="submitRequest()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer;">রিকোয়েস্ট পাঠান</button>
-
-        <div id="otpSection" style="margin-top:15px; display:none;">
-            <input type="text" id="adminOtp" placeholder="OTP বসান" class="black-box-input" onkeyup="verifyOtp()" style="width:100%; padding:12px; background:#0f172a; color:#facc15; border:none; text-align:center; border-radius:8px;">
-        </div>
-
-        <div id="amountSection" style="margin-top:15px; display:none;">
-            <input type="number" id="billAmount" placeholder="বিল অ্যামাউন্ট (৪০০+)" onkeyup="calculateDiscount()" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;">
-        </div>
-
-        <div id="progCont" style="width:100%; background:#e2e8f0; height:30px; border-radius:15px; margin-top:15px; display:none;">
-            <div class="lucky-progress-bar" id="progBar">0%</div>
-        </div>
-        <div id="successCard" class="success-card"></div>
+    <div class="grid">
+        <div class="card"><div class="img-placeholder"></div>ফ্যাশন</div>
+        <div class="card"><div class="img-placeholder"></div>গিফট</div>
+        <div class="card"><div class="img-placeholder"></div>খেলনা</div>
     </div>
 
-    <!-- Social & Footer -->
-    <div class="footer">
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-            <a href="#"><i class="fab fa-telegram"></i></a>
-        </div>
-        <p style="margin-top:15px;">&copy; 2026 PANJA GIFTHOUSE. All Rights Reserved.</p>
+    <div class="coupon-sec">
+        <h3>লগইন করুন ও ডিসকাউন্ট দেখুন</h3>
+        <input type="text" id="phone" placeholder="মোবাইল নম্বর">
+        <button onclick="startLogin()">লগইন</button>
+        <div id="discResult" style="margin-top:10px;"></div>
+        <div id="progBar"></div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <div class="nav-item"><i class="fas fa-home"></i><br>Home</div>
-        <div class="nav-item"><i class="fas fa-gift"></i><br>Offers</div>
-        <div class="nav-item"><i class="fas fa-shopping-cart"></i><br>Cart</div>
-        <div class="nav-item"><i class="fas fa-user"></i><br>Profile</div>
-    </div>
+    <script>
+        // ১. প্রতি রিফ্রেশে কালার পরিবর্তন
+        const colors = ['#1a1a1a', '#8b0000', '#006400'];
+        document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 
- <style>
-    /* ভেরিয়েবল সেটআপ */
-    :root {
-        --primary: #2563eb;
-        --secondary: #1e3a8a;
-    }
-    
-    .container { 
-        max-width: 500px; 
-        margin: 20px auto; 
-        background: white; 
-        padding: 25px; 
-        border-radius: 15px; 
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
-    }
-    
-    .black-box-input { 
-        font-size: 18px; 
-        font-weight: bold; 
-        letter-spacing: 5px; 
-    }
-</style>
+        // ২. লোডার লজিক
+        window.onload = () => setTimeout(() => document.getElementById('loader').style.display = 'none', 1500);
 
-<div class="container">
-    <h3>🎉 লাকি কুপন ড্র</h3>
-    
-    <input type="text" id="discPhone" placeholder="আপনার মোবাইল নম্বর" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;">
-    
-    <button onclick="submitRequest()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">রিকোয়েস্ট পাঠান</button>
-
-    <div id="otpSection" style="margin-top:15px; display:none;">
-        <input type="text" id="adminOtp" placeholder="OTP বসান" class="black-box-input" onkeyup="verifyOtp()" style="width:100%; padding:12px; background:#0f172a; color:#facc15; border:none; text-align:center; border-radius:8px; box-sizing:border-box;">
-    </div>
-
-    <div id="amountSection" style="margin-top:15px; display:none;">
-        <input type="number" id="billAmount" placeholder="বিল অ্যামাউন্ট (৪০০+)" onkeyup="calculateDiscount()" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;">
-    </div>
-
-    <div id="progCont" style="width:100%; background:#e2e8f0; height:30px; border-radius:15px; margin-top:15px; display:none; overflow:hidden;">
-        <div class="lucky-progress-bar" id="progBar">0%</div>
-    </div>
-    
-    <div id="successCard" class="success-card"></div>
-</div>
-
-<script>
-    // লজিক আপডেট
-    function submitRequest() {
-        // মোবাইল নম্বর চেক করার পর...
-        document.getElementById("otpSection").style.display = "block";
-        alert("আপনার ফোনে একটি ওটিপি পাঠানো হয়েছে।");
-    }
-
-    function verifyOtp() {
-        // ওটিপি যাচাই করার পর...
-        if(document.getElementById("adminOtp").value.length >= 4) {
-            document.getElementById("amountSection").style.display = "block";
+        // ৩. ডিসকাউন্ট স্লাব ও এনিমেশন (আপনার বলা ১০% - ৫০% লজিক)
+        function startLogin() {
+            alert("হোয়াটসঅ্যাপে OTP পাঠানো হয়েছে!");
+            let bar = document.getElementById('progBar');
+            let width = 10; // ১০% থেকে শুরু
+            let interval = setInterval(() => {
+                if (width >= 50) width = 10; // ৫০% এ গিয়ে আবার ১০% এ নেমে আসবে
+                width += 5;
+                bar.style.width = width + "%";
+                if(width >= 50) clearInterval(interval); 
+            }, 300);
         }
-    }
-
-    function calculateDiscount() {
-        // ডিসকাউন্ট লজিক এখানে থাকবে...
-        document.getElementById("progCont").style.display = "block";
-        document.getElementById("progBar").style.width = "100%";
-        document.getElementById("progBar").innerText = "২০% OFF";
-        document.getElementById("successCard").style.display = "block";
-        document.getElementById("successCard").innerText = "অভিনন্দন! আপনি ২০% ডিসকাউন্ট জিতেছেন।";
-    }
-</script>
+    </script>
 </body>
 </html>
