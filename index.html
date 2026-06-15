@@ -4,23 +4,23 @@
     <meta charset="UTF-8">
     <title>PANJA GIFTHOUSE - প্রিমিয়াম স্টোর</title>
     <style>
-        /* [পার্ট ১: থিম কালার কনফিগারেশন - পরিবর্তনযোগ্য] */
-        :root { --primary: #2563eb; --accent: #facc15; }
-        body { margin: 0; font-family: sans-serif; transition: background 1s ease; }
+        /* [কনফিগারেশন: কালার] */
+        :root { --primary: #15803d; --accent: #facc15; } /* সবুজ থিম */
+        body { margin: 0; font-family: sans-serif; transition: background 1s ease; background: #f0fdf4; }
 
-        /* [পার্ট ২: প্রি-লোডার ও অ্যানিমেশন] */
+        /* [লোগো অ্যানিমেশন] */
         #loader { position: fixed; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .logo-box { font-size: 2.5rem; font-weight: bold; color: var(--primary); animation: grow 1.5s ease-out; }
+        .logo-box { font-size: 2rem; font-weight: bold; color: var(--primary); animation: grow 1.5s ease-out; }
         @keyframes grow { 0% { transform: scale(0.5); } 100% { transform: scale(1.2); } }
 
-        /* [পার্ট ৩: প্রোডাক্ট কার্ড ও লেআউট] */
+        /* [প্রোডাক্ট কার্ড] */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .card { background: white; padding: 10px; border-radius: 10px; text-align: center; cursor: pointer; }
-        .img-placeholder { height: 100px; background: #ddd; margin-bottom: 10px; }
+        .card { background: white; padding: 20px; border-radius: 10px; border: 1px solid #ddd; text-align: center; }
 
-        /* [পার্ট ৪: কুপন ও প্রগ্রেস বার] */
-        .coupon-sec { padding: 20px; background: white; margin: 20px; border-radius: 10px; }
-        #progBar { height: 20px; background: var(--accent); width: 0%; transition: width 0.5s; }
+        /* [লগইন সেকশন] */
+        .login-box { padding: 20px; background: white; margin: 20px; border-radius: 10px; border: 2px solid var(--primary); }
+        .progress-container { width: 100%; height: 20px; background: #ddd; margin-top: 10px; border-radius: 10px; }
+        #progBar { height: 100%; background: var(--accent); width: 0%; transition: width 0.5s; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -28,37 +28,50 @@
     <div id="loader"><div class="logo-box">PANJA GIFTHOUSE</div></div>
 
     <div class="grid">
-        <div class="card"><div class="img-placeholder"></div>ফ্যাশন</div>
-        <div class="card"><div class="img-placeholder"></div>গিফট</div>
-        <div class="card"><div class="img-placeholder"></div>খেলনা</div>
+        <div class="card">ফ্যাশন</div>
+        <div class="card">গিফট</div>
+        <div class="card">খেলনা</div>
     </div>
 
-    <div class="coupon-sec">
-        <h3>লগইন করুন ও ডিসকাউন্ট দেখুন</h3>
-        <input type="text" id="phone" placeholder="মোবাইল নম্বর">
-        <button onclick="startLogin()">লগইন</button>
-        <div id="discResult" style="margin-top:10px;"></div>
-        <div id="progBar"></div>
+    <div class="login-box">
+        <h3>স্টাফ লগইন ও ডিসকাউন্ট</h3>
+        <input type="text" id="phone" placeholder="মোবাইল নম্বর" style="width:100%; padding:10px; margin-bottom:10px;">
+        <button onclick="requestLogin()" style="width:100%; padding:10px; background:var(--primary); color:white; border:none;">আপনার WhatsApp এ কোড পাঠান</button>
+        <div class="progress-container"><div id="progBar"></div></div>
     </div>
 
     <script>
-        // ১. প্রতি রিফ্রেশে কালার পরিবর্তন
-        const colors = ['#1a1a1a', '#8b0000', '#006400'];
-        document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-        // ২. লোডার লজিক
+        // ১. লোডার লজিক
         window.onload = () => setTimeout(() => document.getElementById('loader').style.display = 'none', 1500);
 
-        // ৩. ডিসকাউন্ট স্লাব ও এনিমেশন (আপনার বলা ১০% - ৫০% লজিক)
-        function startLogin() {
-            alert("হোয়াটসঅ্যাপে OTP পাঠানো হয়েছে!");
+        // ২. লগইন ও হোয়াটসঅ্যাপ লজিক (আপডেট করা)
+        function requestLogin() {
+            let phone = document.getElementById('phone').value;
+            let otp = Math.floor(1000 + Math.random() * 9000);
+            
+            // আপনার নাম্বার এখানে (7980471077)
+            let adminNumber = "7980471077";
+            let url = `https://wa.me/${adminNumber}?text=নতুন লগইন রিকোয়েস্ট! ফোন: ${phone}, OTP: ${otp}`;
+            
+            window.open(url, '_blank');
+            
+            // ডিসকাউন্ট বার এনিমেশন শুরু
+            startDiscountAnimation();
+        }
+
+        // ৩. স্লো-মোশন ডিসকাউন্ট স্লাব লজিক (১০%-৫০%-১০%)
+        function startDiscountAnimation() {
             let bar = document.getElementById('progBar');
-            let width = 10; // ১০% থেকে শুরু
+            let width = 10;
+            let direction = 1;
             let interval = setInterval(() => {
-                if (width >= 50) width = 10; // ৫০% এ গিয়ে আবার ১০% এ নেমে আসবে
-                width += 5;
+                width += (5 * direction);
                 bar.style.width = width + "%";
-                if(width >= 50) clearInterval(interval); 
+                if (width >= 50) direction = -1;
+                if (width <= 10) {
+                    clearInterval(interval);
+                    alert("আপনার কুপন রেডি! ১০% ডিসকাউন্ট অ্যাপ্লিকেবল।");
+                }
             }, 300);
         }
     </script>
