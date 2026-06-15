@@ -2,61 +2,68 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>PANJA GIFTHOUSE - প্রিমিয়াম স্টোর</title>
+    <title>PANJA GIFTHOUSE - স্টাফ প্যানেল</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f1f5f9; padding: 20px; }
-        .box { background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input, button { width: 90%; padding: 10px; margin: 10px 0; }
-        #discountPage, #giftBox { display: none; }
-        /* গিফট বক্স এনিমেশন */
-        .gift-img { width: 100px; cursor: pointer; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        body { font-family: sans-serif; background: #f0fdf4; text-align: center; padding: 20px; }
+        .box { background: white; padding: 25px; border-radius: 15px; max-width: 400px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
+        button { width: 95%; padding: 12px; background: #15803d; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        #appPages > div { display: none; }
+        #appPages > div.active { display: block; }
+        .gift-box { width: 120px; cursor: pointer; margin: 20px auto; animation: shake 1s infinite; }
+        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
     </style>
 </head>
 <body>
 
-    <!-- পার্ট ১: স্টাফ লগইন পেজ -->
-    <div class="box" id="loginPage">
-        <h3>স্টাফ লগইন</h3>
-        <input type="text" id="staffPhone" placeholder="আপনার মোবাইল নম্বর">
-        <button onclick="loginProcess()">ওটিপি পাঠান ও লগইন করুন</button>
-    </div>
+    <div id="appPages">
+        <div id="staffLogin" class="active" class="box">
+            <h3>স্টাফ লগইন</h3>
+            <input type="text" id="sPhone" placeholder="মোবাইল নম্বর">
+            <input type="text" id="sOtp" placeholder="ওটিপি (দিন: 1234)">
+            <button onclick="checkStaff()">লগইন করুন</button>
+        </div>
 
-    <!-- পার্ট ২: ডিসকাউন্ট এন্ট্রি পেজ (লগইন সফল হলে খুলবে) -->
-    <div class="box" id="discountPage">
-        <h3>কাস্টমার ডিটেইলস</h3>
-        <input type="text" id="custPhone" placeholder="কাস্টমারের মোবাইল নম্বর">
-        <input type="number" id="shopAmount" placeholder="শপিং অ্যামাউন্ট">
-        <button onclick="showGift()">ডিসকাউন্ট দেখুন</button>
-    </div>
+        <div id="custEntry" class="box">
+            <h3>কাস্টমার ডাটা</h3>
+            <input type="text" id="cName" placeholder="কাস্টমারের নাম">
+            <input type="text" id="cPhone" placeholder="কাস্টমারের মোবাইল">
+            <input type="date" id="cDate">
+            <input type="number" id="cAmount" placeholder="মোট কেনাকাটার টাকা">
+            <input type="text" id="cOtp" placeholder="দ্বিতীয় ওটিপি (দিন: 5678)">
+            <button onclick="verifyCust()">ডিসকাউন্ট জেনারেট করুন</button>
+        </div>
 
-    <!-- পার্ট ৩: গিফট বক্স এনিমেশন -->
-    <div class="box" id="giftBox">
-        <h3>উপহারের জন্য ক্লিক করুন!</h3>
-        <img src="https://cdn-icons-png.flaticon.com/512/3132/3132039.png" class="gift-img" onclick="revealDiscount()">
+        <div id="giftAnim" class="box">
+            <h3>উপহারের জন্য ক্লিক করুন!</h3>
+            <img src="https://cdn-icons-png.flaticon.com/512/3132/3132039.png" class="gift-box" onclick="showResult()">
+        </div>
     </div>
 
     <script>
-        // ১. লগইন প্রসেস
-        function loginProcess() {
-            alert("ওটিপি পাঠানো হয়েছে!"); // সিমুলেটেড ওটিপি
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('discountPage').style.display = 'block';
+        // লগইন যাচাই
+        function checkStaff() {
+            if(document.getElementById('sOtp').value == "1234") {
+                document.getElementById('staffLogin').classList.remove('active');
+                document.getElementById('custEntry').classList.add('active');
+            } else { alert("ভুল ওটিপি!"); }
         }
 
-        // ২. কাস্টমার ডাটা এন্ট্রি
-        function showGift() {
-            document.getElementById('discountPage').style.display = 'none';
-            document.getElementById('giftBox').style.display = 'block';
+        // কাস্টমার ভেরিফিকেশন
+        function verifyCust() {
+            if(document.getElementById('cOtp').value == "5678") {
+                document.getElementById('custEntry').classList.remove('active');
+                document.getElementById('giftAnim').classList.add('active');
+            } else { alert("ভুল ওটিপি!"); }
         }
 
-        // ৩. গিফট বক্স ক্লিক করলে ডিসকাউন্ট শো করা
-        function revealDiscount() {
-            let amount = document.getElementById('shopAmount').value;
-            let discount = (amount > 1000) ? "২০%" : "১০%"; // আপনার ডিসকাউন্ট লজিক
-            alert("অভিনন্দন! আপনি জিতেছেন: " + discount + " ডিসকাউন্ট!");
-            // এখানে আপনি এই ডাটাটি লোকাল ডেটাবেসে বা কনসোলে সেভ করে রাখতে পারেন
-            console.log("কাস্টমার ডাটা রেকর্ড হয়েছে");
+        // ফাইনাল রেজাল্ট
+        function showResult() {
+            let amount = parseFloat(document.getElementById('cAmount').value);
+            let disc = 10; // ডিসকাউন্ট ১০%
+            let discAmount = amount * (disc/100);
+            let net = amount - discAmount;
+            alert(`মোট কেনাকাটা: ${amount} টাকা\nডিসকাউন্ট: ${disc}% (${discAmount} টাকা)\nনিট প্রদেয়: ${net} টাকা`);
         }
     </script>
 </body>
