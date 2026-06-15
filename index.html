@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="bn"><!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
@@ -192,73 +191,5 @@ function showResult(){
 }
 </script>
 
-</body>
-</html>
-<head>
-    <meta charset="UTF-8">
-    <title>PANJA GIFTHOUSE - স্টাফ প্যানেল</title>
-    <style>
-        body { font-family: sans-serif; background: #f0fdf4; text-align: center; padding: 20px; }
-        .box { background: white; padding: 25px; border-radius: 15px; max-width: 400px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
-        button { width: 95%; padding: 12px; background: #15803d; color: white; border: none; border-radius: 8px; cursor: pointer; }
-        #appPages > div { display: none; }
-        #appPages > div.active { display: block; }
-        .gift-box { width: 120px; cursor: pointer; margin: 20px auto; animation: shake 1s infinite; }
-        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
-    </style>
-</head>
-<body>
-
-    <div id="appPages">
-        <div id="staffLogin" class="active" class="box">
-            <h3>স্টাফ লগইন</h3>
-            <input type="text" id="sPhone" placeholder="মোবাইল নম্বর">
-            <input type="text" id="sOtp" placeholder="ওটিপি (দিন: 1234)">
-            <button onclick="checkStaff()">লগইন করুন</button>
-        </div>
-
-        <div id="custEntry" class="box">
-            <h3>কাস্টমার ডাটা</h3>
-            <input type="text" id="cName" placeholder="কাস্টমারের নাম">
-            <input type="text" id="cPhone" placeholder="কাস্টমারের মোবাইল">
-            <input type="date" id="cDate">
-            <input type="number" id="cAmount" placeholder="মোট কেনাকাটার টাকা">
-            <input type="text" id="cOtp" placeholder="দ্বিতীয় ওটিপি (দিন: 5678)">
-            <button onclick="verifyCust()">ডিসকাউন্ট জেনারেট করুন</button>
-        </div>
-
-        <div id="giftAnim" class="box">
-            <h3>উপহারের জন্য ক্লিক করুন!</h3>
-            <img src="https://cdn-icons-png.flaticon.com/512/3132/3132039.png" class="gift-box" onclick="showResult()">
-        </div>
-    </div>
-
-    <script>
-        // লগইন যাচাই
-        function checkStaff() {
-            if(document.getElementById('sOtp').value == "1234") {
-                document.getElementById('staffLogin').classList.remove('active');
-                document.getElementById('custEntry').classList.add('active');
-            } else { alert("ভুল ওটিপি!"); }
-        }
-
-        // কাস্টমার ভেরিফিকেশন
-        function verifyCust() {
-            if(document.getElementById('cOtp').value == "5678") {
-                document.getElementById('custEntry').classList.remove('active');
-                document.getElementById('giftAnim').classList.add('active');
-            } else { alert("ভুল ওটিপি!"); }
-        }
-
-        // ফাইনাল রেজাল্ট
-        function showResult() {
-            let amount = parseFloat(document.getElementById('cAmount').value);
-            let disc = 10; // ডিসকাউন্ট ১০%
-            let discAmount = amount * (disc/100);
-            let net = amount - discAmount;
-            alert(`মোট কেনাকাটা: ${amount} টাকা\nডিসকাউন্ট: ${disc}% (${discAmount} টাকা)\nনিট প্রদেয়: ${net} টাকা`);
-        }
-    </script>
 </body>
 </html>
