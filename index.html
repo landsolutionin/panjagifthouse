@@ -1,301 +1,368 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panja Gift House | Premium Online Gift Store</title>
+    <title>Panja Gift House | Premium Gifting Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f1f3f6; }
-        .slider-img { display: none; transition: opacity 0.5s ease-in-out; }
-        .slider-img.active { display: block; }
-        .cart-drawer { transition: transform 0.3s ease-in-out; transform: translateX(100%); }
-        .cart-drawer.open { transform: translateX(0); }
-        .product-card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transform: translateY(-2px); }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .brand-font { font-family: 'Playfair Display', serif; }
+        
+        /* Splash Screen Animation */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: radial-gradient(circle, #1e293b 0%, #020617 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out;
+        }
+        .splash-text {
+            animation: zoomGlow 2s ease-in-out infinite alternate;
+        }
+        @keyframes zoomGlow {
+            0% { transform: scale(0.9); opacity: 0.5; text-shadow: 0 0 10px rgba(251,191,36,0); }
+            100% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 30px rgba(251,191,36,0.6); }
+        }
+
+        /* Cart Drawer */
+        #cart-drawer {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #cart-drawer.open { transform: translateX(0); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        
+        .product-card:hover img { transform: scale(1.08); }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body class="bg-slate-50 text-slate-900">
 
-    <!-- 1. Header Section -->
-    <header class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
-        <div class="container mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
+    <!-- 1. PREMIUM SPLASH SCREEN -->
+    <div id="splash-screen">
+        <div class="text-center">
+            <h1 class="brand-font text-5xl md:text-7xl text-amber-400 splash-text mb-2">Panja Gift House</h1>
+            <p class="text-slate-400 tracking-widest uppercase text-sm">Crafting Memories Since 1998</p>
+        </div>
+    </div>
+
+    <!-- 2. NAVBAR (Flipkart/Amazon Style) -->
+    <nav class="fixed top-0 w-full bg-slate-900 text-white z-50 shadow-2xl">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
             <!-- Logo -->
-            <div class="text-2xl font-bold italic tracking-wider">
-                Panja <span class="text-yellow-400">Gift</span> House
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="window.location.reload()">
+                <div class="bg-amber-500 p-1.5 rounded-lg">
+                    <i data-lucide="gift" class="text-slate-900"></i>
+                </div>
+                <span class="brand-font text-xl md:text-2xl font-bold text-amber-400 hidden sm:block">Panja</span>
             </div>
 
             <!-- Search Bar -->
-            <div class="flex-1 mx-4 max-w-xl hidden md:block">
-                <div class="relative">
-                    <input type="text" id="searchInput" placeholder="সার্চ করুন গিফট আইটেম..." class="w-full py-2 px-4 pr-10 rounded-sm text-black focus:outline-none">
-                    <button class="absolute right-2 top-2 text-blue-600">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
+            <div class="flex-grow max-w-2xl relative">
+                <input type="text" id="search-input" placeholder="Search for unique gifts, decor, toys..." 
+                    class="w-full py-2 px-4 pr-10 rounded-md text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                <i data-lucide="search" class="absolute right-3 top-2.5 text-slate-400 h-5 w-5"></i>
             </div>
 
-            <!-- Header Right -->
+            <!-- Actions -->
             <div class="flex items-center space-x-6">
-                <button class="bg-white text-blue-600 px-6 py-1 font-semibold rounded-sm hover:bg-gray-100 hidden md:block">Login</button>
-                <div class="relative cursor-pointer" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart text-2xl"></i>
-                    <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                </div>
+                <button class="hidden md:flex items-center space-x-1 hover:text-amber-400 transition">
+                    <i data-lucide="user" class="h-5 w-5"></i>
+                    <span>Login</span>
+                </button>
+                <button onclick="toggleCart()" class="relative flex items-center space-x-1 hover:text-amber-400 transition">
+                    <i data-lucide="shopping-cart" class="h-6 w-6"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-amber-500 text-slate-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                    <span class="hidden md:block">Cart</span>
+                </button>
             </div>
-        </div>
-    </header>
-
-    <!-- 2. Category Navigation Bar -->
-    <nav class="bg-white shadow-sm border-b hidden md:block">
-        <div class="container mx-auto flex justify-around py-3 font-semibold text-gray-700">
-            <a href="#" class="hover:text-blue-600 flex items-center gap-2"><i class="fas fa-cake-candles"></i> Birthday Gifts</a>
-            <a href="#" class="hover:text-blue-600 flex items-center gap-2"><i class="fas fa-heart"></i> Anniversary</a>
-            <a href="#" class="hover:text-blue-600 flex items-center gap-2"><i class="fas fa-home"></i> Home Decor</a>
-            <a href="#" class="hover:text-blue-600 flex items-center gap-2"><i class="fas fa-gamepad"></i> Toys & Games</a>
-            <a href="#" class="hover:text-blue-600 flex items-center gap-2"><i class="fas fa-wand-magic-sparkles"></i> Personalized Gifts</a>
         </div>
     </nav>
 
-    <!-- 3. Hero Carousel (Image Slider) -->
-    <section class="relative w-full h-48 md:h-[400px] overflow-hidden bg-gray-200 mt-2">
-        <div id="slider">
-            <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1350&q=80" class="slider-img active w-full h-full object-cover" alt="Banner 1">
-            <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=1350&q=80" class="slider-img w-full h-full object-cover" alt="Banner 2">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1350&q=80" class="slider-img w-full h-full object-cover" alt="Banner 3">
-        </div>
-        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full hover:bg-white"><i class="fas fa-chevron-left"></i></button>
-        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full hover:bg-white"><i class="fas fa-chevron-right"></i></button>
-    </section>
+    <!-- MAIN CONTENT -->
+    <main class="container mx-auto px-4 pt-24 pb-12">
+        <div class="flex flex-col md:flex-row gap-8">
+            
+            <!-- 4. SIDEBAR FILTERS -->
+            <aside class="w-full md:w-64 space-y-8 bg-white p-6 rounded-xl shadow-sm h-fit">
+                <div>
+                    <h3 class="font-bold text-lg mb-4 border-b pb-2">Categories</h3>
+                    <div class="space-y-2" id="category-filters">
+                        <label class="flex items-center space-x-2 cursor-pointer hover:text-amber-600">
+                            <input type="radio" name="cat" value="All" checked class="accent-amber-500"> <span>All Products</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer hover:text-amber-600">
+                            <input type="radio" name="cat" value="Birthday" class="accent-amber-500"> <span>Birthday Gifts</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer hover:text-amber-600">
+                            <input type="radio" name="cat" value="Anniversary" class="accent-amber-500"> <span>Anniversary</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer hover:text-amber-600">
+                            <input type="radio" name="cat" value="Home Decor" class="accent-amber-500"> <span>Home Decor</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer hover:text-amber-600">
+                            <input type="radio" name="cat" value="Personalized" class="accent-amber-500"> <span>Personalized</span>
+                        </label>
+                    </div>
+                </div>
 
-    <div class="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-6">
+                <div>
+                    <h3 class="font-bold text-lg mb-4 border-b pb-2">Sort By Price</h3>
+                    <select id="price-sort" class="w-full p-2 border rounded-md outline-none focus:border-amber-500">
+                        <option value="featured">Featured</option>
+                        <option value="low">Low to High</option>
+                        <option value="high">High to Low</option>
+                    </select>
+                </div>
+
+                <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                    <p class="text-xs font-bold text-amber-800 uppercase tracking-tighter">Special Offer</p>
+                    <p class="text-sm text-amber-900 mt-1">Use code <span class="font-bold">PANJA20</span> for 20% OFF!</p>
+                </div>
+            </aside>
+
+            <!-- 4. PRODUCT GRID -->
+            <section class="flex-1">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold" id="grid-title">Our Best Sellers</h2>
+                    <p class="text-slate-500 text-sm" id="result-count">Showing all products</p>
+                </div>
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Products injected via JS -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 5. CART DRAWER -->
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/50 z-[60] hidden transition-opacity"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[70] shadow-2xl flex flex-col">
+        <div class="p-4 bg-slate-900 text-white flex justify-between items-center">
+            <h2 class="text-xl font-bold flex items-center gap-2"><i data-lucide="shopping-bag"></i> Your Basket</h2>
+            <button onclick="toggleCart()" class="p-1 hover:bg-slate-700 rounded-full"><i data-lucide="x"></i></button>
+        </div>
         
-        <!-- 5. Sidebar Filter -->
-        <aside class="w-full md:w-1/4 bg-white p-5 rounded shadow h-fit">
-            <h3 class="text-xl font-bold border-b pb-2 mb-4">ফিল্টার (Filters)</h3>
-            <div class="mb-6">
-                <p class="font-semibold mb-2">ক্যাটাগরি</p>
-                <select id="categoryFilter" onchange="filterProducts()" class="w-full p-2 border rounded">
-                    <option value="all">সব গিফট</option>
-                    <option value="Birthday">Birthday Gifts</option>
-                    <option value="Decor">Home Decor</option>
-                    <option value="Personalized">Personalized</option>
-                </select>
-            </div>
-            <div>
-                <p class="font-semibold mb-2">দাম (Price Range)</p>
-                <input type="range" min="100" max="2000" step="100" class="w-full" oninput="updatePriceLabel(this.value)">
-                <p id="priceLabel" class="text-sm text-blue-600 font-bold">৳ ২০০০ এর নিচে</p>
-            </div>
-        </aside>
-
-        <!-- 4. Product Grid -->
-        <main class="w-full md:w-3/4">
-            <div class="bg-white p-4 mb-4 rounded shadow flex justify-between items-center">
-                <h2 class="text-xl font-bold">আমাদের সেরা কালেকশন</h2>
-                <span class="text-gray-500">দেখাচ্ছে <span id="productCount">0</span> টি প্রোডাক্ট</span>
-            </div>
-            
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Products will be loaded via JS -->
-            </div>
-        </main>
-    </div>
-
-    <!-- 6. Dynamic Cart Drawer -->
-    <div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-2xl z-[60] p-6 overflow-y-auto">
-        <div class="flex justify-between items-center border-b pb-4 mb-4">
-            <h2 class="text-2xl font-bold">আপনার শপিং কার্ট</h2>
-            <button onclick="toggleCart()" class="text-2xl">&times;</button>
+        <div id="cart-items" class="flex-grow overflow-y-auto p-4 space-y-4">
+            <!-- Cart Items injected via JS -->
+            <div class="text-center py-10 text-slate-400">Your cart is empty.</div>
         </div>
 
-        <div id="cartItems" class="space-y-4 mb-6">
-            <!-- Cart Items JS -->
-            <p class="text-gray-500 text-center">আপনার কার্ট খালি!</p>
-        </div>
-
-        <div class="border-t pt-4">
-            <div class="flex justify-between mb-2"><span>মোট দাম:</span> <span id="subtotal">৳ ০</span></div>
-            <div class="flex justify-between mb-2 text-green-600"><span>ডিসকাউন্ট:</span> <span>- ৳ <span id="discountVal">০</span></span></div>
-            <div class="flex justify-between mb-2"><span>ডেলিভারি চার্জ:</span> <span id="deliveryCharge">৳ ৫০</span></div>
-            
-            <div class="my-4">
-                <input type="text" id="couponCode" placeholder="কুপন কোড (PANJA20)" class="border p-2 w-2/3 rounded-l focus:outline-none">
-                <button onclick="applyCoupon()" class="bg-blue-600 text-white px-3 py-2 rounded-r w-1/3">Apply</button>
+        <div class="p-6 border-t bg-slate-50 space-y-3">
+            <div class="flex items-center gap-2 mb-4">
+                <input type="text" id="coupon-input" placeholder="Promo Code" class="flex-grow p-2 border rounded-l-md outline-none">
+                <button onclick="applyCoupon()" class="bg-slate-800 text-white px-4 py-2 rounded-r-md hover:bg-black transition">Apply</button>
             </div>
-
-            <div class="flex justify-between text-xl font-bold border-t pt-4 mt-4">
-                <span>সর্বমোট:</span>
-                <span class="text-orange-600">৳ <span id="totalAmount">০</span></span>
+            <div class="space-y-1 text-sm">
+                <div class="flex justify-between"><span>Subtotal</span><span id="subtotal">₹0.00</span></div>
+                <div class="flex justify-between text-green-600 font-medium"><span>Discount (Coupon)</span><span id="discount-amt">-₹0.00</span></div>
+                <div class="flex justify-between"><span>Delivery</span><span id="delivery-amt">₹0.00</span></div>
+                <div class="flex justify-between text-xl font-bold pt-3 border-t"><span>Total</span><span id="grand-total">₹0.00</span></div>
             </div>
-
-            <button onclick="alert('অর্ডার সফল হয়েছে!')" class="w-full bg-orange-500 text-white py-3 rounded mt-6 font-bold text-lg hover:bg-orange-600 transition">Place Order</button>
+            <button class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-4 rounded-xl mt-4 transition-all shadow-lg active:scale-95">
+                PROCEED TO CHECKOUT
+            </button>
         </div>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="bg-gray-800 text-gray-300 py-10 mt-12">
+    <!-- 6. FOOTER -->
+    <footer class="bg-slate-900 text-white py-12 mt-12 border-t-4 border-amber-500">
         <div class="container mx-auto px-4 text-center">
-            <div class="mb-4 text-xl font-bold">Panja Gift House</div>
-            <p class="mb-4">আপনার প্রিয়জনের হাসির জন্য সেরা উপহারের ঠিকানা।</p>
-            <div class="flex justify-center space-x-4">
-                <a href="#"><i class="fab fa-facebook text-2xl"></i></a>
-                <a href="#"><i class="fab fa-instagram text-2xl"></i></a>
-                <a href="#"><i class="fab fa-whatsapp text-2xl"></i></a>
+            <h2 class="brand-font text-3xl text-amber-400 mb-4">Panja Gift House</h2>
+            <p class="text-slate-400 max-w-md mx-auto mb-8">Premium gifts for every occasion. We deliver happiness right to your doorstep with love and care.</p>
+            <div class="flex justify-center space-x-6 mb-8">
+                <a href="#" class="hover:text-amber-400"><i data-lucide="facebook"></i></a>
+                <a href="#" class="hover:text-amber-400"><i data-lucide="instagram"></i></a>
+                <a href="#" class="hover:text-amber-400"><i data-lucide="twitter"></i></a>
             </div>
-            <hr class="my-6 border-gray-700">
-            <p>&copy; 2024 Panja Gift House. All Rights Reserved.</p>
+            <p class="text-sm text-slate-500">&copy; 2024 Panja Gift House. All Rights Reserved.</p>
         </div>
     </footer>
 
     <script>
-        // Product Data
+        // 3. PRODUCT DATA
         const products = [
-            { id: 1, name: "Luxury Flower Bouquet", category: "Birthday", price: 499, oldPrice: 799, rating: 4.5, img: "https://images.unsplash.com/photo-1582910852702-8230a1858ee7?w=400" },
-            { id: 2, name: "Couple Photo Mug", category: "Personalized", price: 250, oldPrice: 400, rating: 4.8, img: "https://images.unsplash.com/photo-1514228742587-6b1558fbed20?w=400" },
-            { id: 3, name: "Teddy Bear Big", category: "Toys", price: 899, oldPrice: 1200, rating: 4.2, img: "https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=400" },
-            { id: 4, name: "Scented Candles Set", category: "Decor", price: 350, oldPrice: 600, rating: 4.7, img: "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=400" },
-            { id: 5, name: "Elegant Wrist Watch", category: "Anniversary", price: 1500, oldPrice: 2500, rating: 4.9, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" },
-            { id: 6, name: "Wall Hanging Art", category: "Decor", price: 550, oldPrice: 900, rating: 4.4, img: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=400" },
-            { id: 7, name: "Birthday Surprise Box", category: "Birthday", price: 1200, oldPrice: 1800, rating: 4.6, img: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400" },
-            { id: 8, name: "Golden Roses Gift", category: "Anniversary", price: 750, oldPrice: 1100, rating: 4.8, img: "https://images.unsplash.com/photo-1562619425-c307bb83bc42?w=400" }
+            { id: 1, name: "Premium Velvet Teddy Bear", price: 899, oldPrice: 1299, rating: 4.8, category: "Birthday", img: "https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&q=80&w=400" },
+            { id: 2, name: "Golden Luxury Wrist Watch", price: 2499, oldPrice: 4999, rating: 4.9, category: "Anniversary", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=400" },
+            { id: 3, name: "Scented French Perfume", price: 1599, oldPrice: 1999, rating: 4.7, category: "Personalized", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=400" },
+            { id: 4, name: "Vintage Wooden Photo Frame", price: 499, oldPrice: 799, rating: 4.5, category: "Home Decor", img: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=400" },
+            { id: 5, name: "Galaxy Moon Lamp", price: 1299, oldPrice: 2499, rating: 4.6, category: "Home Decor", img: "https://images.unsplash.com/photo-1534073828943-f801091bb270?auto=format&fit=crop&q=80&w=400" },
+            { id: 6, name: "Everlasting Red Roses", price: 749, oldPrice: 999, rating: 4.9, category: "Anniversary", img: "https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&q=80&w=400" },
+            { id: 7, name: "Customized Ceramic Mug", price: 299, oldPrice: 599, rating: 4.4, category: "Personalized", img: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&q=80&w=400" },
+            { id: 8, name: "Assorted Gourmet Chocolates", price: 1199, oldPrice: 1499, rating: 4.8, category: "Birthday", img: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&q=80&w=400" },
+            { id: 9, name: "Abstract Ganesha Statue", price: 1899, oldPrice: 2999, rating: 5.0, category: "Home Decor", img: "https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&q=80&w=400" },
+            { id: 10, name: "Handcrafted Leather Wallet", price: 999, oldPrice: 1999, rating: 4.7, category: "Birthday", img: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=400" }
         ];
 
         let cart = [];
-        let isCouponApplied = false;
+        let isDiscountApplied = false;
 
-        // Initialize Products
-        function loadProducts(items) {
-            const grid = document.getElementById('productGrid');
-            const count = document.getElementById('productCount');
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // 1. Splash Screen Fade Out
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.display = 'none', 800);
+            }, 2500);
+
+            renderProducts(products);
+        });
+
+        // 4. Render Products Function
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
-            count.innerText = items.length;
-
+            
             items.forEach(product => {
                 const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
-                grid.innerHTML += `
-                    <div class="product-card bg-white rounded overflow-hidden border transition-all duration-300 relative">
-                        <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded z-10">${discount}% OFF</span>
-                        <img src="${product.img}" alt="${product.name}" class="w-full h-48 object-cover hover:scale-110 transition duration-500">
-                        <div class="p-4">
-                            <h3 class="font-semibold text-gray-800 text-lg mb-1 truncate">${product.name}</h3>
-                            <p class="text-xs text-gray-500 mb-2">${product.category}</p>
-                            <div class="flex items-center text-yellow-400 text-sm mb-2">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                                <span class="text-gray-400 ml-1">(${product.rating})</span>
-                            </div>
-                            <div class="flex items-center space-x-2 mb-4">
-                                <span class="text-xl font-bold text-black">৳${product.price}</span>
-                                <span class="text-sm line-through text-gray-400">৳${product.oldPrice}</span>
-                            </div>
-                            <button onclick="addToCart(${product.id})" class="w-full bg-blue-600 text-white py-2 rounded font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-2">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
+                const card = document.createElement('div');
+                card.className = "product-card bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 group";
+                card.innerHTML = `
+                    <div class="relative overflow-hidden aspect-square">
+                        <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg">
+                            ${discount}% OFF
                         </div>
                     </div>
+                    <div class="p-4">
+                        <p class="text-[10px] text-amber-600 font-bold uppercase tracking-wider">${product.category}</p>
+                        <h3 class="font-semibold text-slate-800 truncate mb-1">${product.name}</h3>
+                        <div class="flex items-center mb-2">
+                            <span class="flex text-amber-400 mr-2">
+                                ${'<i data-lucide="star" class="h-3 w-3 fill-current"></i>'.repeat(Math.floor(product.rating))}
+                            </span>
+                            <span class="text-xs text-slate-400">${product.rating}</span>
+                        </div>
+                        <div class="flex items-baseline space-x-2">
+                            <span class="text-xl font-bold text-slate-900">₹${product.price}</span>
+                            <span class="text-sm text-slate-400 line-through">₹${product.oldPrice}</span>
+                        </div>
+                        <button onclick="addToCart(${product.id})" class="w-full mt-4 bg-slate-900 text-white py-2 rounded-lg hover:bg-amber-500 hover:text-slate-900 transition-colors font-medium flex items-center justify-center gap-2">
+                            <i data-lucide="shopping-cart" class="h-4 w-4"></i> Add to Cart
+                        </button>
+                    </div>
                 `;
+                grid.appendChild(card);
             });
+            lucide.createIcons();
+            document.getElementById('result-count').innerText = `Showing ${items.length} products`;
         }
 
-        // Carousel Logic
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slider-img');
-        function showSlide(index) {
-            slides.forEach(s => s.classList.remove('active'));
-            if(index >= slides.length) currentSlide = 0;
-            if(index < 0) currentSlide = slides.length - 1;
-            slides[currentSlide].classList.add('active');
-        }
-        function nextSlide() { currentSlide++; showSlide(currentSlide); }
-        function prevSlide() { currentSlide--; showSlide(currentSlide); }
-        setInterval(nextSlide, 4000);
+        // 2 & 4. Search and Filter Logic
+        const searchInput = document.getElementById('search-input');
+        const priceSort = document.getElementById('price-sort');
+        const categoryFilters = document.getElementById('category-filters');
 
-        // Cart Logic
+        function filterAndSort() {
+            let filtered = products.filter(p => 
+                p.name.toLowerCase().includes(searchInput.value.toLowerCase())
+            );
+
+            const activeCat = document.querySelector('input[name="cat"]:checked').value;
+            if (activeCat !== 'All') {
+                filtered = filtered.filter(p => p.category === activeCat);
+            }
+
+            if (priceSort.value === 'low') filtered.sort((a, b) => a.price - b.price);
+            if (priceSort.value === 'high') filtered.sort((a, b) => b.price - a.price);
+
+            renderProducts(filtered);
+        }
+
+        searchInput.addEventListener('input', filterAndSort);
+        priceSort.addEventListener('change', filterAndSort);
+        categoryFilters.addEventListener('change', filterAndSort);
+
+        // 5. CART LOGIC
         function toggleCart() {
-            document.getElementById('cartDrawer').classList.toggle('open');
+            document.getElementById('cart-drawer').classList.toggle('open');
+            document.getElementById('cart-overlay').classList.toggle('hidden');
         }
 
         function addToCart(id) {
             const product = products.find(p => p.id === id);
-            cart.push(product);
-            updateCart();
-            if(!document.getElementById('cartDrawer').classList.contains('open')) toggleCart();
+            const exists = cart.find(item => item.id === id);
+            
+            if (exists) {
+                exists.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            
+            // Minimal Toast logic
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "✓ Added";
+            btn.classList.replace('bg-slate-900', 'bg-green-600');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.replace('bg-green-600', 'bg-slate-900');
+            }, 1000);
         }
 
-        function updateCart() {
-            const cartItems = document.getElementById('cartItems');
-            const cartCount = document.getElementById('cartCount');
-            cartCount.innerText = cart.length;
+        function updateCartUI() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
             
-            if(cart.length === 0) {
-                cartItems.innerHTML = '<p class="text-gray-500 text-center">আপনার কার্ট খালি!</p>';
+            cartCount.innerText = cart.reduce((acc, item) => acc + item.quantity, 0);
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `<div class="text-center py-20 text-slate-400">Your basket is empty</div>`;
             } else {
-                cartItems.innerHTML = cart.map((item, index) => `
-                    <div class="flex items-center justify-between border-b pb-2">
-                        <img src="${item.img}" class="w-12 h-12 rounded object-cover">
-                        <div class="flex-1 px-4">
-                            <p class="font-bold text-sm">${item.name}</p>
-                            <p class="text-blue-600">৳${item.price}</p>
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-lg border">
+                        <img src="${item.img}" class="w-16 h-16 rounded object-cover shadow-sm">
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-sm text-slate-800">${item.name}</h4>
+                            <p class="text-xs text-slate-500">₹${item.price} x ${item.quantity}</p>
                         </div>
-                        <button onclick="removeItem(${index})" class="text-red-500"><i class="fas fa-trash"></i></button>
+                        <button onclick="removeFromCart(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="h-5 w-5"></i></button>
                     </div>
                 `).join('');
             }
-            calculatePricing();
+            lucide.createIcons();
+            calculateTotals();
         }
 
-        function removeItem(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
-
-        function calculatePricing() {
-            let subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-            let discount = isCouponApplied ? Math.round(subtotal * 0.20) : 0;
-            let delivery = cart.length > 0 ? 50 : 0;
-            let total = subtotal - discount + delivery;
-
-            document.getElementById('subtotal').innerText = '৳ ' + subtotal;
-            document.getElementById('discountVal').innerText = discount;
-            document.getElementById('deliveryCharge').innerText = '৳ ' + delivery;
-            document.getElementById('totalAmount').innerText = total;
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
         }
 
         function applyCoupon() {
-            const code = document.getElementById('couponCode').value;
-            if(code === 'PANJA20') {
-                isCouponApplied = true;
-                alert('অভিনন্দন! ২০% ডিসকাউন্ট যোগ করা হয়েছে।');
-                calculatePricing();
+            const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+            if (code === 'PANJA20') {
+                isDiscountApplied = true;
+                alert('Success! 20% discount applied.');
+                calculateTotals();
             } else {
-                alert('ভুল কুপন কোড!');
+                alert('Invalid Coupon Code');
             }
         }
 
-        // Filtering
-        function filterProducts() {
-            const cat = document.getElementById('categoryFilter').value;
-            const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
-            loadProducts(filtered);
+        function calculateTotals() {
+            const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const delivery = subtotal > 0 ? (subtotal > 2000 ? 0 : 99) : 0;
+            const discount = isDiscountApplied ? (subtotal * 0.2) : 0;
+            const total = subtotal - discount + delivery;
+
+            document.getElementById('subtotal').innerText = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('discount-amt').innerText = `-₹${discount.toFixed(2)}`;
+            document.getElementById('delivery-amt').innerText = delivery === 0 ? 'FREE' : `₹${delivery.toFixed(2)}`;
+            document.getElementById('grand-total').innerText = `₹${total.toFixed(2)}`;
         }
-
-        function updatePriceLabel(val) {
-            document.getElementById('priceLabel').innerText = `৳ ${val} এর নিচে`;
-            const filtered = products.filter(p => p.price <= val);
-            loadProducts(filtered);
-        }
-
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
-            loadProducts(filtered);
-        });
-
-        // Initialize Page
-        loadProducts(products);
-
     </script>
 </body>
 </html>
